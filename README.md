@@ -1,1 +1,1 @@
-Compréhension des erreurs d'EMOTYC (modèle RoBERTa)
+Compréhension des erreurs d'EMOTYC (modèle RoBERTa) TextToKids/CamemBERT-base-EmoTextToKids
