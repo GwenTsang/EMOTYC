@@ -8,6 +8,11 @@ scikit-learn
 matplotlib
 seaborn
 numpy
+scipy
+
+# Error Analysis
+shap
+mlxtend
 
 # EMOTYC local inference
 torch
