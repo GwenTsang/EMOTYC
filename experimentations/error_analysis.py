@@ -57,16 +57,13 @@ from collections import defaultdict
 from pathlib import Path
 
 # Fix torch CUDA DLL loading on Windows — MUST happen before any torch import
-_torch_lib = os.path.join(sys.prefix, "Lib", "site-packages", "torch", "lib")
-if os.path.isdir(_torch_lib):
-    os.add_dll_directory(_torch_lib)
-    os.environ["PATH"] = _torch_lib + os.pathsep + os.environ.get("PATH", "")
-
-# Force HuggingFace offline mode (model already cached)
-os.environ["HF_HUB_OFFLINE"] = "1"
-
-# Pre-import torch now, after DLL path fix
-import torch
+if sys.platform == "win32":
+    _torch_lib = os.path.join(sys.prefix, "Lib", "site-packages", "torch", "lib")
+    if os.path.isdir(_torch_lib):
+        os.add_dll_directory(_torch_lib)
+        os.environ["PATH"] = _torch_lib + os.pathsep + os.environ.get("PATH", "")
+    # Force HuggingFace offline mode on local machine (model already cached)
+    os.environ["HF_HUB_OFFLINE"] = "1"
 
 import numpy as np
 import pandas as pd
