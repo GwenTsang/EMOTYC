@@ -553,8 +553,7 @@ def build_analysis_features(df):
     for col in QUALITATIVE_FEATURES:
         if col not in df.columns:
             continue
-        series = df[col].copy()
-        series = series.fillna("MISSING")
+        series = df[col].astype(str).replace("nan", "MISSING").fillna("MISSING")
         dummies = pd.get_dummies(series, prefix=col)
         parts.append(dummies.values)
         feature_names.extend(dummies.columns.tolist())
@@ -589,7 +588,7 @@ def univariate_analysis(df, out_dir):
         if feat in BINARY_FEATURES:
             col = col.astype(str)
         else:
-            col = col.fillna("MISSING").astype(str)
+            col = col.astype(str).replace("nan", "MISSING")
 
         # Grouper par niveau
         groups = {}
@@ -682,7 +681,7 @@ def bivariate_analysis(df, out_dir, top_n_pairs=10):
     cat_features = []
     for feat in QUALITATIVE_FEATURES + ["domain"]:
         if feat in df.columns:
-            col = df[feat].fillna("MISSING").astype(str) if feat != "domain" else df[feat].astype(str)
+            col = df[feat].astype(str).replace("nan", "MISSING") if feat != "domain" else df[feat].astype(str)
             n_levels = col.nunique()
             if 2 <= n_levels <= 8:
                 cat_features.append(feat)
@@ -696,8 +695,8 @@ def bivariate_analysis(df, out_dir, top_n_pairs=10):
 
     for i, f1 in enumerate(cat_features):
         for f2 in cat_features[i + 1:]:
-            col1 = df[f1].fillna("MISSING").astype(str) if f1 not in BINARY_FEATURES else df[f1].astype(str)
-            col2 = df[f2].fillna("MISSING").astype(str) if f2 not in BINARY_FEATURES else df[f2].astype(str)
+            col1 = df[f1].astype(str).replace("nan", "MISSING") if f1 not in BINARY_FEATURES else df[f1].astype(str)
+            col2 = df[f2].astype(str).replace("nan", "MISSING") if f2 not in BINARY_FEATURES else df[f2].astype(str)
 
             # Crosstab des erreurs moyennes
             combined = pd.DataFrame({
@@ -730,8 +729,8 @@ def bivariate_analysis(df, out_dir, top_n_pairs=10):
     # Heatmaps pour les top paires
     for rank, info in enumerate(interaction_scores[:top_n_pairs]):
         f1, f2 = info["f1"], info["f2"]
-        col1 = df[f1].fillna("MISSING").astype(str) if f1 not in BINARY_FEATURES else df[f1].astype(str)
-        col2 = df[f2].fillna("MISSING").astype(str) if f2 not in BINARY_FEATURES else df[f2].astype(str)
+        col1 = df[f1].astype(str).replace("nan", "MISSING") if f1 not in BINARY_FEATURES else df[f1].astype(str)
+        col2 = df[f2].astype(str).replace("nan", "MISSING") if f2 not in BINARY_FEATURES else df[f2].astype(str)
 
         combined = pd.DataFrame({"f1": col1, "f2": col2, "error": df[metric]}).dropna(subset=["error"])
         pivot_mean = combined.pivot_table(values="error", index="f1", columns="f2", aggfunc="mean")
@@ -905,7 +904,7 @@ def association_rule_analysis(df, out_dir, min_support=0.08, min_confidence=0.5,
     for col in QUALITATIVE_FEATURES + ["domain"]:
         if col not in df.columns:
             continue
-        series = df[col].fillna("MISSING").astype(str) if col != "domain" else df[col].astype(str)
+        series = df[col].astype(str).replace("nan", "MISSING") if col != "domain" else df[col].astype(str)
         for level in series.unique():
             if level == "MISSING":
                 continue
@@ -1258,6 +1257,8 @@ def parse_args():
                     help="Support minimum pour FP-Growth")
     p.add_argument("--min-confidence", type=float, default=0.5,
                     help="Confidence minimum pour les règles d'association")
+    p.add_argument("--from-csv", type=str, default=None,
+                    help="Charger un analysis_data.csv pré-calculé (saute inférence + métriques)")
     return p.parse_args()
 
 
@@ -1275,26 +1276,45 @@ def main():
     print(f"  Config: {config_str}")
     print(f"{'═' * 70}")
 
-    # ── 1. Chargement des données ─────────────────────────────────────
-    print("\n▸ 1. Chargement et nettoyage des données…")
-    df = load_and_clean_data()
-
-    # ── 2. Inférence (ou chargement des prédictions) ──────────────────
-    print("\n▸ 2. Prédictions EMOTYC…")
-    if args.skip_inference:
-        df = load_cached_predictions(df, args.predictions_dir)
+    # ── Mode --from-csv : charger un CSV pré-calculé (saute inférence) ─
+    if args.from_csv:
+        print(f"\n▸ Chargement depuis CSV pré-calculé : {args.from_csv}")
+        df = pd.read_csv(args.from_csv, encoding="utf-8-sig")
+        eval_emotions = [e for e in EMOTION_11 if e in df.columns and f"pred_{e}" in df.columns]
+        print(f"  ✓ {len(df)} lignes, {len(eval_emotions)} émotions évaluées")
+        # Rebuild text features if missing
+        if "text_length" not in df.columns:
+            df["text_length"] = df["TEXT"].fillna("").astype(str).str.len()
+        if "word_count" not in df.columns:
+            df["word_count"] = df["TEXT"].fillna("").astype(str).str.split().str.len()
+        if "pct_uppercase" not in df.columns:
+            df["pct_uppercase"] = df["TEXT"].fillna("").astype(str).apply(
+                lambda t: sum(1 for c in t if c.isupper()) / max(len(t), 1))
+        if "has_exclamation" not in df.columns:
+            df["has_exclamation"] = df["TEXT"].fillna("").astype(str).str.contains("!").astype(int)
+        if "has_question" not in df.columns:
+            df["has_question"] = df["TEXT"].fillna("").astype(str).str.contains(r"\?").astype(int)
     else:
-        df = run_emotyc_inference(
-            df,
-            use_context=args.use_context,
-            use_optimized_thresholds=not args.no_optimized_thresholds,
-            batch_size=args.batch_size,
-            device=args.device,
-        )
+        # ── 1. Chargement des données ─────────────────────────────────
+        print("\n▸ 1. Chargement et nettoyage des données…")
+        df = load_and_clean_data()
 
-    # ── 3. Métriques d'erreur ─────────────────────────────────────────
-    print("\n▸ 3. Calcul des métriques d'erreur…")
-    df, eval_emotions = compute_error_metrics(df)
+        # ── 2. Inférence (ou chargement des prédictions) ──────────────
+        print("\n▸ 2. Prédictions EMOTYC…")
+        if args.skip_inference:
+            df = load_cached_predictions(df, args.predictions_dir)
+        else:
+            df = run_emotyc_inference(
+                df,
+                use_context=args.use_context,
+                use_optimized_thresholds=not args.no_optimized_thresholds,
+                batch_size=args.batch_size,
+                device=args.device,
+            )
+
+        # ── 3. Métriques d'erreur ─────────────────────────────────────
+        print("\n▸ 3. Calcul des métriques d'erreur…")
+        df, eval_emotions = compute_error_metrics(df)
 
     # ── 4. Features d'analyse ─────────────────────────────────────────
     print("\n▸ 4. Construction des features d'analyse…")
