@@ -281,8 +281,7 @@ def rf_shap_analysis(df, X_df, feature_names, metric="hamming_12"):
                   f"{mean_abs_shap[idx]:.4f}")
 
     except ImportError:
-        print("  ⚠ Bibliothèque 'shap' non installée. "
-              "Installez-la : pip install shap")
+        print("  ⚠ Bibliothèque 'shap' non installée. ")
         print("    L'analyse SHAP est sautée.")
 
     return rf, shap_values, feature_names, dt
