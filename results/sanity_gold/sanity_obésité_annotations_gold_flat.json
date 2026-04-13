@@ -1,0 +1,177 @@
+{
+  "condition": null,
+  "summary": {
+    "n_samples": 373,
+    "total_violations": 21,
+    "n_rows_with_violations": 21,
+    "n_clean_rows": 352,
+    "pct_clean": 94.37,
+    "checks_skipped": []
+  },
+  "checks": {
+    "emo_vs_emotions": {
+      "n_violations": 0,
+      "n_checked": 373,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "base_complex": {
+      "n_violations": 0,
+      "n_checked": 373,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "modes_vs_emotions": {
+      "n_violations": 21,
+      "n_checked": 373,
+      "skipped": false,
+      "skip_reason": null,
+      "trop_de_modes": {
+        "n": 21,
+        "pct": 5.63,
+        "examples": [
+          {
+            "idx": 17,
+            "text": "mskn il a pas d ami",
+            "domain": "",
+            "emotions_actives": [
+              "Tristesse"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 44,
+            "text": "ah oe ça taille sur les notes tellement t'as r a dire",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 49,
+            "text": "faites la paix et cassez pas la tete c grv bande de brut",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 68,
+            "text": "vous avez autant pas de vie pour vous melez de la sienne",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 81,
+            "text": "parle pas quand tu ressemble a rien brice",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 108,
+            "text": "Apprends à écrire français brice ..",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 110,
+            "text": "bah si bah les couilles supprime la vidéo mon con",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 120,
+            "text": "brice je vais vraient porter plainte si ça continue. Vous êtes même pas foutu d'arrêter une blague",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 123,
+            "text": "mais appart insulter les gens sur leur poids et sur leur religions vous savez faire quoi les gars",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 142,
+            "text": "je vais te pisser dessus et tu me diras si c amusant",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          }
+        ]
+      }
+    }
+  }
+}

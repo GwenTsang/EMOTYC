@@ -69,7 +69,7 @@ GOLD_TO_EMOTYC = {
 EMOTION_ORDER = list(GOLD_TO_EMOTYC.keys())
 
 # Seuils optimisés — issus du notebook retroIngenierie sur un corpus de 2451 phrases
-# Template bca_v3 : before:</s>current:{s}</s>after:</s>
+# Template bca : before:</s>current:{s}</s>after:</s>
 OPTIMIZED_THRESHOLDS = {
     "Admiration":  0.9531926895718311,   # (swap admiration ↔ autre)
     "Colère":      0.28217218720548165,
@@ -384,7 +384,7 @@ def parse_args():
     p.add_argument("--no-optimized-thresholds", action="store_true",
                     help="Utiliser un seuil fixe de 0.5 au lieu des seuils optimisés")
     p.add_argument("--no-template", action="store_true",
-                    help="Utiliser la phrase brute sans template bca_v3 (pas de before:/current:/after:)")
+                    help="Utiliser la phrase brute sans template bca (pas de before:/current:/after:)")
     p.add_argument("--batch-size", type=int, default=16,
                     help="Taille du batch pour l'inférence (défaut: 16)")
     p.add_argument("--device", default=None,
@@ -435,9 +435,9 @@ def main():
     if no_template:
         template_name = "raw"
     elif use_context:
-        template_name = "bca_v3_context"
+        template_name = "bca_context"
     else:
-        template_name = "bca_v3_no_context"
+        template_name = "bca_no_context"
     print(f"▸ Template : {template_name}")
     print(f"  Exemple  : {formatted_texts[0][:120]}…")
 

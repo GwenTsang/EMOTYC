@@ -1,0 +1,177 @@
+{
+  "condition": null,
+  "summary": {
+    "n_samples": 104,
+    "total_violations": 10,
+    "n_rows_with_violations": 10,
+    "n_clean_rows": 94,
+    "pct_clean": 90.38,
+    "checks_skipped": []
+  },
+  "checks": {
+    "emo_vs_emotions": {
+      "n_violations": 0,
+      "n_checked": 104,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "base_complex": {
+      "n_violations": 0,
+      "n_checked": 104,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "modes_vs_emotions": {
+      "n_violations": 10,
+      "n_checked": 104,
+      "skipped": false,
+      "skip_reason": null,
+      "trop_de_modes": {
+        "n": 10,
+        "pct": 9.62,
+        "examples": [
+          {
+            "idx": 10,
+            "text": "j'avoue on s'en fou de ton ptit frere le juif",
+            "domain": "",
+            "emotions_actives": [
+              "Dégoût"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 16,
+            "text": "Laisser la trkl nn vs avez pas une vie",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 21,
+            "text": "bah oe bah elle elle s'en fou de ton avis alors tourne ta langue 7 fois avant de parler",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 35,
+            "text": "mais ftg on t,as deja dit qu'on s'en foutais de ton avis trop tu parles",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 48,
+            "text": "kestu veux toi casse toi",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 63,
+            "text": "mais ça te fait quoi que je sois juive, en quoi ça te dérange ?",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 65,
+            "text": "mais c'est toi tu donnes ton avis depuis tt a l'heure alors qu'on s'en bat les couilles et si tu t'e…",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 69,
+            "text": "Mais tun'es  meme pas capable de répondre à ma question, ça vous fait quoi que je sois juive ?",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 77,
+            "text": "mais si je suis comme vous, rien ne change sauf pour mon mode de vie mais ça ne change rien à la vôt…",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 85,
+            "text": "et alors on n'essaie pas de t'obliger à avoir une religion, pourquoi tu embêtes les autres ?",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          }
+        ]
+      }
+    }
+  }
+}

@@ -458,7 +458,7 @@ def compute_error_metrics(df):
     eval_emotions = [e for e in gold_cols if f"pred_{e}" in df.columns]
 
     if not eval_emotions:
-        raise ValueError("Aucune prédiction trouvée. Lancez l'inférence d'abord.")
+        raise Val           ueError("Aucune prédiction trouvée. Lancez l'inférence d'abord.")
 
     K = len(eval_emotions)
     gold_mat = df[eval_emotions].values.astype(int)
@@ -474,7 +474,8 @@ def compute_error_metrics(df):
     # 3. Jaccard error
     intersection = (gold_mat & pred_mat).sum(axis=1).astype(float)
     union = (gold_mat | pred_mat).sum(axis=1).astype(float)
-    jaccard_score = np.where(union > 0, intersection / union, 1.0)  # J(∅,∅)=1
+    jaccard_score = np.ones_like(union)  # J(∅,∅)=1 par défaut
+    np.divide(intersection, union, out=jaccard_score, where=union > 0)
     df["jaccard_error_12"] = 1.0 - jaccard_score
 
     # 4. Prevalence-weighted Hamming
@@ -484,13 +485,15 @@ def compute_error_metrics(df):
     df["weighted_hamming_12"] = (errors * weights[np.newaxis, :]).sum(axis=1)
 
     # 5. Décomposition par label : FP, FN par sample
+    err_cols = {}
     for j, emo in enumerate(eval_emotions):
         g = gold_mat[:, j]
         p = pred_mat[:, j]
-        df[f"err_{emo}"] = np.where(
+        err_cols[f"err_{emo}"] = np.where(
             g == p, "OK",
             np.where(p > g, "FP", "FN")
         )
+    df = pd.concat([df, pd.DataFrame(err_cols, index=df.index)], axis=1)
 
     # 6. Catégorie d'erreur globale
     df["error_category"] = pd.cut(

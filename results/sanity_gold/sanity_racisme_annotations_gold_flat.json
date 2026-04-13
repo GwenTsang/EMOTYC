@@ -1,0 +1,121 @@
+{
+  "condition": null,
+  "summary": {
+    "n_samples": 201,
+    "total_violations": 6,
+    "n_rows_with_violations": 6,
+    "n_clean_rows": 195,
+    "pct_clean": 97.01,
+    "checks_skipped": []
+  },
+  "checks": {
+    "emo_vs_emotions": {
+      "n_violations": 0,
+      "n_checked": 201,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "base_complex": {
+      "n_violations": 0,
+      "n_checked": 201,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "modes_vs_emotions": {
+      "n_violations": 6,
+      "n_checked": 201,
+      "skipped": false,
+      "skip_reason": null,
+      "trop_de_modes": {
+        "n": 6,
+        "pct": 2.99,
+        "examples": [
+          {
+            "idx": 25,
+            "text": "tkktt on t'attendra a 2 on te ntm",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 35,
+            "text": "ooooh theresa tu me chauffes tu veux le meme sort?",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 42,
+            "text": "la pauline on voyait son cul et elle vient m harceler apres la",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 76,
+            "text": "tg theo la veriter blaisse tu te sens mal",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 152,
+            "text": "bon cest bon vs tourner en rond la depuis taleur",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 179,
+            "text": "bon fatima on va te ntm tkt",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          }
+        ]
+      }
+    }
+  }
+}

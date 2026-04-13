@@ -1,0 +1,149 @@
+{
+  "condition": null,
+  "summary": {
+    "n_samples": 103,
+    "total_violations": 8,
+    "n_rows_with_violations": 8,
+    "n_clean_rows": 95,
+    "pct_clean": 92.23,
+    "checks_skipped": []
+  },
+  "checks": {
+    "emo_vs_emotions": {
+      "n_violations": 0,
+      "n_checked": 103,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "base_complex": {
+      "n_violations": 0,
+      "n_checked": 103,
+      "skipped": false,
+      "skip_reason": null
+    },
+    "modes_vs_emotions": {
+      "n_violations": 8,
+      "n_checked": 103,
+      "skipped": false,
+      "skip_reason": null,
+      "trop_de_modes": {
+        "n": 8,
+        "pct": 7.77,
+        "examples": [
+          {
+            "idx": 2,
+            "text": "mais tu veut quoi toi retourne avec ta gadji et assume au passant que vous ètent lesbiennes sa dégou…",
+            "domain": "",
+            "emotions_actives": [
+              "Dégoût"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 4,
+            "text": "mais grave bande de lesbiennes vous degoutée aaaaah",
+            "domain": "",
+            "emotions_actives": [
+              "Dégoût"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 5,
+            "text": "mais olalala frr assume t'aime les ch*ttes mais tu dégoute meme anna elle le dit",
+            "domain": "",
+            "emotions_actives": [
+              "Dégoût"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 12,
+            "text": "putain mais laissez nous tranquille jvous dis qu'on est pas ensemble point",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 29,
+            "text": "burk sa me degoute",
+            "domain": "",
+            "emotions_actives": [
+              "Dégoût"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 64,
+            "text": "grave vous me degouter",
+            "domain": "",
+            "emotions_actives": [
+              "Dégoût"
+            ],
+            "modes_actifs": [
+              "Désignée",
+              "Montrée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 88,
+            "text": "laissé la tranquille elle a le droit d'aimer qui elle veut",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Comportementale",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          },
+          {
+            "idx": 96,
+            "text": " mais vous allez trop loin,  vous dites n'importes quoi alors vous méritez les deux connasses",
+            "domain": "",
+            "emotions_actives": [
+              "Colère"
+            ],
+            "modes_actifs": [
+              "Montrée",
+              "Suggérée"
+            ],
+            "E": 1,
+            "M": 2
+          }
+        ]
+      }
+    }
+  }
+}
