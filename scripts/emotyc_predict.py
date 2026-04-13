@@ -49,7 +49,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 MODEL_NAME = "TextToKids/CamemBERT-base-EmoTextToKids"
 TOKENIZER_NAME = "camembert-base"
 
-# Les 11 émotions cibles — mapping gold label → EMOTYC model label
+# Les 12 émotions cibles — mapping gold label → EMOTYC model label
 GOLD_TO_EMOTYC = {
     "Colère":      "Colere",       # id 9
     "Dégoût":      "Degout",       # id 11
@@ -62,9 +62,10 @@ GOLD_TO_EMOTYC = {
     "Embarras":    "Embarras",     # id 12
     "Fierté":      "Fierte",       # id 13
     "Jalousie":    "Jalousie",     # id 14
+    "Autre":       "Autre",        # id 8
 }
 
-# Ordre canonique des 11 émotions (pour affichage cohérent)
+# Ordre canonique des 12 émotions (pour affichage cohérent)
 EMOTION_ORDER = list(GOLD_TO_EMOTYC.keys())
 
 # Seuils optimisés — issus du notebook retroIngenierie sur un corpus de 2451 phrases
@@ -81,6 +82,7 @@ OPTIMIZED_THRESHOLDS = {
     "Peur":        0.9881862235180032,
     "Surprise":    0.9722425408373772,
     "Tristesse":   0.6984491339960737,
+    "Autre":       0.5,
 }
 
 # Mapping EMOTYC label2id (from model config)
@@ -92,7 +94,7 @@ EMOTYC_LABEL2ID = {
     "Peur": 16, "Surprise": 17, "Tristesse": 18,
 }
 
-# Index des 11 émotions dans le vecteur de 19 logits
+# Index des 12 émotions dans le vecteur de 19 logits
 EMOTION_INDICES = {
     gold_name: EMOTYC_LABEL2ID[emotyc_name]
     for gold_name, emotyc_name in GOLD_TO_EMOTYC.items()
@@ -447,7 +449,7 @@ def main():
     )
     print(f"✓ Inférence terminée — shape: {all_probs_19.shape}")
 
-    # ── 5. Extraction des 11 émotions ─────────────────────────────────
+    # ── 5. Extraction des 12 émotions ─────────────────────────────────
     emotion_probs = np.zeros((N, len(EMOTION_ORDER)), dtype=np.float64)
     for j, emo in enumerate(EMOTION_ORDER):
         idx = EMOTION_INDICES[emo]

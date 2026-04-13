@@ -8,7 +8,7 @@ Identifie les sous-populations où le modèle EMOTYC (RoBERTa / CamemBERT-base)
 
 MÉTHODOLOGIE
 ────────────
-1. **Métrique d'erreur principale : Hamming Error (11 émotions)**
+1. **Métrique d'erreur principale : Hamming Error (12 émotions)**
    Pour de la classification multi-labels avec K=19 labels très déséquilibrés,
    la distance de Hamming par échantillon est la plus robuste car :
    - Elle est TOUJOURS définie (pas de division par zéro contrairement au Jaccard
@@ -55,15 +55,6 @@ import sys
 import warnings
 from collections import defaultdict
 from pathlib import Path
-
-# Fix torch CUDA DLL loading on Windows — MUST happen before any torch import
-if sys.platform == "win32":
-    _torch_lib = os.path.join(sys.prefix, "Lib", "site-packages", "torch", "lib")
-    if os.path.isdir(_torch_lib):
-        os.add_dll_directory(_torch_lib)
-        os.environ["PATH"] = _torch_lib + os.pathsep + os.environ.get("PATH", "")
-    # Force HuggingFace offline mode on local machine (model already cached)
-    os.environ["HF_HUB_OFFLINE"] = "1"
 
 import numpy as np
 import pandas as pd
@@ -125,6 +116,9 @@ EMOTION_11 = [
     "Colère", "Dégoût", "Joie", "Peur", "Surprise", "Tristesse",
     "Admiration", "Culpabilité", "Embarras", "Fierté", "Jalousie",
 ]
+
+# 12 émotions, incluant "Autre"
+EMOTION_12 = EMOTION_11 + ["Autre"]
 
 # Seuils optimisés pour les 11 émotions (issus de emotyc_predict.py)
 OPTIMIZED_THRESHOLDS = {
@@ -440,6 +434,7 @@ def load_cached_predictions(df, predictions_dir):
             # Autre
             if "Autre" in rec.get("preds", {}):
                 df.at[global_idx, "pred_Autre"] = rec["preds"]["Autre"]
+                df.at[global_idx, "proba_Autre"] = rec["probas"].get("Autre", np.nan)
 
     print(f"  ✓ Prédictions chargées depuis {predictions_dir}")
     return df
@@ -452,13 +447,13 @@ def load_cached_predictions(df, predictions_dir):
 def compute_error_metrics(df):
     """
     Calcule 4 métriques d'erreur par échantillon :
-      - n_errors_11 : nombre de labels (sur 11 émotions) mal prédits
-      - hamming_11  : n_errors_11 / 11
-      - jaccard_error_11 : 1 - Jaccard(gold_11, pred_11)
-      - weighted_hamming_11 : Hamming pondéré par 1/prevalence
+      - n_errors_12 : nombre de labels (sur 12 émotions) mal prédits
+      - hamming_12  : n_errors_12 / 12
+      - jaccard_error_12 : 1 - Jaccard(gold_12, pred_12)
+      - weighted_hamming_12 : Hamming pondéré par 1/prevalence
     """
-    # Matrice gold et pred pour les 11 émotions
-    gold_cols = [e for e in EMOTION_11 if e in df.columns]
+    # Matrice gold et pred pour les 12 émotions
+    gold_cols = [e for e in EMOTION_12 if e in df.columns]
     pred_cols = [f"pred_{e}" for e in gold_cols if f"pred_{e}" in df.columns]
     eval_emotions = [e for e in gold_cols if f"pred_{e}" in df.columns]
 
@@ -471,22 +466,22 @@ def compute_error_metrics(df):
 
     # 1. Nombre d'erreurs brut
     errors = np.abs(gold_mat - pred_mat)
-    df["n_errors_11"] = errors.sum(axis=1)
+    df["n_errors_12"] = errors.sum(axis=1)
 
     # 2. Hamming error normalisé
-    df["hamming_11"] = df["n_errors_11"] / K
+    df["hamming_12"] = df["n_errors_12"] / K
 
     # 3. Jaccard error
     intersection = (gold_mat & pred_mat).sum(axis=1).astype(float)
     union = (gold_mat | pred_mat).sum(axis=1).astype(float)
     jaccard_score = np.where(union > 0, intersection / union, 1.0)  # J(∅,∅)=1
-    df["jaccard_error_11"] = 1.0 - jaccard_score
+    df["jaccard_error_12"] = 1.0 - jaccard_score
 
     # 4. Prevalence-weighted Hamming
     prevalences = gold_mat.mean(axis=0)
     weights = 1.0 / np.maximum(prevalences, 0.01)  # floor à 1% pour éviter ÷0
     weights = weights / weights.sum()  # normalisation
-    df["weighted_hamming_11"] = (errors * weights[np.newaxis, :]).sum(axis=1)
+    df["weighted_hamming_12"] = (errors * weights[np.newaxis, :]).sum(axis=1)
 
     # 5. Décomposition par label : FP, FN par sample
     for j, emo in enumerate(eval_emotions):
@@ -499,21 +494,21 @@ def compute_error_metrics(df):
 
     # 6. Catégorie d'erreur globale
     df["error_category"] = pd.cut(
-        df["hamming_11"],
+        df["hamming_12"],
         bins=[-0.001, 0, 0.1, 0.3, 1.0],
         labels=["exact_match", "low_error", "medium_error", "high_error"],
     )
 
     # Résumé
-    print(f"\n  ═══ Résumé des erreurs (11 émotions, K={K}) ═══")
-    print(f"  Hamming moyen        : {df['hamming_11'].mean():.4f}")
-    print(f"  Hamming médian       : {df['hamming_11'].median():.4f}")
-    print(f"  Jaccard error moyen  : {df['jaccard_error_11'].mean():.4f}")
-    print(f"  Exact match rate     : {(df['n_errors_11'] == 0).mean():.4f}")
-    print(f"  Weighted Hamming moy : {df['weighted_hamming_11'].mean():.4f}")
+    print(f"\n  ═══ Résumé des erreurs (12 émotions, K={K}) ═══")
+    print(f"  Hamming moyen        : {df['hamming_12'].mean():.4f}")
+    print(f"  Hamming médian       : {df['hamming_12'].median():.4f}")
+    print(f"  Jaccard error moyen  : {df['jaccard_error_12'].mean():.4f}")
+    print(f"  Exact match rate     : {(df['n_errors_12'] == 0).mean():.4f}")
+    print(f"  Weighted Hamming moy : {df['weighted_hamming_12'].mean():.4f}")
     print(f"  Distribution n_errors:")
-    for ne in sorted(df["n_errors_11"].unique()):
-        pct = (df["n_errors_11"] == ne).mean() * 100
+    for ne in sorted(df["n_errors_12"].unique()):
+        pct = (df["n_errors_12"] == ne).mean() * 100
         print(f"    {ne} erreurs: {pct:5.1f}%")
 
     return df, eval_emotions
@@ -570,14 +565,14 @@ def build_analysis_features(df):
 
 def univariate_analysis(df, out_dir):
     """
-    Pour chaque feature explicative, compare la distribution de hamming_11
+    Pour chaque feature explicative, compare la distribution de hamming_12
     entre les différents niveaux. Test statistique + box plot.
     """
     results = []
     plot_dir = out_dir / "plots"
     plot_dir.mkdir(parents=True, exist_ok=True)
 
-    metric = "hamming_11"
+    metric = "hamming_12"
     all_features = BINARY_FEATURES + QUALITATIVE_FEATURES + ["domain"]
 
     for feat in all_features:
@@ -648,7 +643,7 @@ def univariate_analysis(df, out_dir):
             ax.plot(i, m, "D", color="black", markersize=6, zorder=5)
         ax.set_title(f"Hamming Error by {feat}\n({test_name}: p={p_val:.2e}, η²={max(eta_sq,0):.3f})")
         ax.set_xlabel(feat)
-        ax.set_ylabel("Hamming Error (11 émotions)")
+        ax.set_ylabel("Hamming Error (12 émotions)")
         plt.xticks(rotation=45, ha="right")
         plt.tight_layout()
         fig.savefig(plot_dir / f"univariate_{feat.replace(' ', '_').replace('/', '_')}.png", dpi=150)
@@ -674,7 +669,7 @@ def bivariate_analysis(df, out_dir, top_n_pairs=10):
     Analyse l'interaction entre paires de features sur le hamming error.
     Produit des heatmaps pour les paires les plus informatives.
     """
-    metric = "hamming_11"
+    metric = "hamming_12"
     plot_dir = out_dir / "plots"
     plot_dir.mkdir(parents=True, exist_ok=True)
 
@@ -774,7 +769,7 @@ def bivariate_analysis(df, out_dir, top_n_pairs=10):
 
 def rf_shap_analysis(df, X_df, feature_names, out_dir):
     """
-    Entraîne un Random Forest Regressor pour prédire hamming_11 à partir
+    Entraîne un Random Forest Regressor pour prédire hamming_12 à partir
     des features explicatives, puis utilise SHAP pour interpréter.
     """
     from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
@@ -784,7 +779,7 @@ def rf_shap_analysis(df, X_df, feature_names, out_dir):
     plot_dir = out_dir / "plots"
     plot_dir.mkdir(parents=True, exist_ok=True)
 
-    y = df["hamming_11"].values
+    y = df["hamming_12"].values
     X = X_df.values
 
     # ── Random Forest ─────────────────────────────────────────────────
@@ -918,9 +913,9 @@ def association_rule_analysis(df, out_dir, min_support=0.08, min_confidence=0.5,
 
     # ── Analyse sur le sous-ensemble HIGH ERROR ───────────────────────
     # Seuil = médiane + on prend le subset au-dessus
-    median_error = df["hamming_11"].median()
-    threshold = max(median_error, 1.0 / 11)  # Au moins 1 erreur
-    high_error_mask = df["hamming_11"] > threshold
+    median_error = df["hamming_12"].median()
+    threshold = max(median_error, 1.0 / 12)  # Au moins 1 erreur
+    high_error_mask = df["hamming_12"] > threshold
     n_high = high_error_mask.sum()
     print(f"\n  ═══ Association Rules (FP-Growth) ═══")
     print(f"  Seuil erreur     : hamming > {threshold:.4f}")
@@ -977,7 +972,7 @@ def association_rule_analysis(df, out_dir, min_support=0.08, min_confidence=0.5,
     rules.to_csv(out_dir / "association_rules_high_error.csv", index=False)
 
     # ── Même analyse sur LOW ERROR (pour le contraste) ────────────────
-    low_error_mask = df["hamming_11"] == 0  # exact match
+    low_error_mask = df["hamming_12"] == 0  # exact match
     items_low = items[low_error_mask]
     n_low = low_error_mask.sum()
     print(f"\n  Sous-pop EXACT MATCH (0 erreur) : {n_low} / {len(df)} ({100*n_low/len(df):.1f}%)")
@@ -1099,34 +1094,34 @@ def error_distribution_plots(df, out_dir):
 
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
-    # 1. Histogramme hamming_11
+    # 1. Histogramme hamming_12
     ax = axes[0, 0]
     for domain in sorted(df["domain"].unique()):
-        vals = df.loc[df["domain"] == domain, "hamming_11"]
+        vals = df.loc[df["domain"] == domain, "hamming_12"]
         ax.hist(vals, bins=12, alpha=0.5, label=domain, density=True)
-    ax.set_xlabel("Hamming Error (11 émotions)")
+    ax.set_xlabel("Hamming Error (12 émotions)")
     ax.set_ylabel("Densité")
     ax.set_title("Distribution de l'erreur par domaine")
     ax.legend()
 
     # 2. Box plot par domaine
     ax = axes[0, 1]
-    sns.boxplot(data=df, x="domain", y="hamming_11", ax=ax, palette="Set2")
+    sns.boxplot(data=df, x="domain", y="hamming_12", ax=ax, palette="Set2")
     ax.set_title("Hamming Error par domaine")
     ax.set_xlabel("Domaine")
     ax.set_ylabel("Hamming Error")
 
     # 3. Distribution du nombre d'erreurs
     ax = axes[1, 0]
-    error_counts = df["n_errors_11"].value_counts().sort_index()
+    error_counts = df["n_errors_12"].value_counts().sort_index()
     ax.bar(error_counts.index, error_counts.values, color="steelblue", alpha=0.8)
-    ax.set_xlabel("Nombre d'erreurs (sur 11)")
+    ax.set_xlabel("Nombre d'erreurs (sur 12)")
     ax.set_ylabel("Fréquence")
     ax.set_title("Distribution du nombre d'erreurs par exemple")
 
     # 4. Scatter : jaccard error vs hamming error
     ax = axes[1, 1]
-    ax.scatter(df["hamming_11"], df["jaccard_error_11"],
+    ax.scatter(df["hamming_12"], df["jaccard_error_12"],
                c=df["domain"].astype("category").cat.codes, cmap="Set2",
                alpha=0.5, s=15)
     ax.set_xlabel("Hamming Error")
@@ -1164,15 +1159,15 @@ def generate_report(df, eval_emotions, univar_results, bivar_results,
     lines.append(f"\n{'─' * 40}")
     lines.append("MÉTRIQUES D'ERREUR GLOBALES")
     lines.append(f"{'─' * 40}")
-    lines.append(f"  Hamming Error moyen    : {df['hamming_11'].mean():.4f}")
-    lines.append(f"  Hamming Error médian   : {df['hamming_11'].median():.4f}")
-    lines.append(f"  Jaccard Error moyen    : {df['jaccard_error_11'].mean():.4f}")
-    lines.append(f"  Weighted Hamming moyen : {df['weighted_hamming_11'].mean():.4f}")
-    lines.append(f"  Exact Match rate       : {(df['n_errors_11'] == 0).mean():.4f}")
+    lines.append(f"  Hamming Error moyen    : {df['hamming_12'].mean():.4f}")
+    lines.append(f"  Hamming Error médian   : {df['hamming_12'].median():.4f}")
+    lines.append(f"  Jaccard Error moyen    : {df['jaccard_error_12'].mean():.4f}")
+    lines.append(f"  Weighted Hamming moyen : {df['weighted_hamming_12'].mean():.4f}")
+    lines.append(f"  Exact Match rate       : {(df['n_errors_12'] == 0).mean():.4f}")
 
     lines.append(f"\n  Par domaine :")
     for domain in sorted(df["domain"].unique()):
-        m = df.loc[df["domain"] == domain, "hamming_11"]
+        m = df.loc[df["domain"] == domain, "hamming_12"]
         lines.append(f"    {domain:<15s}: mean={m.mean():.4f}  median={m.median():.4f}  "
                       f"exact_match={(m == 0).mean():.4f}")
 
@@ -1280,7 +1275,7 @@ def main():
     if args.from_csv:
         print(f"\n▸ Chargement depuis CSV pré-calculé : {args.from_csv}")
         df = pd.read_csv(args.from_csv, encoding="utf-8-sig")
-        eval_emotions = [e for e in EMOTION_11 if e in df.columns and f"pred_{e}" in df.columns]
+        eval_emotions = [e for e in EMOTION_12 if e in df.columns and f"pred_{e}" in df.columns]
         print(f"  ✓ {len(df)} lignes, {len(eval_emotions)} émotions évaluées")
         # Rebuild text features if missing
         if "text_length" not in df.columns:
@@ -1330,7 +1325,7 @@ def main():
         + [f"pred_{e}" for e in eval_emotions if f"pred_{e}" in df.columns]
         + [f"proba_{e}" for e in eval_emotions if f"proba_{e}" in df.columns]
         + [f"err_{e}" for e in eval_emotions if f"err_{e}" in df.columns]
-        + ["n_errors_11", "hamming_11", "jaccard_error_11", "weighted_hamming_11", "error_category"]
+        + ["n_errors_12", "hamming_12", "jaccard_error_12", "weighted_hamming_12", "error_category"]
     )
     export_cols = [c for c in export_cols if c in df.columns]
     df[export_cols].to_csv(csv_path, index=False, encoding="utf-8-sig")
