@@ -9,8 +9,8 @@ et acceptent un préfixe (`"pred_"` pour les prédictions, `""` pour les
 gold labels).
 
 Contraintes métier vérifiées :
-  1. Emo ↔ Emotions  (bidirectionnel)
-  2. Base/Complexe ↔ émotions spécifiques  (bidirectionnel)
+  1. Emo ↔ Emotions  (implication bidirectionnelle)
+  2. Base ou Complexe ↔ il existe une émotion spécifique (implication bidirectionnelle)
   3. Modes ↔ nombre d'émotions  (M ≤ E, E=0⇒M=0, E>0⇒M≥1)
 
 Usage :
