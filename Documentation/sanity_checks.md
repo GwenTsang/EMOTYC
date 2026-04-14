@@ -172,22 +172,3 @@ Même dans les conditions idéales (in-domain, template BCA, contexte), **~7.2% 
 4. **Calibration des seuils modes** — Les modes utilisent un seuil fixe de 0.5 non optimisé. Une calibration dédiée réduirait « Émotion sans mode » (3.9% in-domain, 12.4% OOD).
 
 5. **Reconsidérer la règle M ≤ E** — Elle est violée à 4.23% (identique in-domain et OOD), et aussi dans les gold labels. Soit le schéma d'annotation le permet implicitement (un mode associé à plusieurs émotions), soit c'est un bruit systématique appris.
-
----
-
-## Fichiers produits
-
-```
-scripts/
-├── emotyc_batch_predict.py    # Script 1: inférence batch
-├── emotyc_sanity_check.py     # Script 2: vérifications de cohérence (réutilisable pour gold)
-└── emotyc_pipeline.py         # Script 3: orchestrateur (8 conditions)
-```
-
-```
-results/sanity_pipeline/
-├── predictions/               # 8 CSV de prédictions (un par condition)
-├── sanity/                    # 8 JSON de rapports sanity check
-├── comparative_summary.csv
-└── comparative_summary.json
-```
