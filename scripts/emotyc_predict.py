@@ -30,13 +30,6 @@ import os
 import sys
 import math
 
-# Fix torch CUDA DLL loading on Windows
-if sys.platform == "win32":
-    _torch_lib = os.path.join(sys.prefix, "Lib", "site-packages", "torch", "lib")
-    if os.path.isdir(_torch_lib):
-        os.add_dll_directory(_torch_lib)
-        os.environ["PATH"] = _torch_lib + os.pathsep + os.environ.get("PATH", "")
-
 import numpy as np
 import pandas as pd
 import torch
