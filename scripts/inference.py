@@ -11,6 +11,7 @@ Il semble qu'une assez bonne combinaison soit :
 python scripts/emotyc_predict.py \
     --xlsx "outputs/racisme/racisme_annotations_gold_flat.xlsx" \
     --out_dir "outputs/racisme/emotyc_eval" \
+    --no-optimized-thresholds \
     --mode-threshold 0.06
 
 
