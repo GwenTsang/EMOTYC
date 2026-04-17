@@ -1,6 +1,6 @@
 # EMOTYC — Évaluation et Analyse d'Erreurs du modèle
 
-Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle [EMOTYC](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids) sur le corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) qui contient des messages de cyberharcèlement en français, rédigés par des jeunes entre 11 et 28 ans.
+Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle [EMOTYC](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids) sur le corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) qui contient des messages de cyberharcèlement en français, rédigés par des jeunes entre 11 et 18 ans.
 
 
 ## Table des matières
@@ -28,7 +28,6 @@ Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du
 ### Prérequis
 
 - Python ≥ 3.10
-- GPU NVIDIA avec CUDA (recommandé, mais fonctionne en CPU)
 
 Installer les dépendances :
 
@@ -36,7 +35,8 @@ Installer les dépendances :
 pip install -r requirements.txt
 ```
 
-Lancer le pipeline complet (8 conditions × 4 domaines) :
+
+### Lancer le pipeline complet (8 conditions × 4 domaines) :
 
 ```bash
 python scripts/emotyc_pipeline.py \
@@ -45,7 +45,7 @@ python scripts/emotyc_pipeline.py \
     --batch-size 32
 ```
 
-Analyser les erreurs en profondeur :
+### Analyser les erreurs :
 
 ```bash
 python experimentations/error_analysis.py \
@@ -63,6 +63,9 @@ python scripts/inference.py \
 ```
 
 Ce qui lançe une inférence avec des seuils à 0.06 pour les modes d'expression, seuils à 0.5 pour les émotions, avec le templace bca, et sans les phrases adjacentes.
+
+Ces scripts d'inférence ont été conçus pour GPU NVIDIA et testés sur Tesla T4.
+
 
 Vérifier la cohérence des gold labels selon certaines règles spécifiées :
 
@@ -267,21 +270,16 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 
 **Usage** :
 
+Condition par défaut (bca template, seuils optimisés, sans contexte) :
+
 ```bash
-# Condition par défaut (bca template, seuils optimisés, sans contexte)
 python scripts/emotyc_batch_predict.py \
     --input-dir golds/ \
     --out-dir results/predictions
-
-# Condition spécifique
-python scripts/emotyc_batch_predict.py \
-    --input-dir golds/ \
-    --out-dir results/predictions \
-    --use-context --no-optimized-thresholds --no-template
 ```
 
 
-### 3. `emotyc_sanity_check.py` — Vérification de cohérence logique
+### 3. `emotyc_sanity_check.py` — Vérification de cohérence avec la théorie du schéma d'annotation
 
 **Rôle** : Script 2/3 du pipeline modulaire. Vérifie que les prédictions (ou les gold labels) respectent les contraintes logiques internes du schéma d'annotation EMOTYC. Fonctionne de manière agnostique via un préfixe configurable (`pred_` pour les prédictions, `""` pour les gold labels).
 
@@ -294,7 +292,7 @@ python scripts/emotyc_batch_predict.py \
 | **Modes ↔ Émotions** | `E=0 ⇒ M=0`, `E>0 ⇒ M≥1`, `M ≤ E` | Mode sans émotion, émotion sans mode, M > E |
 
 **Sorties** :
-- Tableau synthétique dans la console avec nombre de violations par sous-check et exemples
+- Tableau synthétique avec le nombre de violations, et des exemples.
 - Rapport JSON exporté avec détails et comptages
 
 **Usage** :
@@ -447,7 +445,7 @@ before:</s>current:{phrase_cible}</s>after:</s>
 before:{phrase i-1}</s>current:{phrase i}</s>after:{phrase i+1}</s>
 ```
 
-> **Résultat expérimental clé** : le template BCA améliore la cohérence de +9pp en in-domain et de **+34pp en OOD**. C'est un stabilisateur structurel critique pour les données hors-domaine. En revanche, le contexte dégrade la cohérence en OOD (−9pp) alors qu'il l'améliore légèrement en in-domain (+0.3pp).
+Nos expérimentations montrent que le template BCA améliore la cohérence de +9pp en in-domain et de **+34pp en OOD**. C'est un stabilisateur structurel critique pour les données hors-domaine. En revanche, le contexte dégrade la cohérence en OOD (−9pp) alors qu'il l'améliore légèrement en in-domain (+0.3pp).
 
 
 
