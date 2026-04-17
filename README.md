@@ -1,6 +1,6 @@
-# EMOTYC — Évaluation et Analyse d'Erreurs du modèle CamemBERT-base-EmoTextToKids
+# EMOTYC — Évaluation et Analyse d'Erreurs du modèle
 
-Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle [TextToKids/CamemBERT-base-EmoTextToKids](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids), appliqué au corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) qui contient des messages de cyberharcèlement en français, rédigés par des jeunes entre 11 et 28 ans.
+Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle (EMOTYC](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids), appliqué au corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) qui contient des messages de cyberharcèlement en français, rédigés par des jeunes entre 11 et 28 ans.
 
 
 ## Table des matières
@@ -14,21 +14,40 @@ Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du
   - [`emotyc_batch_predict.py` — Inférence batch multi-fichiers](#2-emotyc_batch_predictpy--inférence-batch-multi-fichiers)
   - [`emotyc_sanity_check.py` — Vérification de cohérence logique](#3-emotyc_sanity_checkpy--vérification-de-cohérence-logique)
   - [`emotyc_pipeline.py` — Orchestrateur du pipeline complet](#4-emotyc_pipelinepy--orchestrateur-du-pipeline-complet)
-  - [`ArgillaAnnotations.py` — Export vers Argilla](#5-argillaannotationspy--export-vers-argilla)
 - [Scripts d'expérimentation](#scripts-dexpérimentation)
-  - [`distribution_analysis.py` — Analyse distributionnelle comparative](#6-distribution_analysispy--analyse-distributionnelle-comparative)
-  - [`error_analysis.py` — Pipeline d'analyse d'erreurs modulaire](#7-error_analysispy--pipeline-danalyse-derreurs-modulaire)
+  - [`distribution_analysis.py` — Analyse distributionnelle comparative](#5-distribution_analysispy--analyse-distributionnelle-comparative)
+  - [`error_analysis.py` — Pipeline d'analyse d'erreurs modulaire](#6-error_analysispy--pipeline-danalyse-derreurs-modulaire)
 - [Conditions expérimentales](#conditions-expérimentales)
 - [Template BCA](#template-bca)
 - [Seuils de décision](#seuils-de-décision)
 - [Installation](#installation)
-- [Utilisation](#utilisation)
 - [Documentation](#documentation)
+
+
+# Utilisation
+
+```bash
+# 1. Lancer le pipeline complet (8 conditions × 4 domaines)
+python scripts/emotyc_pipeline.py \
+    --input-dir golds/ \
+    --out-dir results/sanity_pipeline \
+    --batch-size 32
+
+# 2. Analyser les erreurs en profondeur
+python experimentations/error_analysis.py \
+    --out-dir experimentations/error_analysis_results
+
+# 3. Vérifier la cohérence des gold labels eux-mêmes
+python scripts/emotyc_sanity_check.py \
+    --input golds/religion/religion_gold_flat.xlsx \
+    --out-dir results/sanity_gold \
+    --prefix ""
+```
 
 
 ## Contexte
 
-Ce repository a pour objectif d'évaluer les performances et la cohérence structurelle du modèle EMOTYC lorsqu'il est appliqué à des données hors de sa distribution d'entraînement. Le modèle a été entraîné sur le corpus EmoTextToKids (textes narratifs destinés aux enfants) et est ici testé sur quatre corpus de cyberharcèlement en français, couvrant quatre domaines thématiques : homophobie, obésité, racisme et religion.
+Ce repository a pour objectif d'évaluer les performances et la cohérence structurelle du modèle EMOTYC lorsqu'il est appliqué à des données hors de sa distribution d'entraînement. Le modèle a été entraîné sur le corpus [EmoTextToKids](https://huggingface.co/datasets/TextToKids/EmoTextToKids-sentences) et est ici testé sur quatre corpus de cyberharcèlement en français, couvrant quatre thématiques : homophobie, obésité, racisme et religion.
 
 L'analyse porte sur trois axes principaux :
 
@@ -80,7 +99,6 @@ Les 19 labels ne sont pas indépendants. Ils sont liés par des implications log
 3. **`Complexe` ↔ Émotions complexes** : `Complexe=1` si et seulement s'il existe au moins une émotion complexe (Admiration, Culpabilité, Embarras, Fierté, Jalousie).
 4. **Modes ↔ Émotions** : si des émotions sont actives (E>0), au moins un mode doit l'être (M≥1) ; si aucune émotion (E=0), aucun mode (M=0) ; le nombre de modes ne doit pas excéder le nombre d'émotions (M ≤ E).
 
----
 
 ## Architecture du repository
 
@@ -91,7 +109,6 @@ EMOTYC/
 │   ├── emotyc_batch_predict.py       # Inférence batch multi-fichiers (Script 1/3)
 │   ├── emotyc_sanity_check.py        # Vérification de cohérence logique (Script 2/3)
 │   ├── emotyc_pipeline.py            # Orchestrateur pipeline complet (Script 3/3)
-│   └── ArgillaAnnotations.py         # Export des annotations vers Argilla
 │
 ├── experimentations/                 # Scripts d'expérimentation et d'analyse
 │   ├── distribution_analysis.py      # Analyse distributionnelle comparative
@@ -152,7 +169,7 @@ EMOTYC/
 
 ### Corpus source (`data/`)
 
-Le corpus `CyberBullyingExperiment.parquet` contient des conversations de cyberharcèlement en français, annotées sur plusieurs niveaux (rôle, agressivité, cible, abus verbal, intention, contexte, sentiment). Il est découpé en quatre sous-corpus thématiques au format XLSX.
+Quelques détails sur le corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) :
 
 Chaque ligne correspond à un message dans une conversation et contient :
 - **`TEXT`** — le texte du message
@@ -175,7 +192,6 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 | Racisme | `racisme_annotations_gold_flat.xlsx` |
 | Religion | `religion_gold_flat.xlsx` |
 
----
 
 ## Scripts principaux
 
@@ -324,33 +340,9 @@ python scripts/emotyc_pipeline.py \
 ```
 
 
-### 5. `ArgillaAnnotations.py` — Export vers Argilla
-
-**Rôle** : Migre les annotations gold (fichier XLSX avec variables binaires 0/1) vers un dataset [Argilla v2](https://docs.argilla.io/) pour permettre la révision et la correction des annotations dans une interface web dédiée.
-
-**Fonctionnalités** :
-- Connexion à une instance Argilla via API
-- Création d'un dataset avec deux `MultiLabelQuestion` (émotions et modes)
-- Import des suggestions pré-remplies depuis les colonnes binaires du XLSX
-- Métadonnées : index de ligne, fichier source, rôle de l'auteur
-- Option `--force` pour écraser un dataset existant
-
-**Usage** :
-
-```bash
-python scripts/ArgillaAnnotations.py \
-    --xlsx golds/racisme/racisme_annotations_gold_flat.xlsx \
-    --api_url http://localhost:6900 \
-    --api_key admin.apikey \
-    --dataset racisme_gold_review \
-    --workspace argilla \
-    --force
-```
-
-
 ## Scripts d'expérimentation
 
-### 6. `distribution_analysis.py` — Analyse distributionnelle comparative
+### 5. `distribution_analysis.py` — Analyse distributionnelle comparative
 
 **Rôle** : Compare les distributions des 19 labels entre le corpus d'entraînement (EmoTextToKids) et les corpus OOD de cyberharcèlement. Quantifie le *distribution shift* pour expliquer les écarts de performance.
 
@@ -364,7 +356,7 @@ python scripts/ArgillaAnnotations.py \
 
 ---
 
-### 7. `error_analysis.py` — Pipeline d'analyse d'erreurs modulaire
+### 6. `error_analysis.py` — Pipeline d'analyse d'erreurs modulaire
 
 **Rôle** : Orchestrateur d'un pipeline d'analyse d'erreurs en 9 phases et 23 étapes, structuré en sous-modules spécialisés dans `experimentations/analysis/`.
 
@@ -473,38 +465,6 @@ pip install -r requirements.txt
 
 Le modèle EMOTYC est téléchargé automatiquement depuis le HuggingFace Hub lors de la première exécution.
 
----
-
-## Utilisation
-
-### Workflow typique
-
-```bash
-# 1. Lancer le pipeline complet (8 conditions × 4 domaines)
-python scripts/emotyc_pipeline.py \
-    --input-dir golds/ \
-    --out-dir results/sanity_pipeline \
-    --batch-size 32
-
-# 2. Analyser les erreurs en profondeur
-python experimentations/error_analysis.py \
-    --out-dir experimentations/error_analysis_results
-
-# 3. Vérifier la cohérence des gold labels eux-mêmes
-python scripts/emotyc_sanity_check.py \
-    --input golds/religion/religion_gold_flat.xlsx \
-    --out-dir results/sanity_gold \
-    --prefix ""
-
-# 4. (Optionnel) Exporter vers Argilla pour révision humaine
-python scripts/ArgillaAnnotations.py \
-    --xlsx golds/racisme/racisme_annotations_gold_flat.xlsx \
-    --api_url http://localhost:6900 \
-    --api_key admin.apikey \
-    --dataset racisme_review
-```
-
----
 
 ## Documentation
 
