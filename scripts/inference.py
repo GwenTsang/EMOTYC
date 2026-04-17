@@ -6,7 +6,7 @@ Charge le modèle EMOTYC (TextToKids/CamemBERT-base-EmoTextToKids),
 applique les prédictions sur chaque ligne du gold label, compare
 avec les annotations humaines, et exporte un JSONL de résultats.
 
-Il semble qu'une assez bonne combinaison soit :
+Il semble qu'une assez bonne combinaison de commandes soit :
 
 python scripts/emotyc_predict.py \
     --xlsx "outputs/racisme/racisme_annotations_gold_flat.xlsx" \
@@ -16,7 +16,6 @@ python scripts/emotyc_predict.py \
 
 
 """
-
 import argparse
 import json
 import os
@@ -52,21 +51,6 @@ GOLD_TO_EMOTYC = {
 
 # Ordre canonique des 11 émotions (pour affichage cohérent)
 EMOTION_ORDER = list(GOLD_TO_EMOTYC.keys())
-
-# Template bca : before:</s>current:{s}</s>after:</s>
-OPTIMIZED_THRESHOLDS = {
-    "Admiration":  0.9531926895718311,
-    "Colère":      0.28217218720548165,
-    "Culpabilité": 0.12671495241969652,
-    "Dégoût":      0.19269005632824862,
-    "Embarras":    0.9548280448988165,
-    "Fierté":      0.8002327448859459,
-    "Jalousie":    0.017136900811277365,
-    "Joie":        0.9155047132251537,
-    "Peur":        0.9881862235180032,
-    "Surprise":    0.9722425408373772,
-    "Tristesse":   0.6984491339960737,
-}
 
 # Mapping EMOTYC label2id
 EMOTYC_LABEL2ID = {
@@ -319,9 +303,9 @@ def compute_metrics(gold, pred, label_names):
     }
 
 
-def _print_metrics_table(title, per_label, global_metrics, threshold_mode=None):
+def _print_metrics_table(title, per_label, global_metrics, threshold_info=None):
     """Affiche un tableau de métriques formaté."""
-    t_info = f"  (seuils: {threshold_mode})" if threshold_mode else ""
+    t_info = f"  (seuil: {threshold_info})" if threshold_info else ""
     print(f"\n{'═' * 75}")
     print(f"  {title}{t_info}")
     print(f"{'═' * 75}")
@@ -356,8 +340,6 @@ def parse_args():
                     help="Dossier de sortie pour les résultats")
     p.add_argument("--use-context", action="store_true",
                     help="Utiliser les phrases voisines (i-1, i+1) comme contexte")
-    p.add_argument("--no-optimized-thresholds", action="store_true",
-                    help="Utiliser un seuil fixe de 0.5 au lieu des seuils optimisés")
     p.add_argument("--no-template", action="store_true",
                     help="Utiliser la phrase brute sans template bca (pas de before:/current:/after:)")
     p.add_argument("--batch-size", type=int, default=16,
@@ -445,28 +427,21 @@ def main():
         type_probs[:, j] = all_probs_19[:, TYPE_INDICES[t]]
 
     # ── 6. Seuils et prédictions binaires ─────────────────────────────
-    if args.no_optimized_thresholds:
-        thresholds = {emo: 0.5 for emo in EMOTION_ORDER}
-        threshold_mode = "fixed_0.5"
-        print("▸ Seuils : 0.5 fixe pour toutes les émotions")
-    else:
-        thresholds = OPTIMIZED_THRESHOLDS
-        threshold_mode = "optimized"
-        print("▸ Seuils optimisés :")
-        for emo in EMOTION_ORDER:
-            print(f"    {emo:<15s} : {thresholds[emo]:.6f}")
-
-    threshold_array = np.array([thresholds[emo] for emo in EMOTION_ORDER])
-    pred_matrix = (emotion_probs >= threshold_array).astype(int)
+    # Seuil fixe de 0.5 pour toutes les émotions
+    EMOTION_THRESHOLD = 0.5
+    print(f"▸ Seuil émotions : {EMOTION_THRESHOLD}")
+    pred_matrix = (emotion_probs >= EMOTION_THRESHOLD).astype(int)
 
     # Prédictions binaires modes/emo/type
+    print(f"▸ Seuil modes : {args.mode_threshold}")
     pred_mode_matrix = (mode_probs >= args.mode_threshold).astype(int)
     pred_emo_array = (emo_probs >= 0.5).astype(int)
     pred_type_matrix = (type_probs >= 0.5).astype(int)
 
     # ── 7. Métriques émotions ─────────────────────────────────────────
     per_emotion, global_metrics = compute_metrics(gold_matrix, pred_matrix, EMOTION_ORDER)
-    _print_metrics_table("MÉTRIQUES PAR ÉMOTION", per_emotion, global_metrics, threshold_mode)
+    _print_metrics_table("MÉTRIQUES PAR ÉMOTION", per_emotion, global_metrics, 
+                        threshold_info=f"{EMOTION_THRESHOLD}")
 
     # ── 7b. Métriques modes (si gold disponible) ──────────────────────
     per_mode = None
@@ -475,7 +450,8 @@ def main():
         per_mode, global_mode_metrics = compute_metrics(
             gold_mode_matrix, pred_mode_matrix, MODE_ORDER
         )
-        _print_metrics_table("MÉTRIQUES PAR MODE D'EXPRESSION", per_mode, global_mode_metrics)
+        _print_metrics_table("MÉTRIQUES PAR MODE D'EXPRESSION", per_mode, 
+                           global_mode_metrics, threshold_info=f"{args.mode_threshold}")
 
     # ── 7c. Métriques Emo (si gold disponible) ────────────────────────
     per_emo_label = None
@@ -531,7 +507,7 @@ def main():
                         "gold": g,
                         "pred": p,
                         "proba": round(float(emotion_probs[i, j]), 6),
-                        "seuil": round(float(threshold_array[j]), 6),
+                        "seuil": EMOTION_THRESHOLD,
                         "type_divergence": div_type,
                     })
 
@@ -566,7 +542,8 @@ def main():
                 "text_prev": prev_text,
                 "text_next": next_text,
                 "template_used": template_name,
-                "threshold_mode": threshold_mode,
+                "emotion_threshold": EMOTION_THRESHOLD,
+                "mode_threshold": args.mode_threshold,
                 # Émotions
                 "probas": {
                     emo: round(float(emotion_probs[i, j]), 6)
@@ -630,8 +607,8 @@ def main():
         "n_samples": N,
         "n_divergent_rows": n_divergent,
         "template": template_name,
-        "threshold_mode": threshold_mode,
-        "thresholds": {emo: round(thresholds[emo], 6) for emo in EMOTION_ORDER},
+        "emotion_threshold": EMOTION_THRESHOLD,
+        "mode_threshold": args.mode_threshold,
         "per_emotion": per_emotion,
         "global_metrics": global_metrics,
     }

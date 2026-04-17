@@ -2,6 +2,7 @@
 boto3
 pandas
 openpyxl
+tqdm
 
 # Comparaison / visualisation
 scikit-learn
@@ -9,6 +10,7 @@ matplotlib
 seaborn
 numpy
 scipy
+argilla
 
 # Error Analysis
 shap
