@@ -30,37 +30,29 @@ Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du
 - Python ≥ 3.10
 - GPU NVIDIA avec CUDA (recommandé, mais fonctionne en CPU)
 
-### Dépendances
+Installer les dépendances :
 
 ```bash
 pip install -r requirements.txt
 ```
 
+Lancer le pipeline complet (8 conditions × 4 domaines) :
+
 ```bash
-# 1. Lancer le pipeline complet (8 conditions × 4 domaines)
 python scripts/emotyc_pipeline.py \
     --input-dir golds/ \
     --out-dir results/sanity_pipeline \
     --batch-size 32
 ```
 
+Analyser les erreurs en profondeur :
+
 ```bash
-# 2. Analyser les erreurs en profondeur
 python experimentations/error_analysis.py \
     --out-dir experimentations/error_analysis_results
 ```
 
-```bash
-# 3. Vérifier la cohérence des gold labels eux-mêmes
-python scripts/emotyc_sanity_check.py \
-    --input golds/religion/religion_gold_flat.xlsx \
-    --out-dir results/sanity_gold \
-    --prefix ""
-```
-
-### Inférence simple
-
-Recommandation :
+### Inférence simple (paramètres recommandés)
 
 ```bash
 python scripts/inference.py \
@@ -71,6 +63,15 @@ python scripts/inference.py \
 ```
 
 Ce qui lançe une inférence avec des seuils à 0.06 pour les modes d'expression, seuils à 0.5 pour les émotions, avec le templace bca, et sans les phrases adjacentes.
+
+Vérifier la cohérence des gold labels selon certaines règles spécifiées :
+
+```bash
+python scripts/emotyc_sanity_check.py \
+    --input golds/religion/religion_gold_flat.xlsx \
+    --out-dir results/sanity_gold \
+    --prefix ""
+```
 
 ## Contexte
 
