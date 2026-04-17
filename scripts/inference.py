@@ -5,16 +5,6 @@ Inférence EMOTYC locale et comparaison au gold label.
 Charge le modèle EMOTYC (TextToKids/CamemBERT-base-EmoTextToKids),
 applique les prédictions sur chaque ligne du gold label, compare
 avec les annotations humaines, et exporte un JSONL de résultats.
-
-Il semble qu'une assez bonne combinaison de commandes soit :
-
-python scripts/emotyc_predict.py \
-    --xlsx "outputs/racisme/racisme_annotations_gold_flat.xlsx" \
-    --out_dir "outputs/racisme/emotyc_eval" \
-    --no-optimized-thresholds \
-    --mode-threshold 0.06
-
-
 """
 import argparse
 import json

@@ -26,17 +26,32 @@ Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du
 
 # Utilisation
 
+### Prérequis
+
+- Python ≥ 3.10
+- GPU NVIDIA avec CUDA (recommandé, mais fonctionne en CPU)
+
+### Dépendances
+
+```bash
+pip install -r requirements.txt
+```
+
 ```bash
 # 1. Lancer le pipeline complet (8 conditions × 4 domaines)
 python scripts/emotyc_pipeline.py \
     --input-dir golds/ \
     --out-dir results/sanity_pipeline \
     --batch-size 32
+```
 
+```bash
 # 2. Analyser les erreurs en profondeur
 python experimentations/error_analysis.py \
     --out-dir experimentations/error_analysis_results
+```
 
+```bash
 # 3. Vérifier la cohérence des gold labels eux-mêmes
 python scripts/emotyc_sanity_check.py \
     --input golds/religion/religion_gold_flat.xlsx \
@@ -44,6 +59,19 @@ python scripts/emotyc_sanity_check.py \
     --prefix ""
 ```
 
+### Inférence simple
+
+Recommandation :
+
+```bash
+python scripts/inference.py \
+    --xlsx golds/racisme/racisme_annotations_gold_flat.xlsx \
+    --out_dir results/racisme_eval \
+    --no-optimized-thresholds \
+    --mode-threshold 0.06
+```
+
+Ce qui lançe une inférence avec des seuils à 0.06 pour les modes d'expression, seuils à 0.5 pour les émotions, avec le templace bca, et sans les phrases adjacentes.
 
 ## Contexte
 
@@ -94,10 +122,10 @@ Le modèle produit un vecteur de 19 logits, organisés en 5 groupes sémantiques
 
 Les 19 labels ne sont pas indépendants. Ils sont liés par des implications logiques :
 
-1. **`Emo` ↔ Émotions** : `Emo=1` si et seulement s'il existe au moins une émotion active.
-2. **`Base` ↔ Émotions de base** : `Base=1` si et seulement s'il existe au moins une émotion de base (Colère, Dégoût, Joie, Peur, Surprise, Tristesse).
-3. **`Complexe` ↔ Émotions complexes** : `Complexe=1` si et seulement s'il existe au moins une émotion complexe (Admiration, Culpabilité, Embarras, Fierté, Jalousie).
-4. **Modes ↔ Émotions** : si des émotions sont actives (E>0), au moins un mode doit l'être (M≥1) ; si aucune émotion (E=0), aucun mode (M=0) ; le nombre de modes ne doit pas excéder le nombre d'émotions (M ≤ E).
+1. `Emo=1` si et seulement s'il existe au moins une émotion active.
+2. `Base=1` si et seulement s'il existe au moins une émotion de base (Colère, Dégoût, Joie, Peur, Surprise, Tristesse).
+3. `Complexe=1` si et seulement s'il existe au moins une émotion complexe (Admiration, Culpabilité, Embarras, Fierté, Jalousie).
+4. **Modes ↔ Émotions** : si des émotions sont actives (E>0), au moins un mode doit l'être (M≥1) ; si aucune émotion (E=0), aucun mode (M=0). Cela détecte aussi si le nombre de mode dépasse le nombre d'émotions, mais, en réalité, ce n'est pas une erreur, car il pouvait y avoir deux segments textuels rattachés à la même émotions exprimée sur des modes différents.
 
 
 ## Architecture du repository
@@ -154,16 +182,12 @@ EMOTYC/
 │
 ├── Documentation/                    # Documentation de référence
 │   ├── Features.md                   # Description des features du corpus CyberBullying
-│   ├── EMOTYC_template.md            # Expérimentation H1 vs H2 (add_special_tokens)
 │   ├── sanity_checks.md              # Analyse détaillée des résultats de sanity check
 │   └── emotexttokids_gold_flat.xlsx  # Gold labels du corpus d'entraînement EmoTextToKids
 │
 ├── requirements.txt                  # Dépendances Python
-├── .gitignore
 └── README.md
 ```
-
----
 
 ## Données
 
@@ -216,23 +240,6 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 - `emotyc_predictions_output.xlsx` — prédictions binaires exportées
 - `emotyc_predictions_summary.json` — résumé des métriques
 
-**Usage** :
-
-```bash
-# Condition recommandée pour les données OOD
-python scripts/inference.py \
-    --xlsx golds/racisme/racisme_annotations_gold_flat.xlsx \
-    --out_dir results/racisme_eval \
-    --no-optimized-thresholds \
-    --mode-threshold 0.06
-
-# Avec seuils optimisés et contexte
-python scripts/inference.py \
-    --xlsx golds/homophobie/homophobie_annotations_gold_flat.xlsx \
-    --out_dir results/homophobie_eval \
-    --use-context \
-    --batch-size 32
-```
 
 **Arguments** :
 
@@ -448,23 +455,6 @@ before:{phrase i-1}</s>current:{phrase i}</s>after:{phrase i+1}</s>
 
 Les modes d'expression (`Comportementale`, `Désignée`, `Montrée`, `Suggérée`), `Emo`, `Base`, `Complexe` et `Autre` utilisent un seuil fixe de **0.5** par défaut. Le seuil des modes est configurable via `--mode-threshold`.
 
----
-
-## Installation
-
-### Prérequis
-
-- Python ≥ 3.10
-- GPU NVIDIA avec CUDA (recommandé, mais fonctionne en CPU)
-
-### Dépendances
-
-```bash
-pip install -r requirements.txt
-```
-
-Le modèle EMOTYC est téléchargé automatiquement depuis le HuggingFace Hub lors de la première exécution.
-
 
 ## Documentation
 
@@ -473,6 +463,5 @@ Le dossier `Documentation/` contient :
 | Fichier | Description |
 |:--------|:------------|
 | `Features.md` | Description détaillée des 7 niveaux d'annotation du corpus CyberBullying (rôle, agressivité, cible, abus verbal, intention, contexte, sentiment) |
-| `EMOTYC_template.md` | Expérimentation complète testant H1 (`add_special_tokens=True`) vs H2 (`add_special_tokens=False`) sur 8 conditions pour déterminer la configuration de fine-tuning du modèle. Verdict : **H2 confirmée** |
 | `sanity_checks.md` | Analyse comparative détaillée des résultats de sanity check : in-domain (27 911 samples) vs OOD (781 samples), effet du template, du contexte, des seuils, analyse par type de violation, recommandations |
 | `emotexttokids_gold_flat.xlsx` | Gold labels du corpus d'entraînement EmoTextToKids (27 911 phrases) pour comparaison distributionnelle |

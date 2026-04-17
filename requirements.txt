@@ -1,5 +1,4 @@
 # Core
-boto3
 pandas
 openpyxl
 tqdm
