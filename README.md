@@ -1,6 +1,6 @@
 # EMOTYC — Évaluation et Analyse d'Erreurs du modèle
 
-Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle (EMOTYC](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids), appliqué au corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) qui contient des messages de cyberharcèlement en français, rédigés par des jeunes entre 11 et 28 ans.
+Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle [EMOTYC](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids) sur le corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) qui contient des messages de cyberharcèlement en français, rédigés par des jeunes entre 11 et 28 ans.
 
 
 ## Table des matières
@@ -226,7 +226,7 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 **Fonctionnalités** :
 - Inférence batch sur GPU/CPU avec `torch.no_grad()`
 - Support de trois modes de formatage du texte :
-  - **`raw`** — phrase brute sans transformation
+  - **`raw`** — phrase brute sans transformation (très déconseillé)
   - **`bca_no_context`** — template BCA sans phrases voisines
   - **`bca_context`** — template BCA avec phrases voisines (i-1, i+1)
 - Évaluation sur 4 dimensions : émotions (11), Autre, modes d'expression (4), Emo, Base/Complexe
@@ -259,7 +259,7 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 **Rôle** : Script 1/3 du pipeline modulaire. Charge le modèle une seule fois, parcourt tous les fichiers XLSX d'un répertoire, et exécute l'inférence pour une condition donnée. Respecte les frontières de domaine pour le contexte (les phrases voisines ne traversent pas les limites entre domaines).
 
 **Fonctionnalités** :
-- Découverte récursive des fichiers XLSX (`rglob("*.xlsx")`)
+- Découverte des fichiers XLSX (`rglob("*.xlsx")`)
 - Attribution automatique du domaine à partir du nom de fichier
 - Génération d'un tag de condition descriptif (ex. `ctx0_thr1_tpl1`)
 - Stockage des probabilités, prédictions binaires et seuils pour les 19 labels
