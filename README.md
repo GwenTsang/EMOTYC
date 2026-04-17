@@ -20,7 +20,6 @@ Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du
 - [Conditions expérimentales](#conditions-expérimentales)
 - [Template BCA](#template-bca)
 - [Seuils de décision](#seuils-de-décision)
-- [Installation](#installation)
 - [Documentation](#documentation)
 
 

@@ -38,10 +38,7 @@ Pire %Clean         82.6%                45.1%           −37.5pp
 Condition canon.★   91.3%                79.1%           −12.2pp
 ```
 
-> [!IMPORTANT]
 > **Le modèle perd ~12pp de cohérence structurelle en passant de l'in-domain au OOD** dans la condition canonique. Mais ce gap monte à **37pp pour le pire cas** (raw + opt thresholds), révélant que le template BCA agit comme un stabilisateur structurel bien plus critique hors-domaine.
-
----
 
 ### 3.2. Effet du template : stabilisateur en OOD, bonus en in-domain
 
@@ -157,7 +154,7 @@ Même dans les conditions idéales (in-domain, template BCA, contexte), **~7.2% 
 
 ---
 
-## Recommandations actualisées
+## Recommandations
 
 1. **Template BCA obligatoire** — Indispensable, surtout en OOD (34pp de gap vs 9pp in-domain).
 
