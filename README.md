@@ -36,7 +36,7 @@ pip install -r requirements.txt
 ```
 
 
-### Lancer le pipeline complet (8 conditions × 4 domaines) :
+### Lancer le pipeline complet :
 
 ```bash
 python scripts/emotyc_pipeline.py \
