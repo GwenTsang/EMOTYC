@@ -59,11 +59,41 @@ from analysis import visualization
 from analysis import report
 
 
+def _parse_domain_path(value):
+    """Parse --xlsx DOMAIN=PATH entries."""
+    if "=" not in value:
+        raise argparse.ArgumentTypeError(
+            "Expected DOMAIN=PATH, for example: Homophobie=data/homophobie.xlsx"
+        )
+    domain, path = value.split("=", 1)
+    domain = config.canonicalize_domain_name(domain)
+    if domain not in config.XLSX_PATHS:
+        raise argparse.ArgumentTypeError(
+            f"Unknown domain '{domain}'. Expected one of: {', '.join(config.XLSX_PATHS)}"
+        )
+    return domain, path
+
+
+def _build_xlsx_paths_from_args(args):
+    """Resolve input XLSX paths from CLI arguments."""
+    overrides = dict(args.xlsx or [])
+
+    per_domain_args = {
+        "Homophobie": args.xlsx_homophobie,
+        "Obésité": args.xlsx_obesite,
+        "Racisme": args.xlsx_racisme,
+        "Religion": args.xlsx_religion,
+    }
+    overrides.update({domain: path for domain, path in per_domain_args.items() if path})
+
+    return config.resolve_xlsx_paths(xlsx_dir=args.xlsx_dir, overrides=overrides)
+
+
 # ═══════════════════════════════════════════════════════════════════════════
 #  CLI
 # ═══════════════════════════════════════════════════════════════════════════
 
-def parse_args():
+def parse_args(argv=None):
     p = argparse.ArgumentParser(
         description="EMOTYC Error Analysis Pipeline (modular)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -89,7 +119,19 @@ def parse_args():
     p.add_argument("--from-csv", type=str, default=None,
                     help="Load a pre-computed analysis_data.csv "
                          "(skips inference + metrics)")
-    return p.parse_args()
+    p.add_argument("--xlsx-dir", type=str, default=None,
+                    help="Directory containing the 4 input XLSX files. Supports both golds/ and new_golds/ layouts.")
+    p.add_argument("--xlsx", action="append", type=_parse_domain_path,
+                    help="Override one XLSX path with DOMAIN=PATH. Repeatable.")
+    p.add_argument("--xlsx-homophobie", type=str, default=None,
+                    help="Explicit XLSX path for Homophobie")
+    p.add_argument("--xlsx-obesite", type=str, default=None,
+                    help="Explicit XLSX path for Obésité")
+    p.add_argument("--xlsx-racisme", type=str, default=None,
+                    help="Explicit XLSX path for Racisme")
+    p.add_argument("--xlsx-religion", type=str, default=None,
+                    help="Explicit XLSX path for Religion")
+    return p.parse_args(argv)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -100,6 +142,10 @@ def main():
     args = parse_args()
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    xlsx_paths = None
+
+    if not args.from_csv:
+        xlsx_paths = _build_xlsx_paths_from_args(args)
 
     config_str = (
         f"context={'yes' if args.use_context else 'no'}, "
@@ -130,7 +176,10 @@ def main():
     else:
         # ── Fresh load ────────────────────────────────────────────────
         print("\n▸ 1. Chargement et nettoyage des données…")
-        df = data_loader.load_and_clean_data()
+        print("  XLSX utilisés :")
+        for domain, path in xlsx_paths.items():
+            print(f"    - {domain}: {path}")
+        df = data_loader.load_and_clean_data(xlsx_paths=xlsx_paths)
         df = data_loader.add_text_features(df)
 
         # ── Inference ─────────────────────────────────────────────────
@@ -263,6 +312,7 @@ def main():
         bivar_results=bivar_results,
         rf_model=rf_model,
         shap_values=shap_values,
+        X_df=X_df,
         feature_names=feat_names,
         cond_results=cond_results,
         interaction_results=interaction_results,

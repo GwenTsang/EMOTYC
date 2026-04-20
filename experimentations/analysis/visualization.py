@@ -751,7 +751,7 @@ def plot_all(df, eval_labels, out_dir, *,
              label_errors_df=None,
              univar_results=None,
              bivar_results=None,
-             rf_model=None, shap_values=None, feature_names=None,
+             rf_model=None, shap_values=None, X_df=None, feature_names=None,
              cond_results=None,
              interaction_results=None,
              logit_df=None,
@@ -782,10 +782,8 @@ def plot_all(df, eval_labels, out_dir, *,
         fn = feature_names or []
         plot_rf_importance(rf_model, fn, out_dir)
 
-    if shap_values is not None:
-        plot_shap_summary(shap_values,
-                          pd.DataFrame(columns=feature_names or []),
-                          out_dir)
+    if shap_values is not None and X_df is not None:
+        plot_shap_summary(shap_values, X_df, out_dir)
 
     if cond_results:
         plot_conditional_heatmaps(cond_results, out_dir)

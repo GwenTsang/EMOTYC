@@ -14,12 +14,89 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
+DEFAULT_GOLDS_DIR = PROJECT_ROOT / "golds"
+DEFAULT_NEW_GOLDS_DIR = PROJECT_ROOT / "new_golds"
+
 XLSX_PATHS = {
-    "Homophobie": PROJECT_ROOT / "outputs/homophobie/homophobie_annotations_gold_flat.xlsx",
-    "Obésité":    PROJECT_ROOT / "outputs/obésité/obésité_annotations_gold_flat.xlsx",
-    "Racisme":    PROJECT_ROOT / "outputs/racisme/racisme_annotations_gold_flat.xlsx",
-    "Religion":   PROJECT_ROOT / "outputs/religion/religion_annotations_gold_flat.xlsx",
+    "Homophobie": DEFAULT_GOLDS_DIR / "homophobie" / "homophobie_annotations_gold_flat.xlsx",
+    "Obésité":    DEFAULT_GOLDS_DIR / "obésité" / "obésité_annotations_gold_flat.xlsx",
+    "Racisme":    DEFAULT_GOLDS_DIR / "racisme" / "racisme_annotations_gold_flat.xlsx",
+    "Religion":   DEFAULT_GOLDS_DIR / "religion" / "religion_gold_flat.xlsx",
 }
+
+XLSX_FILENAMES_BY_DOMAIN = {
+    "Homophobie": [
+        "homophobie_annotations_gold_flat.xlsx",
+        "homophobie_annotations_gold_flat_updated.xlsx",
+    ],
+    "Obésité": [
+        "obésité_annotations_gold_flat.xlsx",
+        "obésité_annotations_gold_flat_updated.xlsx",
+    ],
+    "Racisme": [
+        "racisme_annotations_gold_flat.xlsx",
+        "racisme_annotations_gold_flat_updated.xlsx",
+    ],
+    "Religion": [
+        "religion_gold_flat.xlsx",
+        "religion_annotations_gold_flat.xlsx",
+        "religion_annotations_gold_flat_updated.xlsx",
+    ],
+}
+
+DOMAIN_ALIASES = {
+    "homophobie": "Homophobie",
+    "obesite": "Obésité",
+    "obésité": "Obésité",
+    "racisme": "Racisme",
+    "religion": "Religion",
+}
+
+
+def canonicalize_domain_name(name):
+    """Return the canonical display name for a domain."""
+    key = str(name).strip()
+    return DOMAIN_ALIASES.get(key.lower(), key)
+
+
+def resolve_xlsx_paths(xlsx_dir=None, overrides=None):
+    """Resolve the four domain XLSX paths from defaults, a directory, and/or explicit overrides."""
+    paths = {domain: Path(path) for domain, path in XLSX_PATHS.items()}
+
+    if xlsx_dir is not None:
+        root = Path(xlsx_dir)
+        if not root.exists():
+            raise FileNotFoundError(f"Input XLSX directory not found: {root}")
+
+        for domain, filenames in XLSX_FILENAMES_BY_DOMAIN.items():
+            slug = domain.lower()
+            candidates = [root / filename for filename in filenames]
+            candidates.extend(root.glob(f"{slug}/**/*.xlsx"))
+            candidates.extend(root.glob(f"**/{slug}*.xlsx"))
+
+            chosen = next((candidate for candidate in candidates if Path(candidate).exists()), None)
+            if chosen is None:
+                raise FileNotFoundError(
+                    f"Could not resolve an XLSX file for domain '{domain}' from directory: {root}"
+                )
+            paths[domain] = Path(chosen)
+
+    if overrides:
+        for domain, path in overrides.items():
+            if path is None:
+                continue
+            canonical_domain = canonicalize_domain_name(domain)
+            if canonical_domain not in XLSX_PATHS:
+                raise KeyError(f"Unknown domain for XLSX override: {domain}")
+            paths[canonical_domain] = Path(path)
+
+    missing = [f"{domain}: {path}" for domain, path in paths.items() if not Path(path).exists()]
+    if missing:
+        raise FileNotFoundError(
+            "Some XLSX inputs do not exist:\n - " + "\n - ".join(missing)
+        )
+
+    return paths
 
 TRAINING_DATA_PATH = PROJECT_ROOT / "Documentation" / "emotexttokids_gold_flat.xlsx"
 
