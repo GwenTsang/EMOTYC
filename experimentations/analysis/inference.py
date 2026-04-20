@@ -124,11 +124,14 @@ def run_emotyc_inference(df, use_context=False, use_optimized_thresholds=True,
         pred_col = f"pred_{gold_col}"
         df[proba_col] = all_probs_19[:, model_idx]
 
-        # Seuil : optimisé pour les 11 émotions, 0.5 sinon
-        if use_optimized_thresholds and gold_col in config.OPTIMIZED_THRESHOLDS:
+        # Seuil : fixe de 0.06 pour les modes d'expression, optimisé pour les émotions, 0.5 sinon
+        if gold_col in ["Suggérée", "Désignée", "Comportementale", "Montrée"]:
+            threshold = 0.06
+        elif use_optimized_thresholds and gold_col in config.OPTIMIZED_THRESHOLDS:
             threshold = config.OPTIMIZED_THRESHOLDS[gold_col]
         else:
             threshold = config.DEFAULT_THRESHOLD
+            
         df[pred_col] = (all_probs_19[:, model_idx] >= threshold).astype(int)
 
     return df
