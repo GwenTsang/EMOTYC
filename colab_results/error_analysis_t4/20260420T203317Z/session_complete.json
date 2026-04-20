@@ -1,0 +1,9 @@
+{
+  "run_tag": "20260420T203317Z",
+  "repo_commit": "5939a2e6ee4c7bfb3a134bba4b96e7f4874e2601",
+  "results_branch": "colab-error-analysis-artifacts",
+  "results_root": "colab_results/error_analysis_t4/20260420T203317Z",
+  "old_output_dir": "/content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/old_golds",
+  "new_output_dir": "/content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/new_golds",
+  "completed_at_utc": "2026-04-20T20:36:49.852299+00:00"
+}
