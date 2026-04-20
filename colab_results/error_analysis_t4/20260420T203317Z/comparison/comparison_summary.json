@@ -1,0 +1,1216 @@
+{
+  "artifact_root": "/home/gwen/EMOTYC_colab_artifacts/colab_results/error_analysis_t4/20260420T203317Z",
+  "n_rows_old": 781,
+  "n_rows_new": 781,
+  "n_rows_merged": 781,
+  "n_changed_gold_rows": 120,
+  "top_changed_labels": [
+    {
+      "label": "Colère",
+      "changed_count": 67,
+      "old_prevalence": 0.44430217669654287,
+      "new_prevalence": 0.3713188220230474,
+      "delta_prevalence": -0.07298335467349548
+    },
+    {
+      "label": "Autre",
+      "changed_count": 37,
+      "old_prevalence": 0.07810499359795134,
+      "new_prevalence": 0.0793854033290653,
+      "delta_prevalence": 0.0012804097311139573
+    },
+    {
+      "label": "Dégoût",
+      "changed_count": 14,
+      "old_prevalence": 0.10755441741357234,
+      "new_prevalence": 0.10243277848911651,
+      "delta_prevalence": -0.005121638924455829
+    },
+    {
+      "label": "Joie",
+      "changed_count": 13,
+      "old_prevalence": 0.034571062740076826,
+      "new_prevalence": 0.03841229193341869,
+      "delta_prevalence": 0.003841229193341865
+    },
+    {
+      "label": "Tristesse",
+      "changed_count": 4,
+      "old_prevalence": 0.01792573623559539,
+      "new_prevalence": 0.01792573623559539,
+      "delta_prevalence": 0.0
+    },
+    {
+      "label": "Peur",
+      "changed_count": 3,
+      "old_prevalence": 0.008962868117797696,
+      "new_prevalence": 0.005121638924455826,
+      "delta_prevalence": -0.00384122919334187
+    },
+    {
+      "label": "Admiration",
+      "changed_count": 1,
+      "old_prevalence": 0.0012804097311139564,
+      "new_prevalence": 0.0,
+      "delta_prevalence": -0.0012804097311139564
+    },
+    {
+      "label": "Surprise",
+      "changed_count": 1,
+      "old_prevalence": 0.005121638924455826,
+      "new_prevalence": 0.006402048655569782,
+      "delta_prevalence": 0.0012804097311139564
+    },
+    {
+      "label": "Fierté",
+      "changed_count": 1,
+      "old_prevalence": 0.005121638924455826,
+      "new_prevalence": 0.0038412291933418692,
+      "delta_prevalence": -0.0012804097311139564
+    },
+    {
+      "label": "Embarras",
+      "changed_count": 1,
+      "old_prevalence": 0.0012804097311139564,
+      "new_prevalence": 0.002560819462227913,
+      "delta_prevalence": 0.0012804097311139564
+    }
+  ],
+  "top_f1_gains": [
+    {
+      "label": "Surprise",
+      "prevalence_old": 0.005121638924455826,
+      "precision_old": 0.2,
+      "recall_old": 0.25,
+      "f1_old": 0.2222222222222222,
+      "fp_rate_old": 0.005121638924455826,
+      "fn_rate_old": 0.0038412291933418692,
+      "support_old": 4,
+      "prevalence_new": 0.006402048655569782,
+      "precision_new": 0.4,
+      "recall_new": 0.4,
+      "f1_new": 0.4,
+      "fp_rate_new": 0.0038412291933418692,
+      "fn_rate_new": 0.0038412291933418692,
+      "support_new": 5,
+      "delta_prevalence": 0.0012804097311139564,
+      "delta_precision": 0.2,
+      "delta_recall": 0.15000000000000002,
+      "delta_f1": 0.1777777777777778,
+      "delta_fp_rate": -0.0012804097311139564,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Joie",
+      "prevalence_old": 0.034571062740076826,
+      "precision_old": 0.3888888888888889,
+      "recall_old": 0.25925925925925924,
+      "f1_old": 0.3111111111111111,
+      "fp_rate_old": 0.014084507042253521,
+      "fn_rate_old": 0.02560819462227913,
+      "support_old": 27,
+      "prevalence_new": 0.03841229193341869,
+      "precision_new": 0.5555555555555556,
+      "recall_new": 0.3333333333333333,
+      "f1_new": 0.4166666666666667,
+      "fp_rate_new": 0.010243277848911651,
+      "fn_rate_new": 0.02560819462227913,
+      "support_new": 30,
+      "delta_prevalence": 0.003841229193341865,
+      "delta_precision": 0.16666666666666669,
+      "delta_recall": 0.07407407407407407,
+      "delta_f1": 0.10555555555555557,
+      "delta_fp_rate": -0.00384122919334187,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Fierté",
+      "prevalence_old": 0.005121638924455826,
+      "precision_old": 0.6,
+      "recall_old": 0.75,
+      "f1_old": 0.6666666666666666,
+      "fp_rate_old": 0.002560819462227913,
+      "fn_rate_old": 0.0012804097311139564,
+      "support_old": 4,
+      "prevalence_new": 0.0038412291933418692,
+      "precision_new": 0.6,
+      "recall_new": 1.0,
+      "f1_new": 0.75,
+      "fp_rate_new": 0.002560819462227913,
+      "fn_rate_new": 0.0,
+      "support_new": 3,
+      "delta_prevalence": -0.0012804097311139564,
+      "delta_precision": 0.0,
+      "delta_recall": 0.25,
+      "delta_f1": 0.08333333333333337,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": -0.0012804097311139564
+    },
+    {
+      "label": "Embarras",
+      "prevalence_old": 0.0012804097311139564,
+      "precision_old": 0.047619047619047616,
+      "recall_old": 1.0,
+      "f1_old": 0.09090909090909091,
+      "fp_rate_old": 0.02560819462227913,
+      "fn_rate_old": 0.0,
+      "support_old": 1,
+      "prevalence_new": 0.002560819462227913,
+      "precision_new": 0.09523809523809523,
+      "recall_new": 1.0,
+      "f1_new": 0.17391304347826086,
+      "fp_rate_new": 0.024327784891165175,
+      "fn_rate_new": 0.0,
+      "support_new": 2,
+      "delta_prevalence": 0.0012804097311139564,
+      "delta_precision": 0.047619047619047616,
+      "delta_recall": 0.0,
+      "delta_f1": 0.08300395256916995,
+      "delta_fp_rate": -0.0012804097311139538,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Jalousie",
+      "prevalence_old": 0.0076824583866837385,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.0076824583866837385,
+      "support_old": 6,
+      "prevalence_new": 0.0076824583866837385,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.0076824583866837385,
+      "support_new": 6,
+      "delta_prevalence": 0.0,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Dégoût",
+      "prevalence_old": 0.10755441741357234,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.10755441741357234,
+      "support_old": 84,
+      "prevalence_new": 0.10243277848911651,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.10243277848911651,
+      "support_new": 80,
+      "delta_prevalence": -0.005121638924455829,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": -0.005121638924455829
+    },
+    {
+      "label": "Culpabilité",
+      "prevalence_old": 0.0038412291933418692,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.0038412291933418692,
+      "support_old": 3,
+      "prevalence_new": 0.0038412291933418692,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.0038412291933418692,
+      "support_new": 3,
+      "delta_prevalence": 0.0,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Admiration",
+      "prevalence_old": 0.0012804097311139564,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.0012804097311139564,
+      "support_old": 1,
+      "prevalence_new": 0.0,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.0,
+      "support_new": 0,
+      "delta_prevalence": -0.0012804097311139564,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": -0.0012804097311139564
+    },
+    {
+      "label": "Tristesse",
+      "prevalence_old": 0.01792573623559539,
+      "precision_old": 0.1,
+      "recall_old": 0.14285714285714285,
+      "f1_old": 0.11764705882352941,
+      "fp_rate_old": 0.023047375160051217,
+      "fn_rate_old": 0.015364916773367477,
+      "support_old": 14,
+      "prevalence_new": 0.01792573623559539,
+      "precision_new": 0.1,
+      "recall_new": 0.14285714285714285,
+      "f1_new": 0.11764705882352941,
+      "fp_rate_new": 0.023047375160051217,
+      "fn_rate_new": 0.015364916773367477,
+      "support_new": 14,
+      "delta_prevalence": 0.0,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Colère",
+      "prevalence_old": 0.44430217669654287,
+      "precision_old": 0.6694915254237288,
+      "recall_old": 0.2276657060518732,
+      "f1_old": 0.33978494623655914,
+      "fp_rate_old": 0.0499359795134443,
+      "fn_rate_old": 0.34314980793854033,
+      "support_old": 347,
+      "prevalence_new": 0.3713188220230474,
+      "precision_new": 0.5847457627118644,
+      "recall_new": 0.23793103448275862,
+      "f1_new": 0.3382352941176471,
+      "fp_rate_new": 0.06274007682458387,
+      "fn_rate_new": 0.28297055057618437,
+      "support_new": 290,
+      "delta_prevalence": -0.07298335467349548,
+      "delta_precision": -0.0847457627118644,
+      "delta_recall": 0.010265328430885429,
+      "delta_f1": -0.0015496521189120593,
+      "delta_fp_rate": 0.012804097311139566,
+      "delta_fn_rate": -0.060179257362355965
+    }
+  ],
+  "top_f1_losses": [
+    {
+      "label": "Peur",
+      "prevalence_old": 0.008962868117797696,
+      "precision_old": 0.5714285714285714,
+      "recall_old": 0.5714285714285714,
+      "f1_old": 0.5714285714285714,
+      "fp_rate_old": 0.0038412291933418692,
+      "fn_rate_old": 0.0038412291933418692,
+      "support_old": 7,
+      "prevalence_new": 0.005121638924455826,
+      "precision_new": 0.2857142857142857,
+      "recall_new": 0.5,
+      "f1_new": 0.36363636363636365,
+      "fp_rate_new": 0.006402048655569782,
+      "fn_rate_new": 0.002560819462227913,
+      "support_new": 4,
+      "delta_prevalence": -0.00384122919334187,
+      "delta_precision": -0.2857142857142857,
+      "delta_recall": -0.0714285714285714,
+      "delta_f1": -0.20779220779220775,
+      "delta_fp_rate": 0.002560819462227913,
+      "delta_fn_rate": -0.0012804097311139564
+    },
+    {
+      "label": "Autre",
+      "prevalence_old": 0.07810499359795134,
+      "precision_old": 0.0967741935483871,
+      "recall_old": 0.14754098360655737,
+      "f1_old": 0.11688311688311688,
+      "fp_rate_old": 0.10755441741357234,
+      "fn_rate_old": 0.06658130601792574,
+      "support_old": 61,
+      "prevalence_new": 0.0793854033290653,
+      "precision_new": 0.08602150537634409,
+      "recall_new": 0.12903225806451613,
+      "f1_new": 0.1032258064516129,
+      "fp_rate_new": 0.1088348271446863,
+      "fn_rate_new": 0.06914212548015365,
+      "support_new": 62,
+      "delta_prevalence": 0.0012804097311139573,
+      "delta_precision": -0.010752688172043001,
+      "delta_recall": -0.01850872554204125,
+      "delta_f1": -0.013657310431503977,
+      "delta_fp_rate": 0.0012804097311139573,
+      "delta_fn_rate": 0.0025608194622279146
+    },
+    {
+      "label": "Colère",
+      "prevalence_old": 0.44430217669654287,
+      "precision_old": 0.6694915254237288,
+      "recall_old": 0.2276657060518732,
+      "f1_old": 0.33978494623655914,
+      "fp_rate_old": 0.0499359795134443,
+      "fn_rate_old": 0.34314980793854033,
+      "support_old": 347,
+      "prevalence_new": 0.3713188220230474,
+      "precision_new": 0.5847457627118644,
+      "recall_new": 0.23793103448275862,
+      "f1_new": 0.3382352941176471,
+      "fp_rate_new": 0.06274007682458387,
+      "fn_rate_new": 0.28297055057618437,
+      "support_new": 290,
+      "delta_prevalence": -0.07298335467349548,
+      "delta_precision": -0.0847457627118644,
+      "delta_recall": 0.010265328430885429,
+      "delta_f1": -0.0015496521189120593,
+      "delta_fp_rate": 0.012804097311139566,
+      "delta_fn_rate": -0.060179257362355965
+    },
+    {
+      "label": "Admiration",
+      "prevalence_old": 0.0012804097311139564,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.0012804097311139564,
+      "support_old": 1,
+      "prevalence_new": 0.0,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.0,
+      "support_new": 0,
+      "delta_prevalence": -0.0012804097311139564,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": -0.0012804097311139564
+    },
+    {
+      "label": "Tristesse",
+      "prevalence_old": 0.01792573623559539,
+      "precision_old": 0.1,
+      "recall_old": 0.14285714285714285,
+      "f1_old": 0.11764705882352941,
+      "fp_rate_old": 0.023047375160051217,
+      "fn_rate_old": 0.015364916773367477,
+      "support_old": 14,
+      "prevalence_new": 0.01792573623559539,
+      "precision_new": 0.1,
+      "recall_new": 0.14285714285714285,
+      "f1_new": 0.11764705882352941,
+      "fp_rate_new": 0.023047375160051217,
+      "fn_rate_new": 0.015364916773367477,
+      "support_new": 14,
+      "delta_prevalence": 0.0,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Culpabilité",
+      "prevalence_old": 0.0038412291933418692,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.0038412291933418692,
+      "support_old": 3,
+      "prevalence_new": 0.0038412291933418692,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.0038412291933418692,
+      "support_new": 3,
+      "delta_prevalence": 0.0,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Dégoût",
+      "prevalence_old": 0.10755441741357234,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.10755441741357234,
+      "support_old": 84,
+      "prevalence_new": 0.10243277848911651,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.10243277848911651,
+      "support_new": 80,
+      "delta_prevalence": -0.005121638924455829,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": -0.005121638924455829
+    },
+    {
+      "label": "Jalousie",
+      "prevalence_old": 0.0076824583866837385,
+      "precision_old": 0.0,
+      "recall_old": 0.0,
+      "f1_old": 0.0,
+      "fp_rate_old": 0.0,
+      "fn_rate_old": 0.0076824583866837385,
+      "support_old": 6,
+      "prevalence_new": 0.0076824583866837385,
+      "precision_new": 0.0,
+      "recall_new": 0.0,
+      "f1_new": 0.0,
+      "fp_rate_new": 0.0,
+      "fn_rate_new": 0.0076824583866837385,
+      "support_new": 6,
+      "delta_prevalence": 0.0,
+      "delta_precision": 0.0,
+      "delta_recall": 0.0,
+      "delta_f1": 0.0,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Embarras",
+      "prevalence_old": 0.0012804097311139564,
+      "precision_old": 0.047619047619047616,
+      "recall_old": 1.0,
+      "f1_old": 0.09090909090909091,
+      "fp_rate_old": 0.02560819462227913,
+      "fn_rate_old": 0.0,
+      "support_old": 1,
+      "prevalence_new": 0.002560819462227913,
+      "precision_new": 0.09523809523809523,
+      "recall_new": 1.0,
+      "f1_new": 0.17391304347826086,
+      "fp_rate_new": 0.024327784891165175,
+      "fn_rate_new": 0.0,
+      "support_new": 2,
+      "delta_prevalence": 0.0012804097311139564,
+      "delta_precision": 0.047619047619047616,
+      "delta_recall": 0.0,
+      "delta_f1": 0.08300395256916995,
+      "delta_fp_rate": -0.0012804097311139538,
+      "delta_fn_rate": 0.0
+    },
+    {
+      "label": "Fierté",
+      "prevalence_old": 0.005121638924455826,
+      "precision_old": 0.6,
+      "recall_old": 0.75,
+      "f1_old": 0.6666666666666666,
+      "fp_rate_old": 0.002560819462227913,
+      "fn_rate_old": 0.0012804097311139564,
+      "support_old": 4,
+      "prevalence_new": 0.0038412291933418692,
+      "precision_new": 0.6,
+      "recall_new": 1.0,
+      "f1_new": 0.75,
+      "fp_rate_new": 0.002560819462227913,
+      "fn_rate_new": 0.0,
+      "support_new": 3,
+      "delta_prevalence": -0.0012804097311139564,
+      "delta_precision": 0.0,
+      "delta_recall": 0.25,
+      "delta_f1": 0.08333333333333337,
+      "delta_fp_rate": 0.0,
+      "delta_fn_rate": -0.0012804097311139564
+    }
+  ],
+  "structured_diffs": [
+    {
+      "name": "conditional_emotion_given_mode",
+      "top_deltas": [
+        {
+          "row": "Comportementale",
+          "column": "Joie",
+          "delta": 0.8944444444444444,
+          "abs_delta": 0.8944444444444444
+        },
+        {
+          "row": "Suggérée",
+          "column": "Surprise",
+          "delta": -0.6777777777777778,
+          "abs_delta": 0.6777777777777778
+        },
+        {
+          "row": "Comportementale",
+          "column": "Peur",
+          "delta": 0.3744588744588744,
+          "abs_delta": 0.3744588744588744
+        },
+        {
+          "row": "Montrée",
+          "column": "Embarras",
+          "delta": -0.30522617479139214,
+          "abs_delta": 0.30522617479139214
+        },
+        {
+          "row": "Désignée",
+          "column": "Joie",
+          "delta": -0.2960317460317461,
+          "abs_delta": 0.2960317460317461
+        },
+        {
+          "row": "Désignée",
+          "column": "Peur",
+          "delta": -0.2922077922077923,
+          "abs_delta": 0.2922077922077923
+        },
+        {
+          "row": "Suggérée",
+          "column": "Peur",
+          "delta": -0.2922077922077922,
+          "abs_delta": 0.2922077922077922
+        },
+        {
+          "row": "Comportementale",
+          "column": "Tristesse",
+          "delta": -0.2857142857142857,
+          "abs_delta": 0.2857142857142857
+        },
+        {
+          "row": "Montrée",
+          "column": "Peur",
+          "delta": 0.2744588744588743,
+          "abs_delta": 0.2744588744588743
+        },
+        {
+          "row": "Désignée",
+          "column": "Surprise",
+          "delta": -0.17777777777777792,
+          "abs_delta": 0.17777777777777792
+        },
+        {
+          "row": "Montrée",
+          "column": "Surprise",
+          "delta": -0.17777777777777787,
+          "abs_delta": 0.17777777777777787
+        },
+        {
+          "row": "Comportementale",
+          "column": "Surprise",
+          "delta": -0.17777777777777787,
+          "abs_delta": 0.17777777777777787
+        },
+        {
+          "row": "Suggérée",
+          "column": "Joie",
+          "delta": 0.1444444444444444,
+          "abs_delta": 0.1444444444444444
+        },
+        {
+          "row": "Comportementale",
+          "column": "Embarras",
+          "delta": 0.1392182696530522,
+          "abs_delta": 0.1392182696530522
+        },
+        {
+          "row": "Comportementale",
+          "column": "Autre",
+          "delta": 0.12545855266752892,
+          "abs_delta": 0.12545855266752892
+        },
+        {
+          "row": "Désignée",
+          "column": "Fierté",
+          "delta": 0.11666666666666661,
+          "abs_delta": 0.11666666666666661
+        },
+        {
+          "row": "Désignée",
+          "column": "Colère",
+          "delta": -0.11566646509720521,
+          "abs_delta": 0.11566646509720521
+        },
+        {
+          "row": "Comportementale",
+          "column": "Colère",
+          "delta": 0.09155865301900201,
+          "abs_delta": 0.09155865301900201
+        },
+        {
+          "row": "Désignée",
+          "column": "Embarras",
+          "delta": 0.0884246188594015,
+          "abs_delta": 0.0884246188594015
+        },
+        {
+          "row": "Montrée",
+          "column": "Fierté",
+          "delta": -0.08333333333333337,
+          "abs_delta": 0.08333333333333337
+        }
+      ],
+      "mean_abs_delta": 0.1164279593779196,
+      "max_abs_delta": 0.8944444444444444
+    },
+    {
+      "name": "conditional_mode_given_emotion",
+      "top_deltas": [
+        {
+          "row": "Joie",
+          "column": "Comportementale",
+          "delta": 0.4044334975369458,
+          "abs_delta": 0.4044334975369458
+        },
+        {
+          "row": "Tristesse",
+          "column": "Suggérée",
+          "delta": 0.3043865225683407,
+          "abs_delta": 0.3043865225683407
+        },
+        {
+          "row": "Tristesse",
+          "column": "Désignée",
+          "delta": 0.13548225887056461,
+          "abs_delta": 0.13548225887056461
+        },
+        {
+          "row": "Joie",
+          "column": "Désignée",
+          "delta": -0.11909649570818981,
+          "abs_delta": 0.11909649570818981
+        },
+        {
+          "row": "Colère",
+          "column": "Désignée",
+          "delta": -0.1128405320054176,
+          "abs_delta": 0.1128405320054176
+        },
+        {
+          "row": "Tristesse",
+          "column": "Comportementale",
+          "delta": 0.10443349753694575,
+          "abs_delta": 0.10443349753694575
+        },
+        {
+          "row": "Jalousie",
+          "column": "Comportementale",
+          "delta": -0.0955665024630542,
+          "abs_delta": 0.0955665024630542
+        },
+        {
+          "row": "Dégoût",
+          "column": "Comportementale",
+          "delta": -0.0955665024630542,
+          "abs_delta": 0.0955665024630542
+        },
+        {
+          "row": "Autre",
+          "column": "Comportementale",
+          "delta": -0.0955665024630542,
+          "abs_delta": 0.0955665024630542
+        },
+        {
+          "row": "Joie",
+          "column": "Montrée",
+          "delta": -0.08044410594461149,
+          "abs_delta": 0.08044410594461149
+        },
+        {
+          "row": "Tristesse",
+          "column": "Montrée",
+          "delta": 0.07159052609002042,
+          "abs_delta": 0.07159052609002042
+        },
+        {
+          "row": "Autre",
+          "column": "Montrée",
+          "delta": -0.0642035044408521,
+          "abs_delta": 0.0642035044408521
+        },
+        {
+          "row": "Dégoût",
+          "column": "Désignée",
+          "delta": -0.060596172501984305,
+          "abs_delta": 0.060596172501984305
+        },
+        {
+          "row": "Autre",
+          "column": "Suggérée",
+          "delta": -0.053810835629017506,
+          "abs_delta": 0.053810835629017506
+        },
+        {
+          "row": "Dégoût",
+          "column": "Suggérée",
+          "delta": -0.0538108356290174,
+          "abs_delta": 0.0538108356290174
+        },
+        {
+          "row": "Colère",
+          "column": "Comportementale",
+          "delta": 0.038311048557354004,
+          "abs_delta": 0.038311048557354004
+        },
+        {
+          "row": "Jalousie",
+          "column": "Désignée",
+          "delta": -0.031184407796102015,
+          "abs_delta": 0.031184407796102015
+        },
+        {
+          "row": "Autre",
+          "column": "Désignée",
+          "delta": -0.031184407796101987,
+          "abs_delta": 0.031184407796101987
+        },
+        {
+          "row": "Joie",
+          "column": "Suggérée",
+          "delta": 0.026997245179063392,
+          "abs_delta": 0.026997245179063392
+        },
+        {
+          "row": "Colère",
+          "column": "Suggérée",
+          "delta": 0.024196124730884,
+          "abs_delta": 0.024196124730884
+        }
+      ],
+      "mean_abs_delta": 0.08457817154515197,
+      "max_abs_delta": 0.4044334975369458
+    },
+    {
+      "name": "interaction_effects",
+      "top_deltas": [
+        {
+          "row": "Tristesse",
+          "column": "Désignée",
+          "delta": 0.04273782425190881,
+          "abs_delta": 0.04273782425190881
+        },
+        {
+          "row": "Joie",
+          "column": "Désignée",
+          "delta": 0.03891837980746429,
+          "abs_delta": 0.03891837980746429
+        },
+        {
+          "row": "Joie",
+          "column": "Suggérée",
+          "delta": -0.0321164881024035,
+          "abs_delta": 0.0321164881024035
+        },
+        {
+          "row": "Autre",
+          "column": "Suggérée",
+          "delta": 0.0284409431848003,
+          "abs_delta": 0.0284409431848003
+        },
+        {
+          "row": "Dégoût",
+          "column": "Comportementale",
+          "delta": -0.022918961374389,
+          "abs_delta": 0.022918961374389
+        },
+        {
+          "row": "Tristesse",
+          "column": "Montrée",
+          "delta": -0.022469627422362703,
+          "abs_delta": 0.022469627422362703
+        },
+        {
+          "row": "Autre",
+          "column": "Comportementale",
+          "delta": -0.020102169077824097,
+          "abs_delta": 0.020102169077824097
+        },
+        {
+          "row": "Autre",
+          "column": "Montrée",
+          "delta": -0.015046183752799702,
+          "abs_delta": 0.015046183752799702
+        },
+        {
+          "row": "Colère",
+          "column": "Suggérée",
+          "delta": -0.009628706340270902,
+          "abs_delta": 0.009628706340270902
+        },
+        {
+          "row": "Jalousie",
+          "column": "Désignée",
+          "delta": -0.005873286859202402,
+          "abs_delta": 0.005873286859202402
+        },
+        {
+          "row": "Autre",
+          "column": "Désignée",
+          "delta": -0.005205965462108303,
+          "abs_delta": 0.005205965462108303
+        },
+        {
+          "row": "Dégoût",
+          "column": "Désignée",
+          "delta": -0.005016504752420298,
+          "abs_delta": 0.005016504752420298
+        },
+        {
+          "row": "Colère",
+          "column": "Désignée",
+          "delta": 0.004362429592354302,
+          "abs_delta": 0.004362429592354302
+        },
+        {
+          "row": "Colère",
+          "column": "Comportementale",
+          "delta": -0.004061154647516302,
+          "abs_delta": 0.004061154647516302
+        },
+        {
+          "row": "Colère",
+          "column": "Montrée",
+          "delta": -0.003914186899257099,
+          "abs_delta": 0.003914186899257099
+        },
+        {
+          "row": "Joie",
+          "column": "Montrée",
+          "delta": 0.0030905966672731995,
+          "abs_delta": 0.0030905966672731995
+        },
+        {
+          "row": "Dégoût",
+          "column": "Suggérée",
+          "delta": -0.0014617261976417016,
+          "abs_delta": 0.0014617261976417016
+        },
+        {
+          "row": "Dégoût",
+          "column": "Montrée",
+          "delta": -0.0014490960213964996,
+          "abs_delta": 0.0014490960213964996
+        },
+        {
+          "row": "Tristesse",
+          "column": "Suggérée",
+          "delta": -0.00017204365795919774,
+          "abs_delta": 0.00017204365795919774
+        },
+        {
+          "row": "Joie",
+          "column": "Comportementale",
+          "delta": NaN,
+          "abs_delta": NaN
+        }
+      ],
+      "mean_abs_delta": 0.014051909161650137,
+      "max_abs_delta": 0.04273782425190881
+    },
+    {
+      "name": "shap_mean_abs",
+      "top_deltas": [
+        {
+          "feature": "mépris / haine",
+          "mean_abs_shap_old": 0.0064928331246884,
+          "mean_abs_shap_new": 0.0032242948347304,
+          "delta": -0.003268538289958,
+          "abs_delta": 0.003268538289958
+        },
+        {
+          "feature": "word_count",
+          "mean_abs_shap_old": 0.0040541544132987,
+          "mean_abs_shap_new": 0.0055031470925343,
+          "delta": 0.0014489926792355997,
+          "abs_delta": 0.0014489926792355997
+        },
+        {
+          "feature": "SENTIMENT_NEU",
+          "mean_abs_shap_old": 0.0005616424322781,
+          "mean_abs_shap_new": 0.001741322486878,
+          "delta": 0.0011796800545999,
+          "abs_delta": 0.0011796800545999
+        },
+        {
+          "feature": "insulte",
+          "mean_abs_shap_old": 0.0076801516136599,
+          "mean_abs_shap_new": 0.0084262557439353,
+          "delta": 0.000746104130275399,
+          "abs_delta": 0.000746104130275399
+        },
+        {
+          "feature": "INTENTION_DFN",
+          "mean_abs_shap_old": 0.0010371167847196,
+          "mean_abs_shap_new": 0.0003068536799541,
+          "delta": -0.0007302631047655001,
+          "abs_delta": 0.0007302631047655001
+        },
+        {
+          "feature": "text_length",
+          "mean_abs_shap_old": 0.0140334639155391,
+          "mean_abs_shap_new": 0.013337403929618,
+          "delta": -0.0006960599859211006,
+          "abs_delta": 0.0006960599859211006
+        },
+        {
+          "feature": "SENTIMENT_NEG",
+          "mean_abs_shap_old": 0.0010852933779561,
+          "mean_abs_shap_new": 0.0004907440740548,
+          "delta": -0.0005945493039013,
+          "abs_delta": 0.0005945493039013
+        },
+        {
+          "feature": "HATE_OAG",
+          "mean_abs_shap_old": 0.0064772229006054,
+          "mean_abs_shap_new": 0.0070660220066923,
+          "delta": 0.0005887991060869006,
+          "abs_delta": 0.0005887991060869006
+        },
+        {
+          "feature": "pct_uppercase",
+          "mean_abs_shap_old": 0.0004842261632044,
+          "mean_abs_shap_new": 0.0010622003264976,
+          "delta": 0.0005779741632931999,
+          "abs_delta": 0.0005779741632931999
+        },
+        {
+          "feature": "ROLE_victim_support",
+          "mean_abs_shap_old": 0.0008250293399505,
+          "mean_abs_shap_new": 0.0003446453899672,
+          "delta": -0.00048038394998329995,
+          "abs_delta": 0.00048038394998329995
+        },
+        {
+          "feature": "domain_Homophobie",
+          "mean_abs_shap_old": 0.0004027090962466,
+          "mean_abs_shap_new": 0.0008402967167523,
+          "delta": 0.0004375876205057,
+          "abs_delta": 0.0004375876205057
+        },
+        {
+          "feature": "argot",
+          "mean_abs_shap_old": 0.0013133696151611,
+          "mean_abs_shap_new": 0.0016666464339859,
+          "delta": 0.0003532768188248001,
+          "abs_delta": 0.0003532768188248001
+        },
+        {
+          "feature": "ROLE_bully",
+          "mean_abs_shap_old": 0.0002738474221918,
+          "mean_abs_shap_new": 0.0006044218234577,
+          "delta": 0.0003305744012659,
+          "abs_delta": 0.0003305744012659
+        },
+        {
+          "feature": "TARGET_bully_support",
+          "mean_abs_shap_old": 0.0002332067226628,
+          "mean_abs_shap_new": 0.0005607652801958,
+          "delta": 0.000327558557533,
+          "abs_delta": 0.000327558557533
+        },
+        {
+          "feature": "TARGET_bully",
+          "mean_abs_shap_old": 0.0008228806273642,
+          "mean_abs_shap_new": 0.0011285674194032,
+          "delta": 0.0003056867920389999,
+          "abs_delta": 0.0003056867920389999
+        },
+        {
+          "feature": "domain_Religion",
+          "mean_abs_shap_old": 0.0004591299405808,
+          "mean_abs_shap_new": 0.0001975302653773,
+          "delta": -0.0002615996752035,
+          "abs_delta": 0.0002615996752035
+        },
+        {
+          "feature": "VERBAL_ABUSE_OTH",
+          "mean_abs_shap_old": 0.0006456241451681,
+          "mean_abs_shap_new": 0.0003840245245199,
+          "delta": -0.0002615996206482,
+          "abs_delta": 0.0002615996206482
+        },
+        {
+          "feature": "VERBAL_ABUSE_DNG",
+          "mean_abs_shap_old": 0.0027288830921929,
+          "mean_abs_shap_new": 0.0024814365217166,
+          "delta": -0.0002474465704763,
+          "abs_delta": 0.0002474465704763
+        },
+        {
+          "feature": "ROLE_bully_support",
+          "mean_abs_shap_old": 0.0006227337355761,
+          "mean_abs_shap_new": 0.0008517634216699,
+          "delta": 0.0002290296860938,
+          "abs_delta": 0.0002290296860938
+        },
+        {
+          "feature": "ROLE_conciliator",
+          "mean_abs_shap_old": 0.0003528453097667,
+          "mean_abs_shap_new": 0.0001332315075023,
+          "delta": -0.0002196138022644,
+          "abs_delta": 0.0002196138022644
+        }
+      ]
+    },
+    {
+      "name": "rf_feature_importance",
+      "top_deltas": [
+        {
+          "feature": "mépris / haine",
+          "importance_old": 0.0641165123090809,
+          "importance_new": 0.0337358462987905,
+          "delta": -0.0303806660102904,
+          "abs_delta": 0.0303806660102904
+        },
+        {
+          "feature": "word_count",
+          "importance_old": 0.1008504873551405,
+          "importance_new": 0.1199255521365047,
+          "delta": 0.019075064781364198,
+          "abs_delta": 0.019075064781364198
+        },
+        {
+          "feature": "pct_uppercase",
+          "importance_old": 0.007681597294556,
+          "importance_new": 0.0175249539682053,
+          "delta": 0.0098433566736493,
+          "abs_delta": 0.0098433566736493
+        },
+        {
+          "feature": "SENTIMENT_NEU",
+          "importance_old": 0.008434166327739,
+          "importance_new": 0.0181553059856265,
+          "delta": 0.0097211396578875,
+          "abs_delta": 0.0097211396578875
+        },
+        {
+          "feature": "HATE_OAG",
+          "importance_old": 0.0688792383316263,
+          "importance_new": 0.075761859421333,
+          "delta": 0.006882621089706692,
+          "abs_delta": 0.006882621089706692
+        },
+        {
+          "feature": "text_length",
+          "importance_old": 0.3166514834226103,
+          "importance_new": 0.3101696667734728,
+          "delta": -0.006481816649137495,
+          "abs_delta": 0.006481816649137495
+        },
+        {
+          "feature": "ROLE_bully_support",
+          "importance_old": 0.0168523204109541,
+          "importance_new": 0.0227186858743805,
+          "delta": 0.0058663654634264,
+          "abs_delta": 0.0058663654634264
+        },
+        {
+          "feature": "ROLE_victim_support",
+          "importance_old": 0.0136946988536402,
+          "importance_new": 0.007946513560922,
+          "delta": -0.0057481852927182,
+          "abs_delta": 0.0057481852927182
+        },
+        {
+          "feature": "TARGET_bully_support",
+          "importance_old": 0.0037662451291593,
+          "importance_new": 0.0093329081046879,
+          "delta": 0.0055666629755286,
+          "abs_delta": 0.0055666629755286
+        },
+        {
+          "feature": "VERBAL_ABUSE_DNG",
+          "importance_old": 0.0427683382012572,
+          "importance_new": 0.0379995750156756,
+          "delta": -0.004768763185581601,
+          "abs_delta": 0.004768763185581601
+        },
+        {
+          "feature": "INTENTION_DFN",
+          "importance_old": 0.0134167724537213,
+          "importance_new": 0.0092128568582511,
+          "delta": -0.0042039155954702,
+          "abs_delta": 0.0042039155954702
+        },
+        {
+          "feature": "argot",
+          "importance_old": 0.014879255229773,
+          "importance_new": 0.0189120566138733,
+          "delta": 0.004032801384100299,
+          "abs_delta": 0.004032801384100299
+        },
+        {
+          "feature": "SENTIMENT_NEG",
+          "importance_old": 0.0142867181842649,
+          "importance_new": 0.0105131805787861,
+          "delta": -0.003773537605478801,
+          "abs_delta": 0.003773537605478801
+        },
+        {
+          "feature": "has_question",
+          "importance_old": 0.0168937825467236,
+          "importance_new": 0.0132683433161527,
+          "delta": -0.0036254392305709003,
+          "abs_delta": 0.0036254392305709003
+        },
+        {
+          "feature": "insulte",
+          "importance_old": 0.0954988358784237,
+          "importance_new": 0.0988658180366536,
+          "delta": 0.003366982158229906,
+          "abs_delta": 0.003366982158229906
+        },
+        {
+          "feature": "ROLE_bully",
+          "importance_old": 0.007230289039848,
+          "importance_new": 0.0103386190084221,
+          "delta": 0.0031083299685741002,
+          "abs_delta": 0.0031083299685741002
+        },
+        {
+          "feature": "CONTEXT_DFN",
+          "importance_old": 0.0171976529448182,
+          "importance_new": 0.020035118715652,
+          "delta": 0.0028374657708338004,
+          "abs_delta": 0.0028374657708338004
+        },
+        {
+          "feature": "TARGET_bully",
+          "importance_old": 0.0106520847007615,
+          "importance_new": 0.0134581126415006,
+          "delta": 0.0028060279407391003,
+          "abs_delta": 0.0028060279407391003
+        },
+        {
+          "feature": "INTENTION_CNS",
+          "importance_old": 0.0043158680086887,
+          "importance_new": 0.0016273394165558,
+          "delta": -0.0026885285921329004,
+          "abs_delta": 0.0026885285921329004
+        },
+        {
+          "feature": "TARGET_MISSING",
+          "importance_old": 0.0048797648035446,
+          "importance_new": 0.0022372566841498,
+          "delta": -0.0026425081193947996,
+          "abs_delta": 0.0026425081193947996
+        }
+      ]
+    }
+  ]
+}
