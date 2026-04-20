@@ -1,0 +1,30 @@
+{
+  "Homophobie": {
+    "n": 103,
+    "mean_density": 0.72,
+    "mean_error": 0.0817,
+    "spearman_rho": 0.6444,
+    "spearman_p": 2.0785830435989795e-13
+  },
+  "Obésité": {
+    "n": 373,
+    "mean_density": 0.62,
+    "mean_error": 0.0583,
+    "spearman_rho": 0.755,
+    "spearman_p": 5.634372179588426e-70
+  },
+  "Racisme": {
+    "n": 201,
+    "mean_density": 0.59,
+    "mean_error": 0.0568,
+    "spearman_rho": 0.8155,
+    "spearman_p": 3.6937611341124504e-49
+  },
+  "Religion": {
+    "n": 104,
+    "mean_density": 0.72,
+    "mean_error": 0.0729,
+    "spearman_rho": 0.6211,
+    "spearman_p": 2.0124072843875083e-12
+  }
+}

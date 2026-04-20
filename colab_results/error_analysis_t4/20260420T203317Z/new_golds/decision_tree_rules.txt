@@ -1,0 +1,39 @@
+Decision Tree (max_depth=4) — prédiction du Hamming Error
+======================================================================
+|--- text_length <= 38.50
+|   |--- HATE_OAG <= 0.50
+|   |   |--- pct_uppercase <= 0.03
+|   |   |   |--- text_length <= 17.50
+|   |   |   |   |--- value: [0.01]
+|   |   |   |--- text_length >  17.50
+|   |   |   |   |--- value: [0.03]
+|   |   |--- pct_uppercase >  0.03
+|   |   |   |--- value: [0.08]
+|   |--- HATE_OAG >  0.50
+|   |   |--- insulte <= 0.50
+|   |   |   |--- domain_Homophobie <= 0.50
+|   |   |   |   |--- value: [0.05]
+|   |   |   |--- domain_Homophobie >  0.50
+|   |   |   |   |--- value: [0.10]
+|   |   |--- insulte >  0.50
+|   |   |   |--- ROLE_bully_support <= 0.50
+|   |   |   |   |--- value: [0.10]
+|   |   |   |--- ROLE_bully_support >  0.50
+|   |   |   |   |--- value: [0.06]
+|--- text_length >  38.50
+|   |--- VERBAL_ABUSE_DNG <= 0.50
+|   |   |--- text_length <= 68.00
+|   |   |   |--- insulte <= 0.50
+|   |   |   |   |--- value: [0.07]
+|   |   |   |--- insulte >  0.50
+|   |   |   |   |--- value: [0.10]
+|   |   |--- text_length >  68.00
+|   |   |   |--- TARGET_victim <= 0.50
+|   |   |   |   |--- value: [0.09]
+|   |   |   |--- TARGET_victim >  0.50
+|   |   |   |   |--- value: [0.14]
+|   |--- VERBAL_ABUSE_DNG >  0.50
+|   |   |--- INTENTION_ATK <= 0.50
+|   |   |   |--- value: [0.11]
+|   |   |--- INTENTION_ATK >  0.50
+|   |   |   |--- value: [0.15]

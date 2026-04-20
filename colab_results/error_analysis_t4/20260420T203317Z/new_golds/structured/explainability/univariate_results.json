@@ -1,0 +1,530 @@
+[
+  {
+    "feature": "HATE",
+    "test": "Kruskal-Wallis",
+    "statistic": 63.0922,
+    "p_value": 1.9938572514664817e-14,
+    "eta_squared": 0.0785,
+    "n_levels": 3,
+    "levels": [
+      {
+        "level": "OAG",
+        "n": 427,
+        "mean_error": 0.08,
+        "median_error": 0.0833,
+        "std_error": 0.0709
+      },
+      {
+        "level": "CAG",
+        "n": 93,
+        "mean_error": 0.0457,
+        "median_error": 0.0,
+        "std_error": 0.0608
+      },
+      {
+        "level": "NAG",
+        "n": 261,
+        "mean_error": 0.0412,
+        "median_error": 0.0,
+        "std_error": 0.061
+      }
+    ]
+  },
+  {
+    "feature": "insulte",
+    "test": "Mann-Whitney U",
+    "statistic": 76914.0,
+    "p_value": 1.4024297126287866e-13,
+    "eta_squared": 98.733,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 200,
+        "mean_error": 0.0938,
+        "median_error": 0.0833,
+        "std_error": 0.0718
+      },
+      {
+        "level": "0",
+        "n": 581,
+        "mean_error": 0.0524,
+        "median_error": 0.0,
+        "std_error": 0.0649
+      }
+    ]
+  },
+  {
+    "feature": "SENTIMENT",
+    "test": "Kruskal-Wallis",
+    "statistic": 39.7993,
+    "p_value": 2.2787000160639463e-09,
+    "eta_squared": 0.0486,
+    "n_levels": 3,
+    "levels": [
+      {
+        "level": "POS",
+        "n": 9,
+        "mean_error": 0.0741,
+        "median_error": 0.0,
+        "std_error": 0.0972
+      },
+      {
+        "level": "NEG",
+        "n": 584,
+        "mean_error": 0.0713,
+        "median_error": 0.0833,
+        "std_error": 0.0702
+      },
+      {
+        "level": "NEU",
+        "n": 188,
+        "mean_error": 0.0363,
+        "median_error": 0.0,
+        "std_error": 0.0566
+      }
+    ]
+  },
+  {
+    "feature": "mépris / haine",
+    "test": "Mann-Whitney U",
+    "statistic": 91494.5,
+    "p_value": 1.6595032043571283e-08,
+    "eta_squared": 117.4499,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 344,
+        "mean_error": 0.0799,
+        "median_error": 0.0833,
+        "std_error": 0.0758
+      },
+      {
+        "level": "0",
+        "n": 437,
+        "mean_error": 0.0496,
+        "median_error": 0.0,
+        "std_error": 0.0602
+      }
+    ]
+  },
+  {
+    "feature": "INTENTION",
+    "test": "Kruskal-Wallis",
+    "statistic": 39.9568,
+    "p_value": 1.282970595279842e-06,
+    "eta_squared": 0.0426,
+    "n_levels": 8,
+    "levels": [
+      {
+        "level": "GSL",
+        "n": 16,
+        "mean_error": 0.0781,
+        "median_error": 0.0833,
+        "std_error": 0.0832
+      },
+      {
+        "level": "DFN",
+        "n": 228,
+        "mean_error": 0.0738,
+        "median_error": 0.0833,
+        "std_error": 0.0675
+      },
+      {
+        "level": "ATK",
+        "n": 272,
+        "mean_error": 0.0708,
+        "median_error": 0.0833,
+        "std_error": 0.0732
+      },
+      {
+        "level": "AIN",
+        "n": 54,
+        "mean_error": 0.0648,
+        "median_error": 0.0833,
+        "std_error": 0.068
+      },
+      {
+        "level": "CNS",
+        "n": 45,
+        "mean_error": 0.0463,
+        "median_error": 0.0,
+        "std_error": 0.0549
+      },
+      {
+        "level": "CR",
+        "n": 31,
+        "mean_error": 0.0457,
+        "median_error": 0.0,
+        "std_error": 0.052
+      },
+      {
+        "level": "OTH",
+        "n": 112,
+        "mean_error": 0.0365,
+        "median_error": 0.0,
+        "std_error": 0.061
+      },
+      {
+        "level": "EMP",
+        "n": 23,
+        "mean_error": 0.0326,
+        "median_error": 0.0,
+        "std_error": 0.0652
+      }
+    ]
+  },
+  {
+    "feature": "abréviation",
+    "test": "Mann-Whitney U",
+    "statistic": 21568.5,
+    "p_value": 3.8064564908168766e-05,
+    "eta_squared": 27.6861,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 83,
+        "mean_error": 0.0904,
+        "median_error": 0.0833,
+        "std_error": 0.0679
+      },
+      {
+        "level": "0",
+        "n": 698,
+        "mean_error": 0.0597,
+        "median_error": 0.0833,
+        "std_error": 0.0686
+      }
+    ]
+  },
+  {
+    "feature": "argot",
+    "test": "Mann-Whitney U",
+    "statistic": 58072.0,
+    "p_value": 6.31954252487294e-05,
+    "eta_squared": 74.5456,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 156,
+        "mean_error": 0.0817,
+        "median_error": 0.0833,
+        "std_error": 0.0705
+      },
+      {
+        "level": "0",
+        "n": 625,
+        "mean_error": 0.0583,
+        "median_error": 0.0,
+        "std_error": 0.068
+      }
+    ]
+  },
+  {
+    "feature": "domain",
+    "test": "Kruskal-Wallis",
+    "statistic": 16.4036,
+    "p_value": 0.0009371401418081076,
+    "eta_squared": 0.0173,
+    "n_levels": 4,
+    "levels": [
+      {
+        "level": "Homophobie",
+        "n": 103,
+        "mean_error": 0.0817,
+        "median_error": 0.0833,
+        "std_error": 0.067
+      },
+      {
+        "level": "Religion",
+        "n": 104,
+        "mean_error": 0.0729,
+        "median_error": 0.0833,
+        "std_error": 0.0703
+      },
+      {
+        "level": "Obésité",
+        "n": 373,
+        "mean_error": 0.0583,
+        "median_error": 0.0833,
+        "std_error": 0.0673
+      },
+      {
+        "level": "Racisme",
+        "n": 201,
+        "mean_error": 0.0568,
+        "median_error": 0.0,
+        "std_error": 0.0711
+      }
+    ]
+  },
+  {
+    "feature": "elongation",
+    "test": "Mann-Whitney U",
+    "statistic": 3970.5,
+    "p_value": 0.0030095641577601263,
+    "eta_squared": 5.0956,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 17,
+        "mean_error": 0.1127,
+        "median_error": 0.0833,
+        "std_error": 0.0718
+      },
+      {
+        "level": "0",
+        "n": 764,
+        "mean_error": 0.0618,
+        "median_error": 0.0833,
+        "std_error": 0.0687
+      }
+    ]
+  },
+  {
+    "feature": "VERBAL_ABUSE",
+    "test": "Kruskal-Wallis",
+    "statistic": 11.4845,
+    "p_value": 0.009374861230817495,
+    "eta_squared": 0.0165,
+    "n_levels": 4,
+    "levels": [
+      {
+        "level": "DNG",
+        "n": 94,
+        "mean_error": 0.0949,
+        "median_error": 0.0833,
+        "std_error": 0.0798
+      },
+      {
+        "level": "NCG",
+        "n": 63,
+        "mean_error": 0.082,
+        "median_error": 0.0833,
+        "std_error": 0.0725
+      },
+      {
+        "level": "OTH",
+        "n": 326,
+        "mean_error": 0.068,
+        "median_error": 0.0833,
+        "std_error": 0.0665
+      },
+      {
+        "level": "THR",
+        "n": 36,
+        "mean_error": 0.0556,
+        "median_error": 0.0417,
+        "std_error": 0.063
+      }
+    ]
+  },
+  {
+    "feature": "interjection",
+    "test": "Mann-Whitney U",
+    "statistic": 24282.0,
+    "p_value": 0.01429646986444129,
+    "eta_squared": 31.1694,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 82,
+        "mean_error": 0.0803,
+        "median_error": 0.0833,
+        "std_error": 0.0723
+      },
+      {
+        "level": "0",
+        "n": 699,
+        "mean_error": 0.0609,
+        "median_error": 0.0833,
+        "std_error": 0.0685
+      }
+    ]
+  },
+  {
+    "feature": "ROLE",
+    "test": "Kruskal-Wallis",
+    "statistic": 8.8318,
+    "p_value": 0.06544313064967361,
+    "eta_squared": 0.0062,
+    "n_levels": 5,
+    "levels": [
+      {
+        "level": "bully",
+        "n": 111,
+        "mean_error": 0.0781,
+        "median_error": 0.0833,
+        "std_error": 0.0748
+      },
+      {
+        "level": "victim",
+        "n": 88,
+        "mean_error": 0.0653,
+        "median_error": 0.0833,
+        "std_error": 0.0637
+      },
+      {
+        "level": "victim_support",
+        "n": 159,
+        "mean_error": 0.0629,
+        "median_error": 0.0833,
+        "std_error": 0.0694
+      },
+      {
+        "level": "bully_support",
+        "n": 267,
+        "mean_error": 0.0624,
+        "median_error": 0.0833,
+        "std_error": 0.0712
+      },
+      {
+        "level": "conciliator",
+        "n": 156,
+        "mean_error": 0.0518,
+        "median_error": 0.0,
+        "std_error": 0.0623
+      }
+    ]
+  },
+  {
+    "feature": "TARGET",
+    "test": "Kruskal-Wallis",
+    "statistic": 8.0601,
+    "p_value": 0.08940186516991382,
+    "eta_squared": 0.0079,
+    "n_levels": 5,
+    "levels": [
+      {
+        "level": "bully",
+        "n": 121,
+        "mean_error": 0.0854,
+        "median_error": 0.0833,
+        "std_error": 0.0693
+      },
+      {
+        "level": "victim",
+        "n": 218,
+        "mean_error": 0.0749,
+        "median_error": 0.0833,
+        "std_error": 0.0763
+      },
+      {
+        "level": "conciliator",
+        "n": 42,
+        "mean_error": 0.0714,
+        "median_error": 0.0833,
+        "std_error": 0.0653
+      },
+      {
+        "level": "bully_support",
+        "n": 74,
+        "mean_error": 0.0653,
+        "median_error": 0.0833,
+        "std_error": 0.0606
+      },
+      {
+        "level": "victim_support",
+        "n": 63,
+        "mean_error": 0.0569,
+        "median_error": 0.0833,
+        "std_error": 0.0614
+      }
+    ]
+  },
+  {
+    "feature": "CONTEXT",
+    "test": "Kruskal-Wallis",
+    "statistic": 8.5245,
+    "p_value": 0.2886230722124792,
+    "eta_squared": 0.0024,
+    "n_levels": 8,
+    "levels": [
+      {
+        "level": "CR",
+        "n": 18,
+        "mean_error": 0.0833,
+        "median_error": 0.0833,
+        "std_error": 0.07
+      },
+      {
+        "level": "AIN",
+        "n": 22,
+        "mean_error": 0.0795,
+        "median_error": 0.0833,
+        "std_error": 0.0749
+      },
+      {
+        "level": "ATK",
+        "n": 270,
+        "mean_error": 0.0685,
+        "median_error": 0.0833,
+        "std_error": 0.0661
+      },
+      {
+        "level": "CNS",
+        "n": 47,
+        "mean_error": 0.0674,
+        "median_error": 0.0833,
+        "std_error": 0.0808
+      },
+      {
+        "level": "DFN",
+        "n": 200,
+        "mean_error": 0.0612,
+        "median_error": 0.0833,
+        "std_error": 0.0706
+      },
+      {
+        "level": "EMP",
+        "n": 10,
+        "mean_error": 0.0583,
+        "median_error": 0.0417,
+        "std_error": 0.0791
+      },
+      {
+        "level": "OTH",
+        "n": 79,
+        "mean_error": 0.0527,
+        "median_error": 0.0,
+        "std_error": 0.0628
+      },
+      {
+        "level": "GSL",
+        "n": 10,
+        "mean_error": 0.0417,
+        "median_error": 0.0,
+        "std_error": 0.0589
+      }
+    ]
+  },
+  {
+    "feature": "ironie",
+    "test": "Mann-Whitney U",
+    "statistic": 20661.5,
+    "p_value": 0.9857894671739892,
+    "eta_squared": 26.5218,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 57,
+        "mean_error": 0.0643,
+        "median_error": 0.0833,
+        "std_error": 0.0739
+      },
+      {
+        "level": "0",
+        "n": 724,
+        "mean_error": 0.0628,
+        "median_error": 0.0833,
+        "std_error": 0.0688
+      }
+    ]
+  }
+]

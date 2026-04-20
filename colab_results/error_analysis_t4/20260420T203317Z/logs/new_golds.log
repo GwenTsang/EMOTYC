@@ -1,0 +1,607 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  EMOTYC Error Analysis Pipeline (modular)
+  Config: context=no, thresholds=0.5
+══════════════════════════════════════════════════════════════════════
+
+▸ 1. Chargement et nettoyage des données…
+  XLSX utilisés :
+    - Homophobie: /content/EMOTYC/new_golds/homophobie_annotations_gold_flat_updated.xlsx
+    - Obésité: /content/EMOTYC/new_golds/obésité_annotations_gold_flat_updated.xlsx
+    - Racisme: /content/EMOTYC/new_golds/racisme_annotations_gold_flat_updated.xlsx
+    - Religion: /content/EMOTYC/new_golds/religion_annotations_gold_flat_updated.xlsx
+  ✓ Homophobie: 103 lignes, 59 colonnes
+  ✓ Obésité: 373 lignes, 58 colonnes
+  ✓ Racisme: 201 lignes, 58 colonnes
+  ✓ Religion: 104 lignes, 82 colonnes
+
+  Total : 781 lignes
+  Après nettoyage : 781/781 lignes avec ROLE valide
+
+▸ 2. Prédictions EMOTYC…
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 5691.32it/s]
+/content/EMOTYC/experimentations/analysis/inference.py:135: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[pred_col] = (all_probs_19[:, model_idx] >= threshold).astype(int)
+/content/EMOTYC/experimentations/analysis/inference.py:125: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[proba_col] = all_probs_19[:, model_idx]
+/content/EMOTYC/experimentations/analysis/inference.py:135: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[pred_col] = (all_probs_19[:, model_idx] >= threshold).astype(int)
+/content/EMOTYC/experimentations/analysis/inference.py:125: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[proba_col] = all_probs_19[:, model_idx]
+/content/EMOTYC/experimentations/analysis/inference.py:135: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[pred_col] = (all_probs_19[:, model_idx] >= threshold).astype(int)
+/content/EMOTYC/experimentations/analysis/metrics.py:71: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[f"n_errors_{suffix}"] = errors.sum(axis=1)
+/content/EMOTYC/experimentations/analysis/metrics.py:74: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[f"hamming_{suffix}"] = df[f"n_errors_{suffix}"] / K
+/content/EMOTYC/experimentations/analysis/metrics.py:81: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[f"jaccard_error_{suffix}"] = 1.0 - jaccard_score
+/content/EMOTYC/experimentations/analysis/metrics.py:87: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df[f"weighted_hamming_{suffix}"] = (errors * weights[np.newaxis, :]).sum(axis=1)
+/content/EMOTYC/experimentations/analysis/metrics.py:101: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["error_category"] = pd.cut(
+/content/EMOTYC/experimentations/analysis/data_loader.py:188: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["emotion_density_12"] = df[emo_cols].sum(axis=1)
+/content/EMOTYC/experimentations/analysis/data_loader.py:190: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["mode_density_4"] = df[mode_cols].sum(axis=1)
+/content/EMOTYC/experimentations/analysis/data_loader.py:192: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["label_density_19"] = df[all_cols].sum(axis=1)
+/content/EMOTYC/experimentations/analysis/data_loader.py:198: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["pred_emotion_density"] = df[pred_emo_cols].sum(axis=1)
+/content/EMOTYC/experimentations/analysis/data_loader.py:200: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["pred_mode_density"] = df[pred_mode_cols].sum(axis=1)
+  ✓ Modèle EMOTYC chargé sur cuda
+
+  Inférence sur 781 textes (batch_size=64)…
+  ✓ Inférence terminée — shape: (781, 19)
+
+▸ 3. Calcul des métriques d'erreur…
+
+  ═══ Résumé des erreurs (emotions_12, K=12) ═══
+  Hamming moyen        : 0.0630
+  Hamming médian       : 0.0833
+  Jaccard error moyen  : 0.5077
+  Exact match rate     : 0.4661
+  Weighted Hamming moy : 0.0158
+  Distribution n_errors:
+    0 erreurs:  46.6%
+    1 erreurs:  34.2%
+    2 erreurs:  16.3%
+    3 erreurs:   2.9%
+
+▸ 4. Feature engineering…
+  Matrice de features : 781 lignes × 56 features
+  ✓ DataFrame exporté : /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/new_golds/analysis_data.csv
+
+▸ 5. Analyse par label…
+
+▸ 6. Violations du schéma d'annotation…
+
+  ═══ Annotation Scheme Violations (N=781) ═══
+  emo_no_emotion           :   16  (  2.0%)
+  emotion_no_emo           :    6  (  0.8%)
+  base_no_basic            :    5  (  0.6%)
+  basic_no_base            :   26  (  3.3%)
+  complex_no_cpx           :    3  (  0.4%)
+  cpx_no_complex           :   94  ( 12.0%)
+  mode_no_emotion          :   17  (  2.2%)
+  emotion_no_mode          :   69  (  8.8%)
+  ANY violation            :  135  ( 17.3%)
+
+▸ 7. Brier score decomposition…
+
+  ═══ Brier Score Decomposition (16 labels) ═══
+  Label                 BS   Reliab    Resol   Uncert      ECE
+  Colère            0.3271   0.1040   0.0103   0.2334   0.3173
+  Dégoût            0.1009   0.0100   0.0000   0.0919   0.1000
+  Joie              0.0345   0.0053   0.0078   0.0369   0.0332
+  Peur              0.0088   0.0045   0.0008   0.0051   0.0080
+  Surprise          0.0075   0.0023   0.0013   0.0064   0.0072
+  Tristesse         0.0345   0.0174   0.0003   0.0176   0.0371
+  Admiration        0.0001   0.0000   0.0000   0.0000   0.0009
+  Culpabilité       0.0038   0.0000   0.0000   0.0038   0.0029
+  Embarras          0.0169   0.0149   0.0006   0.0026   0.0242
+  Fierté            0.0019   0.0019   0.0038   0.0038   0.0040
+  Jalousie          0.0077   0.0001   0.0000   0.0076   0.0076
+  Autre             0.1597   0.0875   0.0009   0.0731   0.1653
+  Comportementale   0.0444   0.0080   0.0072   0.0440   0.0417
+  Désignée          0.0712   0.0180   0.0116   0.0655   0.0697
+  Montrée           0.3436   0.1146   0.0078   0.2369   0.3345
+  Suggérée          0.0692   0.0090   0.0038   0.0644   0.0666
+
+▸ 8. Analyse conditionnelle (modes ↔ émotions)…
+
+  ═══ Conditional Analysis: Emotion F1 | Mode Present ═══
+
+  Mode=Comportementale (n=36):
+    Colère           F1=0.545  (global=0.338, Δ=+0.207)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=1.000  (global=0.417, Δ=+0.583)
+    Peur             F1=0.667  (global=0.364, Δ=+0.303)
+    Surprise         F1=0.000  (global=0.400, Δ=-0.400)
+    Tristesse        F1=0.000  (global=0.118, Δ=-0.118)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.222  (global=0.174, Δ=+0.048)
+    Fierté           F1=0.000  (global=0.750, Δ=-0.750)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.286  (global=0.103, Δ=+0.182)
+
+  Mode=Désignée (n=55):
+    Colère           F1=0.190  (global=0.338, Δ=-0.148)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=0.667  (global=0.417, Δ=+0.250)
+    Peur             F1=0.500  (global=0.364, Δ=+0.136)
+    Surprise         F1=1.000  (global=0.400, Δ=+0.600)
+    Tristesse        F1=0.200  (global=0.118, Δ=+0.082)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.571  (global=0.174, Δ=+0.398)
+    Fierté           F1=1.000  (global=0.750, Δ=+0.250)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.353  (global=0.103, Δ=+0.250)
+
+  Mode=Montrée (n=301):
+    Colère           F1=0.349  (global=0.338, Δ=+0.011)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=0.100  (global=0.417, Δ=-0.317)
+    Peur             F1=0.400  (global=0.364, Δ=+0.036)
+    Surprise         F1=0.000  (global=0.400, Δ=-0.400)
+    Tristesse        F1=0.154  (global=0.118, Δ=+0.036)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.000  (global=0.174, Δ=-0.174)
+    Fierté           F1=0.000  (global=0.750, Δ=-0.750)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.067  (global=0.103, Δ=-0.036)
+
+  Mode=Suggérée (n=54):
+    Colère           F1=0.491  (global=0.338, Δ=+0.153)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=0.500  (global=0.417, Δ=+0.083)
+    Peur             F1=0.000  (global=0.364, Δ=-0.364)
+    Surprise         F1=0.000  (global=0.400, Δ=-0.400)
+    Tristesse        F1=0.000  (global=0.118, Δ=-0.118)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.000  (global=0.174, Δ=-0.174)
+    Fierté           F1=0.667  (global=0.750, Δ=-0.083)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.100  (global=0.103, Δ=-0.003)
+
+  ═══ Conditional Analysis: Mode F1 | Emotion Present ═══
+
+  Emotion=Colère (n=290):
+    Comportementale       F1=0.440  (global=0.371, Δ=+0.069)
+    Désignée              F1=0.216  (global=0.414, Δ=-0.198)
+    Montrée               F1=0.413  (global=0.370, Δ=+0.044)
+    Suggérée              F1=0.235  (global=0.218, Δ=+0.017)
+
+  Emotion=Dégoût (n=80):
+    Comportementale       F1=0.000  (global=0.371, Δ=-0.371)
+    Désignée              F1=0.471  (global=0.414, Δ=+0.057)
+    Montrée               F1=0.485  (global=0.370, Δ=+0.115)
+    Suggérée              F1=0.222  (global=0.218, Δ=+0.004)
+
+  Emotion=Joie (n=30):
+    Comportementale       F1=0.500  (global=0.371, Δ=+0.129)
+    Désignée              F1=0.769  (global=0.414, Δ=+0.355)
+    Montrée               F1=0.480  (global=0.370, Δ=+0.110)
+    Suggérée              F1=0.364  (global=0.218, Δ=+0.145)
+
+  Emotion=Tristesse (n=14):
+    Comportementale       F1=1.000  (global=0.371, Δ=+0.629)
+    Désignée              F1=0.500  (global=0.414, Δ=+0.086)
+    Montrée               F1=0.727  (global=0.370, Δ=+0.358)
+    Suggérée              F1=0.308  (global=0.218, Δ=+0.090)
+
+  Emotion=Autre (n=62):
+    Comportementale       F1=0.000  (global=0.371, Δ=-0.371)
+    Désignée              F1=0.000  (global=0.414, Δ=-0.414)
+    Montrée               F1=0.381  (global=0.370, Δ=+0.011)
+    Suggérée              F1=0.222  (global=0.218, Δ=+0.004)
+
+▸ 9. Analyse des interactions…
+
+  ═══ Interaction Effects (Emotion × Mode) ═══
+  Global error: 0.0630
+
+  Top interactions (|effect| descending):
+    Autre           × Désignée            obs=0.095  exp=0.188  Δ=-0.093  n=7  [SYNERGY]
+    Tristesse       × Désignée            obs=0.111  exp=0.171  Δ=-0.060  n=6  [SYNERGY]
+    Joie            × Désignée            obs=0.088  exp=0.143  Δ=-0.054  n=16  [SYNERGY]
+    Dégoût          × Montrée             obs=0.153  exp=0.204  Δ=-0.050  n=69  [SYNERGY]
+    Colère          × Montrée             obs=0.108  exp=0.155  Δ=-0.047  n=250  [SYNERGY]
+    Colère          × Suggérée            obs=0.119  exp=0.165  Δ=-0.046  n=40  [SYNERGY]
+    Tristesse       × Montrée             obs=0.133  exp=0.178  Δ=-0.045  n=5  [SYNERGY]
+    Colère          × Comportementale     obs=0.113  exp=0.158  Δ=-0.045  n=31  [SYNERGY]
+    Autre           × Comportementale     obs=0.155  exp=0.198  Δ=-0.044  n=7  [SYNERGY]
+    Tristesse       × Suggérée            obs=0.146  exp=0.188  Δ=-0.043  n=8  [SYNERGY]
+    Jalousie        × Désignée            obs=0.167  exp=0.207  Δ=-0.040  n=6  [SYNERGY]
+    Autre           × Montrée             obs=0.158  exp=0.195  Δ=-0.038  n=47  [SYNERGY]
+    Dégoût          × Désignée            obs=0.159  exp=0.196  Δ=-0.037  n=11  [SYNERGY]/content/EMOTYC/experimentations/analysis/conditional.py:359: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["_profile_key"] = df[all_labels].apply(
+/content/EMOTYC/experimentations/analysis/stratification.py:116: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["_density_bin"] = df[density_col].astype(int)
+/content/EMOTYC/experimentations/analysis/stratification.py:227: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["_len_bin"] = pd.qcut(
+/content/EMOTYC/experimentations/analysis/stratification.py:345: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["_d_bin"] = pd.cut(
+/content/EMOTYC/experimentations/analysis/stratification.py:352: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["_l_bin"] = pd.qcut(df["word_count"], q=3,
+
+    Autre           × Suggérée            obs=0.175  exp=0.205  Δ=-0.030  n=10  [SYNERGY]
+    Dégoût          × Comportementale     obs=0.179  exp=0.207  Δ=-0.028  n=7  [SYNERGY]
+
+  ═══ Error Co-occurrence (top pairs) ═══
+    Colère          & Autre               cooc_rate=0.0819
+    Colère          & Dégoût              cooc_rate=0.0512
+    Dégoût          & Autre               cooc_rate=0.0243
+    Colère          & Tristesse           cooc_rate=0.0141
+    Colère          & Joie                cooc_rate=0.0115
+    Joie            & Autre               cooc_rate=0.0077
+    Tristesse       & Autre               cooc_rate=0.0064
+    Dégoût          & Embarras            cooc_rate=0.0051
+    Colère          & Peur                cooc_rate=0.0038
+    Colère          & Surprise            cooc_rate=0.0038
+
+▸ 10. Profils de combinaisons…
+
+  ═══ Combination Profiles (Emotion+Mode) ═══
+  64 unique profiles
+
+  Top 10 highest-error profiles:
+    n=  1  mean_err=0.250  density=4  [Tristesse, Autre, Désignée, Suggérée]
+    n=  1  mean_err=0.250  density=3  [Dégoût, Autre, Suggérée]
+    n=  1  mean_err=0.250  density=5  [Colère, Dégoût, Autre, Montrée, Suggérée]
+    n=  1  mean_err=0.250  density=3  [Colère, Dégoût, Comportementale]
+    n=  1  mean_err=0.250  density=3  [Colère, Surprise, Montrée]
+    n=  1  mean_err=0.250  density=4  [Colère, Autre, Montrée, Suggérée]
+    n=  1  mean_err=0.250  density=4  [Dégoût, Joie, Montrée, Suggérée]
+    n=  1  mean_err=0.250  density=4  [Dégoût, Joie, Autre, Montrée]
+    n=  1  mean_err=0.250  density=6  [Colère, Dégoût, Autre, Comportementale, Montrée, Suggérée]
+    n=  6  mean_err=0.222  density=4  [Colère, Dégoût, Autre, Montrée]
+
+  Top 10 lowest-error profiles (n≥5):
+    n=  8  mean_err=0.104  density=2  [Joie, Montrée]
+    n=  8  mean_err=0.104  density=3  [Colère, Montrée, Suggérée]
+    n= 13  mean_err=0.103  density=2  [Autre, Montrée]
+    n= 18  mean_err=0.093  density=2  [Colère, Suggérée]
+    n= 13  mean_err=0.090  density=2  [Colère, Comportementale]
+    n=167  mean_err=0.086  density=2  [Colère, Montrée]
+    n=  7  mean_err=0.083  density=3  [Colère, Comportementale, Montrée]
+    n= 12  mean_err=0.069  density=2  [Joie, Désignée]
+    n=  5  mean_err=0.067  density=2  [Autre, Désignée]
+    n=382  mean_err=0.016  density=0  [∅]
+
+▸ 11. Analyse des logits…
+
+  ═══ Logit Distribution Analysis (19 labels) ═══
+  Label              n+    n-       sep   p̄(+)   p̄(-)  overlap
+  Colère             290   491    +2.38   0.235   0.102    0.806
+  Dégoût             80    701    +1.72   0.008   0.002    0.928
+  Joie               30    751    +6.81   0.350   0.014    0.580
+  Peur               4     777   +10.18   0.503   0.010    0.504
+  Surprise           5     776    +6.34   0.398   0.005    0.603
+  Tristesse          14    767    +4.79   0.149   0.024    0.738
+  Admiration         0     781      N/A     nan     nan      nan
+  Culpabilité        3     778    +1.35   0.004   0.001    0.987
+  Embarras           2     779   +13.89   0.857   0.025    0.001
+  Fierté             3     778   +14.27   0.933   0.004    0.000
+  Jalousie           6     775    +1.59   0.000   0.000    1.000
+  Autre              62    719    +1.01   0.154   0.128    0.834
+  Comportementale    36    745    +4.74   0.233   0.017    0.563
+  Désignée           55    726    +5.84   0.312   0.034    0.565
+  Montrée            301   480    +2.03   0.227   0.107    0.820
+  Suggérée           54    727    +1.89   0.092   0.021    0.756
+  Emo                399   382    +4.24   0.477   0.184    0.666
+  Base               364   417    +3.17   0.292   0.085    0.730
+  Complexe           14    767    +6.96   0.377   0.028    0.512
+
+▸ 12. Threshold sweep (modes)…
+
+  ═══ Threshold Sweep for Modes ═══
+
+  Comportementale:
+    @0.5:    F1=0.291  violations=0.339
+    @opt(0.18): F1=0.381  violations=0.339
+
+  Désignée:
+    @0.5:    F1=0.375  violations=0.339
+    @opt(0.05): F1=0.414  violations=0.333
+
+  Montrée:
+    @0.5:    F1=0.332  violations=0.339
+    @opt(0.05): F1=0.373  violations=0.320
+
+  Suggérée:
+    @0.5:    F1=0.118  violations=0.339
+    @opt(0.07): F1=0.226  violations=0.332
+
+▸ 13. Analyse de calibration…
+
+  ═══ Calibration Summary ═══
+  Colère              ECE=0.3173  [emotion]
+  Dégoût              ECE=0.1000  [emotion]
+  Joie                ECE=0.0332  [emotion]
+  Peur                ECE=0.0080  [emotion]
+  Surprise            ECE=0.0072  [emotion]
+  Tristesse           ECE=0.0371  [emotion]
+  Admiration          ECE=0.0009  [emotion]
+  Culpabilité         ECE=0.0029  [emotion]
+  Embarras            ECE=0.0242  [emotion]
+  Fierté              ECE=0.0040  [emotion]
+  Jalousie            ECE=0.0076  [emotion]
+  Autre               ECE=0.1653  [emotion]
+  Comportementale     ECE=0.0417  [mode]
+  Désignée            ECE=0.0697  [mode]
+  Montrée             ECE=0.3345  [mode]
+  Suggérée            ECE=0.0666  [mode]
+
+  Mean ECE (emotions): 0.0590
+  Mean ECE (modes):    0.1281
+
+▸ 14. Stratification par densité…
+
+  ═══ Density-Stratified Analysis ═══
+  Spearman(density, hamming_12): ρ=0.739, p=1.49e-135
+
+  Density bin 0 [0, 0] (n=382):
+    mean_err=0.0161  median=0.0000  exact_match=0.814
+
+  Density bin 1 [1, 1] (n=311):
+    mean_err=0.0914  median=0.0833  exact_match=0.170
+
+  Density bin 2 [2, 2] (n=76):
+    mean_err=0.1579  median=0.1667  exact_match=0.000
+
+  Density bin 3 [3, 3] (n=12):
+    mean_err=0.2153  median=0.2500  exact_match=0.000
+
+  Per-domain correlations:
+    Homophobie     : ρ=0.644  p=2.08e-13 ***  n=103
+    Obésité        : ρ=0.755  p=5.63e-70 ***  n=373
+    Racisme        : ρ=0.816  p=3.69e-49 ***  n=201
+    Religion       : ρ=0.621  p=2.01e-12 ***  n=104
+
+▸ 15. Stratification par longueur…
+
+  ═══ Length-Stratified Analysis ═══
+  Spearman(word_count, hamming_12): ρ=0.327, p=6.31e-21
+  Kruskal-Wallis: H=80.50, p=3.31e-18
+  Trend direction: increasing
+
+  Length bin 'short' [0, 4] (n=264):
+    mean_err=0.0385  median=0.0000  exact_match=0.633
+
+  Length bin 'medium' [5, 8] (n=277):
+    mean_err=0.0590  median=0.0833  exact_match=0.466
+
+  Length bin 'long' [9, 32] (n=240):
+    mean_err=0.0944  median=0.0833  exact_match=0.283
+
+▸ 16. Cross-stratification (densité × longueur)…
+
+  ═══ Cross-Stratification (Density × Length) ═══
+
+  Mean hamming_12:
+_l_bin   short  medium    long
+_d_bin                        
+0       0.0058  0.0188  0.0384
+1       0.0877  0.0926  0.0926
+2+      0.1726  0.1558  0.1683
+
+  Counts:
+_l_bin  short  medium  long
+_d_bin                     
+0         173     146    63
+1          77     108   126
+2+         14      23    51
+
+  Danger zones (highest error):
+    density=2+, length=short  mean_err=0.1726  n=14
+    density=2+, length=long  mean_err=0.1683  n=51
+    density=2+, length=medium  mean_err=0.1558  n=23
+    density=1, length=medium  mean_err=0.0926  n=108
+    density=1, length=long  mean_err=0.0926  n=126
+
+▸ 17. Analyse densité contrôlée par domaine…
+
+  ═══ Domain-Controlled Density Analysis ═══
+  Homophobie       n=103  mean_density=0.72  mean_err=0.0817  ρ=0.644 p=2.08e-13 ***
+  Obésité          n=373  mean_density=0.62  mean_err=0.0583  ρ=0.755 p=5.63e-70 ***
+  Racisme          n=201  mean_density=0.59  mean_err=0.0568  ρ=0.816 p=3.69e-49 ***
+  Religion         n=104  mean_density=0.72  mean_err=0.0729  ρ=0.621 p=2.01e-12 ***
+
+▸ 18. Analyse univariée…
+
+  ═══ Analyse Univariée (top 10) ═══
+  HATE                       Kruskal-Wallis      p=1.99e-14 ***  η²=0.079
+  insulte                    Mann-Whitney U      p=1.40e-13 ***  η²=98.733
+  SENTIMENT                  Kruskal-Wallis      p=2.28e-09 ***  η²=0.049
+  mépris / haine             Mann-Whitney U      p=1.66e-08 ***  η²=117.450
+  INTENTION                  Kruskal-Wallis      p=1.28e-06 ***  η²=0.043
+  abréviation                Mann-Whitney U      p=3.81e-05 ***  η²=27.686
+  argot                      Mann-Whitney U      p=6.32e-05 ***  η²=74.546
+  domain                     Kruskal-Wallis      p=9.37e-04 ***  η²=0.017
+  elongation                 Mann-Whitney U      p=3.01e-03 **  η²=5.096
+  VERBAL_ABUSE               Kruskal-Wallis      p=9.37e-03 **  η²=0.017
+
+▸ 19. Analyse bivariée…
+
+  ═══ Analyse Bivariée — Top 10 paires ═══
+  ROLE                 × CONTEXT               range=0.119  max=0.119  min=0.000
+  VERBAL_ABUSE         × CONTEXT               range=0.117  max=0.150  min=0.033
+  INTENTION            × CONTEXT               range=0.108  max=0.125  min=0.017
+  VERBAL_ABUSE         × interjection          range=0.099  max=0.144  min=0.045
+  CONTEXT              × insulte               range=0.098  max=0.135  min=0.037
+  HATE                 × CONTEXT               range=0.097  max=0.105  min=0.008
+  INTENTION            × domain                range=0.091  max=0.103  min=0.013
+  HATE                 × elongation            range=0.090  max=0.130  min=0.039
+  INTENTION            × elongation            range=0.090  max=0.120  min=0.030
+  VERBAL_ABUSE         × domain                range=0.090  max=0.142  min=0.052
+
+▸ 20. Random Forest + SHAP…
+
+  ═══ Random Forest Regressor ═══
+  OOB R²         : 0.2045
+  CV R² (5-fold) : 0.1714 ± 0.0605
+  CV MAE (5-fold): 0.0500 ± 0.0021
+
+  Top 20 features (MDI importance) :
+     1. text_length                          0.3102
+     2. word_count                           0.1199
+     3. insulte                              0.0989
+     4. HATE_OAG                             0.0758
+     5. VERBAL_ABUSE_DNG                     0.0380
+     6. mépris / haine                       0.0337
+     7. abréviation                          0.0246
+     8. ROLE_bully_support                   0.0227
+     9. CONTEXT_DFN                          0.0200
+    10. argot                                0.0189
+    11. SENTIMENT_NEU                        0.0182
+    12. pct_uppercase                        0.0175
+    13. domain_Obésité                       0.0159
+    14. TARGET_bully                         0.0135
+    15. VERBAL_ABUSE_OTH                     0.0135
+    16. has_question                         0.0133
+    17. CONTEXT_ATK                          0.0132
+    18. domain_Homophobie                    0.0110
+    19. SENTIMENT_NEG                        0.0105
+    20. ROLE_bully                           0.0103
+
+  Top 15 features (mean |SHAP|) :
+     1. text_length                          0.0133
+     2. insulte                              0.0084
+     3. HATE_OAG                             0.0071
+     4. word_count                           0.0055
+     5. mépris / haine                       0.0032
+     6. VERBAL_ABUSE_DNG                     0.0025
+     7. abréviation                          0.0019
+     8. SENTIMENT_NEU                        0.0017
+     9. argot                                0.0017
+    10. CONTEXT_DFN                          0.0011
+    11. TARGET_bully                         0.0011
+    12. pct_uppercase                        0.0011
+    13. ROLE_bully_support                   0.0009
+    14. domain_Homophobie                    0.0008
+    15. has_question                         0.0008
+
+▸ 21. Règles d'association (FP-Growth)…
+
+  ═══ Association Rules (FP-Growth) ═══
+  Seuil erreur     : hamming_12 > 0.0833
+  Sous-pop HIGH    : 150 / 781 (19.2%)
+  Itemsets fréquents trouvés : 1425
+  Règles (lift >= 1.2) : 7289
+
+  Top 30 règles (HIGH ERROR) :
+    [HATE=NAG ∧ text_long] → [SENTIMENT=NEU]
+      support=0.087  conf=0.684  lift=5.70
+    [SENTIMENT=NEU] → [HATE=NAG ∧ text_long]
+      support=0.087  conf=0.722  lift=5.70
+    [CONTEXT=ATK ∧ SENTIMENT=NEG ∧ domain=Religion] → [TARGET=bully ∧ text_long]
+      support=0.080  conf=0.706  lift=5.04
+    [TARGET=bully ∧ text_long] → [CONTEXT=ATK ∧ INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion]
+      support=0.080  conf=0.571  lift=5.04
+    [INTENTION=DFN ∧ TARGET=bully ∧ text_long] → [CONTEXT=ATK ∧ SENTIMENT=NEG ∧ domain=Religion]
+      support=0.080  conf=0.571  lift=5.04
+    [TARGET=bully ∧ text_long] → [CONTEXT=ATK ∧ SENTIMENT=NEG ∧ domain=Religion]
+      support=0.080  conf=0.571  lift=5.04
+    [CONTEXT=ATK ∧ INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion] → [TARGET=bully ∧ text_long]
+      support=0.080  conf=0.706  lift=5.04
+    [CONTEXT=ATK ∧ SENTIMENT=NEG ∧ domain=Religion] → [INTENTION=DFN ∧ TARGET=bully ∧ text_long]
+      support=0.080  conf=0.706  lift=5.04
+    [CONTEXT=ATK ∧ ROLE=victim] → [INTENTION=DFN ∧ text_long]
+      support=0.087  conf=1.000  lift=5.00
+    [SENTIMENT=NEU ∧ text_long] → [HATE=NAG]
+      support=0.087  conf=1.000  lift=4.84
+    [HATE=NAG] → [SENTIMENT=NEU]
+      support=0.120  conf=0.581  lift=4.84
+    [SENTIMENT=NEU] → [HATE=NAG]
+      support=0.120  conf=1.000  lift=4.84
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion] → [CONTEXT=ATK ∧ TARGET=bully ∧ text_long]
+      support=0.080  conf=0.600  lift=4.74
+    [CONTEXT=ATK ∧ TARGET=bully ∧ text_long] → [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion]
+      support=0.080  conf=0.632  lift=4.74
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion] → [TARGET=bully ∧ text_long]
+      support=0.087  conf=0.650  lift=4.64
+    [TARGET=bully ∧ text_long] → [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion]
+      support=0.087  conf=0.619  lift=4.64
+    [INTENTION=DFN ∧ ROLE=victim_support ∧ SENTIMENT=NEG] → [TARGET=bully ∧ mépris / haine=1]
+      support=0.093  conf=0.583  lift=4.61
+    [TARGET=bully ∧ mépris / haine=1] → [INTENTION=DFN ∧ ROLE=victim_support ∧ SENTIMENT=NEG]
+      support=0.093  conf=0.737  lift=4.61
+    [CONTEXT=ATK ∧ ROLE=victim_support ∧ SENTIMENT=NEG ∧ text_long] → [INTENTION=DFN ∧ TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [CONTEXT=ATK ∧ INTENTION=DFN ∧ ROLE=victim_support ∧ SENTIMENT=NEG ∧ text_long] → [TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [INTENTION=DFN ∧ VERBAL_ABUSE=OTH ∧ domain=Religion] → [TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [CONTEXT=ATK ∧ INTENTION=DFN ∧ ROLE=victim_support ∧ text_long] → [SENTIMENT=NEG ∧ TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [CONTEXT=ATK ∧ ROLE=victim_support ∧ SENTIMENT=NEG ∧ text_long] → [TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [CONTEXT=ATK ∧ INTENTION=DFN ∧ ROLE=victim_support ∧ text_long] → [TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [INTENTION=DFN ∧ VERBAL_ABUSE=OTH ∧ domain=Religion] → [SENTIMENT=NEG ∧ TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ VERBAL_ABUSE=OTH ∧ domain=Religion] → [TARGET=bully]
+      support=0.080  conf=1.000  lift=4.55
+    [ROLE=victim] → [CONTEXT=ATK ∧ INTENTION=DFN ∧ text_long]
+      support=0.087  conf=0.812  lift=4.51
+    [SENTIMENT=NEG ∧ TARGET=bully ∧ text_long] → [CONTEXT=ATK ∧ domain=Religion]
+      support=0.080  conf=0.571  lift=4.51
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ TARGET=bully ∧ text_long] → [CONTEXT=ATK ∧ domain=Religion]
+      support=0.080  conf=0.571  lift=4.51
+    [TARGET=bully ∧ text_long] → [CONTEXT=ATK ∧ INTENTION=DFN ∧ domain=Religion]
+      support=0.080  conf=0.571  lift=4.51
+
+  Sous-pop EXACT MATCH : 364 / 781 (46.6%)
+  Top itemsets (EXACT MATCH) :
+    support=0.643  SENTIMENT=NEG
+    support=0.505  domain=Obésité
+    support=0.495  text_court
+    support=0.456  HATE=NAG
+    support=0.396  HATE=OAG
+    support=0.387  HATE=OAG ∧ SENTIMENT=NEG
+    support=0.360  mépris / haine=1
+    support=0.357  VERBAL_ABUSE=OTH
+    support=0.354  SENTIMENT=NEG ∧ VERBAL_ABUSE=OTH
+    support=0.349  ROLE=bully_support
+    support=0.343  SENTIMENT=NEU
+    support=0.330  HATE=NAG ∧ SENTIMENT=NEU
+    support=0.330  SENTIMENT=NEG ∧ domain=Obésité
+    support=0.316  INTENTION=ATK
+    support=0.313  SENTIMENT=NEG ∧ mépris / haine=1
+
+▸ 22. Visualisations…
+
+  ═══ Generating Plots ═══
+  ✓ error_distributions.png
+  ✓ per_label_error_decomposition.png + error_by_label_domain.png
+  ✓ 15 univariate plots
+  ✓ 10 bivariate heatmaps
+  ✓ rf_feature_importance.png
+  ✓ shap_summary.png + shap_bar.png
+  ✓ conditional heatmaps
+  ✓ interaction + error co-occurrence plots
+  ✓ logit_distributions.png
+  ✓ threshold_pareto.png
+  ✓ calibration_diagrams.png
+  ✓ density_stratification.png
+  ✓ cross_stratification.png
+  ✓ All plots saved to /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/new_golds/plots
+
+▸ 23. Génération du rapport…
+
+  ✓ Report: /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/new_golds/rapport_error_analysis.md
+  ✓ Report (txt): /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/new_golds/rapport_error_analysis.txt
+
+▸ 24. Export structuré…
+
+══════════════════════════════════════════════════════════════════════
+  ✓ Analyse terminée. Résultats dans : /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/new_golds
+══════════════════════════════════════════════════════════════════════
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

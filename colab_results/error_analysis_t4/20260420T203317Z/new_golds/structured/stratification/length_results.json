@@ -1,0 +1,85 @@
+{
+  "strata": [
+    {
+      "n": 264,
+      "mean_error": 0.0385,
+      "median_error": 0.0,
+      "std_error": 0.0567,
+      "exact_match_rate": 0.6326,
+      "per_label_f1": {
+        "Colère": 0.058,
+        "Dégoût": 0.0,
+        "Joie": 0.4211,
+        "Peur": 0.0,
+        "Surprise": 0.0,
+        "Tristesse": 0.0,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 1.0,
+        "Jalousie": 0.0,
+        "Autre": 0.0
+      },
+      "emotion_no_mode_rate": 0.2879,
+      "length_bin": "short",
+      "word_count_range": "[0, 4]"
+    },
+    {
+      "n": 277,
+      "mean_error": 0.059,
+      "median_error": 0.0833,
+      "std_error": 0.0633,
+      "exact_match_rate": 0.4657,
+      "per_label_f1": {
+        "Colère": 0.3212,
+        "Dégoût": 0.0,
+        "Joie": 0.5455,
+        "Peur": 0.0,
+        "Surprise": 0.0,
+        "Tristesse": 0.25,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 0.0,
+        "Jalousie": 0.0,
+        "Autre": 0.0656
+      },
+      "emotion_no_mode_rate": 0.296,
+      "length_bin": "medium",
+      "word_count_range": "[5, 8]"
+    },
+    {
+      "n": 240,
+      "mean_error": 0.0944,
+      "median_error": 0.0833,
+      "std_error": 0.0758,
+      "exact_match_rate": 0.2833,
+      "per_label_f1": {
+        "Colère": 0.4455,
+        "Dégoût": 0.0,
+        "Joie": 0.3333,
+        "Peur": 0.4,
+        "Surprise": 0.5714,
+        "Tristesse": 0.1053,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.3333,
+        "Fierté": 0.6667,
+        "Jalousie": 0.0,
+        "Autre": 0.1538
+      },
+      "emotion_no_mode_rate": 0.3458,
+      "length_bin": "long",
+      "word_count_range": "[9, 32]"
+    }
+  ],
+  "spearman": {
+    "rho": 0.3271,
+    "p_value": 6.3144995921755914e-21
+  },
+  "trend_test": {
+    "kruskal_stat": 80.5008,
+    "kruskal_p": 3.3073154355267536e-18,
+    "direction": "increasing"
+  }
+}
