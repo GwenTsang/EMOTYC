@@ -37,6 +37,7 @@ Dependencies:
 """
 
 import argparse
+import json
 import warnings
 from pathlib import Path
 
@@ -87,6 +88,154 @@ def _build_xlsx_paths_from_args(args):
     overrides.update({domain: path for domain, path in per_domain_args.items() if path})
 
     return config.resolve_xlsx_paths(xlsx_dir=args.xlsx_dir, overrides=overrides)
+
+
+def _json_ready(obj):
+    """Convert nested objects to JSON-serializable Python values."""
+    if isinstance(obj, dict):
+        return {str(k): _json_ready(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_json_ready(v) for v in obj]
+    if isinstance(obj, Path):
+        return str(obj)
+    if isinstance(obj, (np.integer,)):
+        return int(obj)
+    if isinstance(obj, (np.floating,)):
+        return float(obj)
+    if isinstance(obj, (np.bool_,)):
+        return bool(obj)
+    if isinstance(obj, pd.DataFrame):
+        return obj.to_dict(orient="records")
+    if isinstance(obj, pd.Series):
+        return obj.to_dict()
+    return obj
+
+
+def _write_json(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(_json_ready(data), f, ensure_ascii=False, indent=2)
+
+
+def _write_df(path, df):
+    if df is None or not hasattr(df, "empty") or df.empty:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    keep_index = not isinstance(df.index, pd.RangeIndex)
+    df.to_csv(path, index=keep_index, encoding="utf-8-sig")
+
+
+def _export_structured_outputs(
+    out_dir,
+    *,
+    df,
+    eval_labels,
+    label_errors_df,
+    violations_df,
+    brier_df,
+    cond_results,
+    interaction_results,
+    profile_stats,
+    logit_df,
+    sweep_results,
+    calibration_data,
+    density_results,
+    length_results,
+    cross_results,
+    domain_density_results,
+    univar_results,
+    bivar_results,
+    rf_model,
+    shap_values,
+    feature_names,
+):
+    """Persist machine-readable outputs for downstream analysis."""
+    structured_dir = Path(out_dir) / "structured"
+    structured_dir.mkdir(parents=True, exist_ok=True)
+
+    _write_df(structured_dir / "label_errors.csv", label_errors_df)
+    _write_df(structured_dir / "annotation_violations_per_sample.csv", violations_df)
+    _write_df(structured_dir / "brier_scores.csv", brier_df)
+
+    summary = {
+        "n_rows": len(df),
+        "eval_labels": list(eval_labels),
+        "domains": df["domain"].value_counts().sort_index().to_dict() if "domain" in df.columns else {},
+    }
+    _write_json(structured_dir / "run_summary.json", summary)
+
+    if cond_results:
+        _write_df(structured_dir / "conditional" / "delta_f1_emotion_given_mode.csv",
+                  cond_results.get("delta_f1_emotion_given_mode"))
+        _write_df(structured_dir / "conditional" / "delta_f1_mode_given_emotion.csv",
+                  cond_results.get("delta_f1_mode_given_emotion"))
+        _write_json(structured_dir / "conditional" / "stratified_metrics_emotion_given_mode.json",
+                    cond_results.get("stratified_metrics_emotion_given_mode", {}))
+        _write_json(structured_dir / "conditional" / "stratified_metrics_mode_given_emotion.json",
+                    cond_results.get("stratified_metrics_mode_given_emotion", {}))
+        _write_json(structured_dir / "conditional" / "global_emotion_f1.json",
+                    cond_results.get("global_emotion_f1", {}))
+        _write_json(structured_dir / "conditional" / "global_mode_f1.json",
+                    cond_results.get("global_mode_f1", {}))
+
+    if interaction_results:
+        _write_df(structured_dir / "interaction" / "interaction_effects.csv",
+                  interaction_results.get("interaction_effects"))
+        details = interaction_results.get("interaction_details")
+        if details:
+            _write_df(structured_dir / "interaction" / "interaction_details.csv", pd.DataFrame(details))
+        _write_df(structured_dir / "interaction" / "error_cooccurrence.csv",
+                  interaction_results.get("error_cooccurrence"))
+
+    _write_df(structured_dir / "interaction" / "combination_profiles.csv", profile_stats)
+    _write_df(structured_dir / "logits" / "logit_distribution.csv", logit_df)
+
+    if sweep_results:
+        _write_df(structured_dir / "logits" / "threshold_sweep.csv",
+                  sweep_results.get("sweep_results"))
+        _write_json(structured_dir / "logits" / "optimal_thresholds.json",
+                    sweep_results.get("optimal_thresholds", {}))
+        _write_json(structured_dir / "logits" / "pareto_fronts.json",
+                    sweep_results.get("pareto_fronts", {}))
+
+    if calibration_data:
+        _write_json(structured_dir / "logits" / "calibration_data.json", calibration_data)
+
+    if density_results:
+        _write_json(structured_dir / "stratification" / "density_results.json", density_results)
+    if length_results:
+        _write_json(structured_dir / "stratification" / "length_results.json", length_results)
+    if cross_results:
+        _write_df(structured_dir / "stratification" / "cross_grid_mean_error.csv",
+                  cross_results.get("grid"))
+        _write_df(structured_dir / "stratification" / "cross_grid_counts.csv",
+                  cross_results.get("grid_n"))
+        danger = cross_results.get("danger_zones")
+        if danger:
+            _write_df(structured_dir / "stratification" / "danger_zones.csv", pd.DataFrame(danger))
+    if domain_density_results:
+        _write_json(structured_dir / "stratification" / "domain_density_results.json",
+                    domain_density_results)
+
+    if univar_results:
+        _write_json(structured_dir / "explainability" / "univariate_results.json", univar_results)
+    if bivar_results:
+        _write_df(structured_dir / "explainability" / "bivariate_results.csv", pd.DataFrame(bivar_results))
+
+    if rf_model is not None and feature_names is not None:
+        importances = pd.DataFrame({
+            "feature": feature_names,
+            "importance": rf_model.feature_importances_,
+        }).sort_values("importance", ascending=False)
+        _write_df(structured_dir / "explainability" / "rf_feature_importance.csv", importances)
+
+    if shap_values is not None and feature_names is not None:
+        mean_abs_shap = np.abs(shap_values).mean(axis=0)
+        shap_df = pd.DataFrame({
+            "feature": feature_names,
+            "mean_abs_shap": mean_abs_shap,
+        }).sort_values("mean_abs_shap", ascending=False)
+        _write_df(structured_dir / "explainability" / "shap_mean_abs.csv", shap_df)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -353,6 +502,31 @@ def main():
         feature_names=feat_names,
         dt_model=dt_model,
         rules=rules,
+    )
+
+    print("\n▸ 24. Export structuré…")
+    _export_structured_outputs(
+        out_dir,
+        df=df,
+        eval_labels=eval_labels,
+        label_errors_df=label_errors_df,
+        violations_df=violations_df,
+        brier_df=brier_df,
+        cond_results=cond_results,
+        interaction_results=interaction_results,
+        profile_stats=profile_stats,
+        logit_df=logit_df,
+        sweep_results=sweep_results,
+        calibration_data=calibration_data,
+        density_results=density_results,
+        length_results=length_results,
+        cross_results=cross_results,
+        domain_density_results=domain_density_results,
+        univar_results=univar_results,
+        bivar_results=bivar_results,
+        rf_model=rf_model,
+        shap_values=shap_values,
+        feature_names=feat_names,
     )
 
     # ── Export association rules if available ──────────────────────────
