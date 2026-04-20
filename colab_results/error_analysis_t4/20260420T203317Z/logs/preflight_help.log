@@ -1,0 +1,42 @@
+usage: error_analysis.py [-h] [--out-dir OUT_DIR] [--use-context]
+                         [--no-optimized-thresholds] [--skip-inference]
+                         [--predictions-dir PREDICTIONS_DIR]
+                         [--batch-size BATCH_SIZE] [--device DEVICE]
+                         [--min-support MIN_SUPPORT]
+                         [--min-confidence MIN_CONFIDENCE]
+                         [--from-csv FROM_CSV] [--xlsx-dir XLSX_DIR]
+                         [--xlsx XLSX] [--xlsx-homophobie XLSX_HOMOPHOBIE]
+                         [--xlsx-obesite XLSX_OBESITE]
+                         [--xlsx-racisme XLSX_RACISME]
+                         [--xlsx-religion XLSX_RELIGION]
+
+EMOTYC Error Analysis Pipeline (modular)
+
+options:
+  -h, --help            show this help message and exit
+  --out-dir OUT_DIR     Output directory
+  --use-context         Use neighboring sentences as context
+  --no-optimized-thresholds
+                        Fixed 0.5 threshold instead of optimized
+  --skip-inference      Skip inference, load from pre-computed JSONL
+  --predictions-dir PREDICTIONS_DIR
+                        Directory with pre-computed JSONL predictions
+  --batch-size BATCH_SIZE
+  --device DEVICE
+  --min-support MIN_SUPPORT
+                        Minimum support for FP-Growth
+  --min-confidence MIN_CONFIDENCE
+                        Minimum confidence for association rules
+  --from-csv FROM_CSV   Load a pre-computed analysis_data.csv (skips inference
+                        + metrics)
+  --xlsx-dir XLSX_DIR   Directory containing the 4 input XLSX files. Supports
+                        both golds/ and new_golds/ layouts.
+  --xlsx XLSX           Override one XLSX path with DOMAIN=PATH. Repeatable.
+  --xlsx-homophobie XLSX_HOMOPHOBIE
+                        Explicit XLSX path for Homophobie
+  --xlsx-obesite XLSX_OBESITE
+                        Explicit XLSX path for Obésité
+  --xlsx-racisme XLSX_RACISME
+                        Explicit XLSX path for Racisme
+  --xlsx-religion XLSX_RELIGION
+                        Explicit XLSX path for Religion

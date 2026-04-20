@@ -1,0 +1,26 @@
+{
+  "run_tag": "20260420T203317Z",
+  "repo_commit": "5939a2e6ee4c7bfb3a134bba4b96e7f4874e2601",
+  "results_branch": "colab-error-analysis-artifacts",
+  "results_root": "colab_results/error_analysis_t4/20260420T203317Z",
+  "secret_name_used": "GITHUB_TOKEN",
+  "versions": {
+    "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "platform": "Linux-6.6.113+-x86_64-with-glibc2.35",
+    "torch": "2.10.0+cu128",
+    "transformers": "5.5.4",
+    "pandas": "3.0.2",
+    "numpy": "2.0.2",
+    "scipy": "1.17.1",
+    "sklearn": "IMPORT_FAILED: cannot import name '_center' from 'numpy._core.umath' (/usr/local/lib/python3.12/dist-packages/numpy/_core/umath.py)",
+    "matplotlib": "3.10.0",
+    "seaborn": "0.13.2",
+    "shap": "IMPORT_FAILED: cannot import name '_center' from 'numpy._core.umath' (/usr/local/lib/python3.12/dist-packages/numpy/_core/umath.py)",
+    "mlxtend": "0.24.0",
+    "openpyxl": "3.1.5",
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "cuda_device_name": "Tesla T4"
+  },
+  "generated_at_utc": "2026-04-20T20:34:27.300542+00:00"
+}

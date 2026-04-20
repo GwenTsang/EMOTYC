@@ -1,0 +1,23 @@
+{
+  "n_rows": 781,
+  "eval_labels": [
+    "Colère",
+    "Dégoût",
+    "Joie",
+    "Peur",
+    "Surprise",
+    "Tristesse",
+    "Admiration",
+    "Culpabilité",
+    "Embarras",
+    "Fierté",
+    "Jalousie",
+    "Autre"
+  ],
+  "domains": {
+    "Homophobie": 103,
+    "Obésité": 373,
+    "Racisme": 201,
+    "Religion": 104
+  }
+}

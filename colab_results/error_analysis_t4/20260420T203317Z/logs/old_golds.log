@@ -1,0 +1,568 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  EMOTYC Error Analysis Pipeline (modular)
+  Config: context=no, thresholds=0.5
+══════════════════════════════════════════════════════════════════════
+
+▸ 1. Chargement et nettoyage des données…
+  XLSX utilisés :
+    - Homophobie: /content/EMOTYC/golds/homophobie/homophobie_annotations_gold_flat.xlsx
+    - Obésité: /content/EMOTYC/golds/obésité/obésité_annotations_gold_flat.xlsx
+    - Racisme: /content/EMOTYC/golds/racisme/racisme_annotations_gold_flat.xlsx
+    - Religion: /content/EMOTYC/golds/religion/religion_gold_flat.xlsx
+  ✓ Homophobie: 103 lignes, 59 colonnes
+  ✓ Obésité: 373 lignes, 58 colonnes
+  ✓ Racisme: 201 lignes, 58 colonnes
+  ✓ Religion: 104 lignes, 55 colonnes
+
+  Total : 781 lignes
+  Après nettoyage : 781/781 lignes avec ROLE valide
+
+▸ 2. Prédictions EMOTYC…
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 7686.57it/s]
+  ✓ Modèle EMOTYC chargé sur cuda
+
+  Inférence sur 781 textes (batch_size=64)…
+  ✓ Inférence terminée — shape: (781, 19)
+
+▸ 3. Calcul des métriques d'erreur…
+
+  ═══ Résumé des erreurs (emotions_12, K=12) ═══
+  Hamming moyen        : 0.0676
+  Hamming médian       : 0.0833
+  Jaccard error moyen  : 0.5418
+  Exact match rate     : 0.4302
+  Weighted Hamming moy : 0.0164
+  Distribution n_errors:
+    0 erreurs:  43.0%
+    1 erreurs:  36.0%
+    2 erreurs:  17.9%
+    3 erreurs:   2.9%
+    4 erreurs:   0.1%
+
+▸ 4. Feature engineering…
+  Matrice de features : 781 lignes × 56 features
+  ✓ DataFrame exporté : /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/old_golds/analysis_data.csv
+
+▸ 5. Analyse par label…
+
+▸ 6. Violations du schéma d'annotation…
+
+  ═══ Annotation Scheme Violations (N=781) ═══
+  emo_no_emotion           :   16  (  2.0%)
+  emotion_no_emo           :    6  (  0.8%)
+  base_no_basic            :    5  (  0.6%)
+  basic_no_base            :   26  (  3.3%)
+  complex_no_cpx           :    3  (  0.4%)
+  cpx_no_complex           :   94  ( 12.0%)
+  mode_no_emotion          :   17  (  2.2%)
+  emotion_no_mode          :   69  (  8.8%)
+  ANY violation            :  135  ( 17.3%)
+
+▸ 7. Brier score decomposition…
+
+  ═══ Brier Score Decomposition (16 labels) ═══
+  Label                 BS   Reliab    Resol   Uncert      ECE
+  Colère            0.3726   0.1389   0.0138   0.2469   0.3671
+  Dégoût            0.1061   0.0110   0.0000   0.0960   0.1051
+  Joie              0.0379   0.0088   0.0042   0.0334   0.0367
+  Peur              0.0075   0.0020   0.0033   0.0089   0.0067
+  Surprise          0.0087   0.0039   0.0003   0.0051   0.0085
+  Tristesse         0.0345   0.0174   0.0003   0.0176   0.0371
+  Admiration        0.0013   0.0000   0.0000   0.0013   0.0006
+  Culpabilité       0.0038   0.0000   0.0000   0.0038   0.0029
+  Embarras          0.0180   0.0170   0.0003   0.0013   0.0255
+  Fierté            0.0032   0.0019   0.0038   0.0051   0.0035
+  Jalousie          0.0077   0.0001   0.0000   0.0076   0.0076
+  Autre             0.1568   0.0854   0.0006   0.0720   0.1640
+  Comportementale   0.0993   0.0152   0.0095   0.0940   0.0985
+  Désignée          0.0744   0.0198   0.0092   0.0644   0.0728
+  Montrée           0.3492   0.1199   0.0111   0.2404   0.3435
+  Suggérée          0.0848   0.0121   0.0032   0.0763   0.0828
+
+▸ 8. Analyse conditionnelle (modes ↔ émotions)…
+
+  ═══ Conditional Analysis: Emotion F1 | Mode Present ═══
+
+  Mode=Comportementale (n=82):
+    Colère           F1=0.455  (global=0.340, Δ=+0.116)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=0.000  (global=0.311, Δ=-0.311)
+    Peur             F1=0.500  (global=0.571, Δ=-0.071)
+    Surprise         F1=0.000  (global=0.222, Δ=-0.222)
+    Tristesse        F1=0.286  (global=0.118, Δ=+0.168)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.000  (global=0.091, Δ=-0.091)
+    Fierté           F1=0.000  (global=0.667, Δ=-0.667)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.174  (global=0.117, Δ=+0.057)
+
+  Mode=Désignée (n=54):
+    Colère           F1=0.308  (global=0.340, Δ=-0.032)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=0.857  (global=0.311, Δ=+0.546)
+    Peur             F1=1.000  (global=0.571, Δ=+0.429)
+    Surprise         F1=1.000  (global=0.222, Δ=+0.778)
+    Tristesse        F1=0.182  (global=0.118, Δ=+0.064)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.400  (global=0.091, Δ=+0.309)
+    Fierté           F1=0.800  (global=0.667, Δ=+0.133)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.348  (global=0.117, Δ=+0.231)
+
+  Mode=Montrée (n=314):
+    Colère           F1=0.337  (global=0.340, Δ=-0.003)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=0.000  (global=0.311, Δ=-0.311)
+    Peur             F1=0.333  (global=0.571, Δ=-0.238)
+    Surprise         F1=0.000  (global=0.222, Δ=-0.222)
+    Tristesse        F1=0.125  (global=0.118, Δ=+0.007)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.222  (global=0.091, Δ=+0.131)
+    Fierté           F1=0.000  (global=0.667, Δ=-0.667)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.050  (global=0.117, Δ=-0.067)
+
+  Mode=Suggérée (n=65):
+    Colère           F1=0.431  (global=0.340, Δ=+0.091)
+    Dégoût           F1=0.000  (global=0.000, Δ=+0.000)
+    Joie             F1=0.250  (global=0.311, Δ=-0.061)
+    Peur             F1=0.500  (global=0.571, Δ=-0.071)
+    Surprise         F1=0.500  (global=0.222, Δ=+0.278)
+    Tristesse        F1=0.000  (global=0.118, Δ=-0.118)
+    Admiration       F1=0.000  (global=0.000, Δ=+0.000)
+    Culpabilité      F1=0.000  (global=0.000, Δ=+0.000)
+    Embarras         F1=0.000  (global=0.091, Δ=-0.091)
+    Fierté           F1=0.667  (global=0.667, Δ=+0.000)
+    Jalousie         F1=0.000  (global=0.000, Δ=+0.000)
+    Autre            F1=0.083  (global=0.117, Δ=-0.034)
+
+  ═══ Conditional Analysis: Mode F1 | Emotion Present ═══
+
+  Emotion=Colère (n=347):
+    Comportementale       F1=0.306  (global=0.276, Δ=+0.030)
+    Désignée              F1=0.298  (global=0.383, Δ=-0.085)
+    Montrée               F1=0.413  (global=0.381, Δ=+0.032)
+    Suggérée              F1=0.208  (global=0.215, Δ=-0.007)
+
+  Emotion=Dégoût (n=84):
+    Comportementale       F1=0.000  (global=0.276, Δ=-0.276)
+    Désignée              F1=0.500  (global=0.383, Δ=+0.117)
+    Montrée               F1=0.495  (global=0.381, Δ=+0.115)
+    Suggérée              F1=0.273  (global=0.215, Δ=+0.058)
+
+  Emotion=Joie (n=27):
+    Comportementale       F1=0.000  (global=0.276, Δ=-0.276)
+    Désignée              F1=0.857  (global=0.383, Δ=+0.475)
+    Montrée               F1=0.571  (global=0.381, Δ=+0.191)
+    Suggérée              F1=0.333  (global=0.215, Δ=+0.118)
+
+  Emotion=Tristesse (n=14):
+    Comportementale       F1=0.800  (global=0.276, Δ=+0.524)
+    Désignée              F1=0.333  (global=0.383, Δ=-0.049)
+    Montrée               F1=0.667  (global=0.381, Δ=+0.286)
+    Suggérée              F1=0.000  (global=0.215, Δ=-0.215)
+
+  Emotion=Autre (n=61):
+    Comportementale       F1=0.000  (global=0.276, Δ=-0.276)
+    Désignée              F1=0.000  (global=0.383, Δ=-0.383)
+    Montrée               F1=0.456  (global=0.381, Δ=+0.076)
+    Suggérée              F1=0.273  (global=0.215, Δ=+0.058)
+
+▸ 9. Analyse des interactions…
+
+  ═══ Interaction Effects (Emotion × Mode) ═══
+  Global error: 0.0676
+
+  Top interactions (|effect| descending):
+    Tristesse       × Désignée            obs=0.062  exp=0.165  Δ=-0.103  n=4  [SYNERGY]
+    Peur            × Désignée            obs=0.028  exp=0.129  Δ=-0.102  n=3  [SYNERGY]
+    Joie            × Désignée            obs=0.052  exp=0.145  Δ=-0.093  n=8  [SYNERGY]
+    Autre           × Désignée            obs=0.083  exp=0.171  Δ=-0.087  n=10  [SYNERGY]
+    Autre           × Suggérée            obs=0.128  exp=0.187  Δ=-0.059  n=13  [SYNERGY]
+    Dégoût          × Montrée             obs=0.162  exp=0.211  Δ=-0.049  n=75  [SYNERGY]
+    Colère          × Montrée             obs=0.112  exp=0.155  Δ=-0.043  n=274  [SYNERGY]
+    Tristesse       × Suggérée            obs=0.139  exp=0.181  Δ=-0.042  n=6  [SYNERGY]
+    Colère          × Comportementale     obs=0.103  exp=0.143  Δ=-0.041  n=78  [SYNERGY]
+    Colère          × Suggérée            obs=0.122  exp=0.159  Δ=-0.036  n=47  [SYNERGY]
+    Peur            × Suggérée            obs=0.111  exp=0.145  Δ=-0.034  n=3  [SYNERGY]
+    Jalousie        × Désignée            obs=0.167  exp=0.201  Δ=-0.034  n=6  [SYNERGY]
+    Dégoût          × Désignée            obs=0.167  exp=0.199  Δ=-0.032  n=10  [SYNERGY]
+    Peur            × Montrée             obs=0.167  exp=0.142  Δ=+0.025  n=3  [CONFLICT]
+    Autre           × Comportementale     obs=0.148  exp=0.172  Δ=-0.024  n=9  [SYNERGY]
+
+  ═══ Error Co-occurrence (top pairs) ═══
+    Colère          & Autre               cooc_rate=0.0807
+    Colère          & Dégoût              cooc_rate=0.0653
+    Dégoût          & Autre               cooc_rate=0.0243
+    Colère          & Tristesse           cooc_rate=0.0179
+    Colère          & Joie                cooc_rate=0.0141
+    Joie            & Autre               cooc_rate=0.0077
+    Colère          & Peur                cooc_rate=0.0051
+    Colère          & Embarras            cooc_rate=0.0051
+    Dégoût          & Embarras            cooc_rate=0.0051
+    Tristesse       & Embarras            cooc_rate=0.0051
+
+▸ 10. Profils de combinaisons…
+
+  ═══ Combination Profiles (Emotion+Mode) ═══
+  73 unique profiles
+
+  Top 10 highest-error profiles:
+    n=  1  mean_err=0.333  density=5  [Colère, Dégoût, Autre, Comportementale, Montrée]
+    n=  1  mean_err=0.250  density=4  [Dégoût, Joie, Montrée, Suggérée]
+    n=  1  mean_err=0.250  density=3  [Colère, Surprise, Montrée]
+    n=  1  mean_err=0.250  density=4  [Colère, Joie, Montrée, Suggérée]
+    n=  1  mean_err=0.250  density=4  [Colère, Dégoût, Comportementale, Suggérée]
+    n=  1  mean_err=0.250  density=4  [Dégoût, Joie, Autre, Montrée]
+    n=  1  mean_err=0.250  density=3  [Dégoût, Autre, Suggérée]
+    n=  1  mean_err=0.250  density=4  [Joie, Autre, Montrée, Suggérée]
+    n=  1  mean_err=0.250  density=6  [Colère, Dégoût, Autre, Comportementale, Montrée, Suggérée]
+    n=  6  mean_err=0.222  density=4  [Colère, Dégoût, Autre, Montrée]
+
+  Top 10 lowest-error profiles (n≥5):
+    n=  7  mean_err=0.095  density=2  [Dégoût, Montrée]
+    n=  9  mean_err=0.093  density=2  [Autre, Montrée]
+    n=154  mean_err=0.088  density=2  [Colère, Montrée]
+    n= 20  mean_err=0.083  density=3  [Colère, Comportementale, Montrée]
+    n= 40  mean_err=0.083  density=2  [Colère, Comportementale]
+    n= 14  mean_err=0.071  density=2  [Colère, Suggérée]
+    n=  6  mean_err=0.069  density=2  [Autre, Suggérée]
+    n=  6  mean_err=0.056  density=2  [Autre, Désignée]
+    n=  7  mean_err=0.036  density=2  [Joie, Désignée]
+    n=343  mean_err=0.017  density=0  [∅]
+
+▸ 11. Analyse des logits…
+
+  ═══ Logit Distribution Analysis (19 labels) ═══
+  Label              n+    n-       sep   p̄(+)   p̄(-)  overlap
+  Colère             347   434    +2.38   0.228   0.090    0.802
+  Dégoût             84    697    +1.54   0.007   0.002    0.933
+  Joie               27    754    +5.31   0.284   0.017    0.645
+  Peur               7     774   +10.76   0.573   0.007    0.430
+  Surprise           4     777    +4.38   0.250   0.007    0.754
+  Tristesse          14    767    +4.87   0.150   0.024    0.738
+  Admiration         1     780    -0.91   0.000   0.001    0.989
+  Culpabilité        3     778    +1.35   0.004   0.001    0.987
+  Embarras           1     780   +13.10   0.773   0.026    0.001
+  Fierté             4     777   +10.64   0.700   0.004    0.250
+  Jalousie           6     775    +1.59   0.000   0.000    1.000
+  Autre              61    720    +1.53   0.167   0.127    0.782
+  Comportementale    82    699    +2.43   0.121   0.016    0.760
+  Désignée           54    727    +5.59   0.286   0.036    0.587
+  Montrée            314   467    +2.16   0.232   0.101    0.808
+  Suggérée           65    716    +1.42   0.067   0.022    0.779
+  Emo                438   343    +3.91   0.453   0.182    0.690
+  Base               401   380    +2.91   0.273   0.086    0.749
+  Complexe           15    766    +5.47   0.286   0.030    0.613
+
+▸ 12. Threshold sweep (modes)…
+
+  ═══ Threshold Sweep for Modes ═══
+
+  Comportementale:
+    @0.5:    F1=0.178  violations=0.383
+    @opt(0.06): F1=0.276  violations=0.383
+
+  Désignée:
+    @0.5:    F1=0.337  violations=0.383
+    @opt(0.05): F1=0.383  violations=0.376
+
+  Montrée:
+    @0.5:    F1=0.336  violations=0.383
+    @opt(0.05): F1=0.384  violations=0.364
+
+  Suggérée:
+    @0.5:    F1=0.076  violations=0.383
+    @opt(0.07): F1=0.222  violations=0.375
+
+▸ 13. Analyse de calibration…
+
+  ═══ Calibration Summary ═══
+  Colère              ECE=0.3671  [emotion]
+  Dégoût              ECE=0.1051  [emotion]
+  Joie                ECE=0.0367  [emotion]
+  Peur                ECE=0.0067  [emotion]
+  Surprise            ECE=0.0085  [emotion]
+  Tristesse           ECE=0.0371  [emotion]
+  Admiration          ECE=0.0006  [emotion]
+  Culpabilité         ECE=0.0029  [emotion]
+  Embarras            ECE=0.0255  [emotion]
+  Fierté              ECE=0.0035  [emotion]
+  Jalousie            ECE=0.0076  [emotion]
+  Autre               ECE=0.1640  [emotion]
+  Comportementale     ECE=0.0985  [mode]
+  Désignée            ECE=0.0728  [mode]
+  Montrée             ECE=0.3435  [mode]
+  Suggérée            ECE=0.0828  [mode]
+
+  Mean ECE (emotions): 0.0638
+  Mean ECE (modes):    0.1494
+
+▸ 14. Stratification par densité…
+
+  ═══ Density-Stratified Analysis ═══
+  Spearman(density, hamming_12): ρ=0.741, p=5.75e-137
+
+  Density bin 0 [0, 0] (n=343):
+    mean_err=0.0165  median=0.0000  exact_match=0.810
+
+  Density bin 1 [1, 1] (n=330):
+    mean_err=0.0891  median=0.0833  exact_match=0.176
+
+  Density bin 2 [2, 2] (n=95):
+    mean_err=0.1570  median=0.1667  exact_match=0.000
+
+  Density bin 3 [3, 3] (n=13):
+    mean_err=0.2179  median=0.2500  exact_match=0.000
+
+  Per-domain correlations:
+    Homophobie     : ρ=0.672  p=7.99e-15 ***  n=103
+    Obésité        : ρ=0.746  p=1.99e-67 ***  n=373
+    Racisme        : ρ=0.818  p=1.13e-49 ***  n=201
+    Religion       : ρ=0.668  p=8.97e-15 ***  n=104
+
+▸ 15. Stratification par longueur…
+
+  ═══ Length-Stratified Analysis ═══
+  Spearman(word_count, hamming_12): ρ=0.306, p=2.14e-18
+  Kruskal-Wallis: H=72.44, p=1.86e-16
+  Trend direction: increasing
+
+  Length bin 'short' [0, 4] (n=264):
+    mean_err=0.0445  median=0.0000  exact_match=0.576
+
+  Length bin 'medium' [5, 8] (n=277):
+    mean_err=0.0626  median=0.0833  exact_match=0.433
+
+  Length bin 'long' [9, 32] (n=240):
+    mean_err=0.0990  median=0.0833  exact_match=0.267
+
+▸ 16. Cross-stratification (densité × longueur)…
+
+  ═══ Cross-Stratification (Density × Length) ═══
+
+  Mean hamming_12:
+_l_bin   short  medium    long
+_d_bin                        
+0       0.0058  0.0177  0.0424
+1       0.0889  0.0888  0.0897
+2+      0.1667  0.1543  0.1680
+
+  Counts:
+_l_bin  short  medium  long
+_d_bin                     
+0         157     127    59
+1          90     123   117
+2+         17      27    64
+
+  Danger zones (highest error):
+    density=2+, length=long  mean_err=0.1680  n=64
+    density=2+, length=short  mean_err=0.1667  n=17
+    density=2+, length=medium  mean_err=0.1543  n=27
+    density=1, length=long  mean_err=0.0897  n=117
+    density=1, length=short  mean_err=0.0889  n=90
+
+▸ 17. Analyse densité contrôlée par domaine…
+
+  ═══ Domain-Controlled Density Analysis ═══
+  Homophobie       n=103  mean_density=0.77  mean_err=0.0809  ρ=0.672 p=7.99e-15 ***
+  Obésité          n=373  mean_density=0.70  mean_err=0.0634  ρ=0.746 p=1.99e-67 ***
+  Racisme          n=201  mean_density=0.66  mean_err=0.0609  ρ=0.818 p=1.13e-49 ***
+  Religion         n=104  mean_density=0.84  mean_err=0.0825  ρ=0.668 p=8.97e-15 ***
+
+▸ 18. Analyse univariée…
+
+  ═══ Analyse Univariée (top 10) ═══
+  insulte                    Mann-Whitney U      p=1.26e-12 ***  η²=97.945
+  HATE                       Kruskal-Wallis      p=1.65e-12 ***  η²=0.067
+  mépris / haine             Mann-Whitney U      p=1.46e-10 ***  η²=120.480
+  SENTIMENT                  Kruskal-Wallis      p=2.22e-09 ***  η²=0.049
+  INTENTION                  Kruskal-Wallis      p=3.79e-08 ***  η²=0.053
+  argot                      Mann-Whitney U      p=4.46e-04 ***  η²=73.165
+  abréviation                Mann-Whitney U      p=5.01e-04 ***  η²=29.096
+  domain                     Kruskal-Wallis      p=7.48e-03 **  η²=0.011
+  VERBAL_ABUSE               Kruskal-Wallis      p=1.05e-02 *  η²=0.016
+  interjection               Mann-Whitney U      p=1.99e-02 *  η²=31.404
+
+▸ 19. Analyse bivariée…
+
+  ═══ Analyse Bivariée — Top 10 paires ═══
+  VERBAL_ABUSE         × CONTEXT               range=0.136  max=0.183  min=0.048
+  ROLE                 × CONTEXT               range=0.119  max=0.119  min=0.000
+  VERBAL_ABUSE         × ironie                range=0.107  max=0.167  min=0.060
+  INTENTION            × domain                range=0.103  max=0.116  min=0.013
+  CONTEXT              × domain                range=0.102  max=0.119  min=0.017
+  HATE                 × domain                range=0.102  max=0.135  min=0.033
+  VERBAL_ABUSE         × interjection          range=0.102  max=0.159  min=0.057
+  CONTEXT              × SENTIMENT             range=0.099  max=0.099  min=0.000
+  INTENTION            × interjection          range=0.098  max=0.121  min=0.023
+  INTENTION            × CONTEXT               range=0.098  max=0.115  min=0.017
+
+▸ 20. Random Forest + SHAP…
+
+  ═══ Random Forest Regressor ═══
+  OOB R²         : 0.1786
+  CV R² (5-fold) : 0.1555 ± 0.0645
+  CV MAE (5-fold): 0.0518 ± 0.0031
+
+  Top 20 features (MDI importance) :
+     1. text_length                          0.3167
+     2. word_count                           0.1009
+     3. insulte                              0.0955
+     4. HATE_OAG                             0.0689
+     5. mépris / haine                       0.0641
+     6. VERBAL_ABUSE_DNG                     0.0428
+     7. abréviation                          0.0232
+     8. CONTEXT_DFN                          0.0172
+     9. has_question                         0.0169
+    10. ROLE_bully_support                   0.0169
+    11. domain_Obésité                       0.0160
+    12. VERBAL_ABUSE_OTH                     0.0150
+    13. argot                                0.0149
+    14. SENTIMENT_NEG                        0.0143
+    15. ROLE_victim_support                  0.0137
+    16. INTENTION_DFN                        0.0134
+    17. CONTEXT_ATK                          0.0134
+    18. interjection                         0.0107
+    19. TARGET_bully                         0.0107
+    20. TARGET_victim                        0.0103
+
+  Top 15 features (mean |SHAP|) :
+     1. text_length                          0.0140
+     2. insulte                              0.0077
+     3. mépris / haine                       0.0065
+     4. HATE_OAG                             0.0065
+     5. word_count                           0.0041
+     6. VERBAL_ABUSE_DNG                     0.0027
+     7. abréviation                          0.0019
+     8. argot                                0.0013
+     9. CONTEXT_DFN                          0.0012
+    10. SENTIMENT_NEG                        0.0011
+    11. INTENTION_DFN                        0.0010
+    12. has_question                         0.0009
+    13. interjection                         0.0008
+    14. ROLE_victim_support                  0.0008
+    15. TARGET_bully                         0.0008
+
+▸ 21. Règles d'association (FP-Growth)…
+
+  ═══ Association Rules (FP-Growth) ═══
+  Seuil erreur     : hamming_12 > 0.0833
+  Sous-pop HIGH    : 164 / 781 (21.0%)
+  Itemsets fréquents trouvés : 1185
+  Règles (lift >= 1.2) : 5660
+
+  Top 30 règles (HIGH ERROR) :
+    [SENTIMENT=NEU] → [HATE=NAG ∧ text_long]
+      support=0.085  conf=0.737  lift=5.75
+    [HATE=NAG ∧ text_long] → [SENTIMENT=NEU]
+      support=0.085  conf=0.667  lift=5.75
+    [SENTIMENT=NEU] → [HATE=NAG]
+      support=0.116  conf=1.000  lift=5.12
+    [HATE=NAG] → [SENTIMENT=NEU]
+      support=0.116  conf=0.594  lift=5.12
+    [SENTIMENT=NEU ∧ text_long] → [HATE=NAG]
+      support=0.085  conf=1.000  lift=5.12
+    [TARGET=bully ∧ VERBAL_ABUSE=OTH] → [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion]
+      support=0.085  conf=0.609  lift=4.34
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion] → [TARGET=bully ∧ VERBAL_ABUSE=OTH]
+      support=0.085  conf=0.609  lift=4.34
+    [INTENTION=DFN ∧ VERBAL_ABUSE=OTH ∧ domain=Religion] → [SENTIMENT=NEG ∧ TARGET=bully]
+      support=0.085  conf=1.000  lift=4.32
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ VERBAL_ABUSE=OTH ∧ domain=Religion] → [TARGET=bully]
+      support=0.085  conf=1.000  lift=4.32
+    [INTENTION=DFN ∧ VERBAL_ABUSE=OTH ∧ domain=Religion] → [TARGET=bully]
+      support=0.085  conf=1.000  lift=4.32
+    [CONTEXT=ATK ∧ ROLE=victim] → [INTENTION=DFN ∧ text_long]
+      support=0.104  conf=1.000  lift=4.21
+    [TARGET=bully ∧ domain=Religion] → [INTENTION=DFN ∧ VERBAL_ABUSE=OTH]
+      support=0.085  conf=0.737  lift=4.17
+    [TARGET=bully ∧ domain=Religion] → [INTENTION=DFN ∧ SENTIMENT=NEG ∧ VERBAL_ABUSE=OTH]
+      support=0.085  conf=0.737  lift=4.17
+    [SENTIMENT=NEG ∧ TARGET=bully ∧ domain=Religion] → [INTENTION=DFN ∧ VERBAL_ABUSE=OTH]
+      support=0.085  conf=0.737  lift=4.17
+    [ROLE=victim_support ∧ SENTIMENT=NEG] → [INTENTION=DFN ∧ TARGET=bully ∧ mépris / haine=1]
+      support=0.098  conf=0.571  lift=4.07
+    [INTENTION=DFN ∧ TARGET=bully ∧ mépris / haine=1] → [ROLE=victim_support ∧ SENTIMENT=NEG]
+      support=0.098  conf=0.696  lift=4.07
+    [TARGET=bully ∧ mépris / haine=1] → [INTENTION=DFN ∧ ROLE=victim_support ∧ SENTIMENT=NEG]
+      support=0.098  conf=0.667  lift=4.05
+    [INTENTION=DFN ∧ ROLE=victim_support ∧ SENTIMENT=NEG] → [TARGET=bully ∧ mépris / haine=1]
+      support=0.098  conf=0.593  lift=4.05
+    [INTENTION=DFN ∧ ROLE=victim_support ∧ text_long] → [TARGET=bully]
+      support=0.091  conf=0.937  lift=4.05
+    [INTENTION=DFN ∧ ROLE=victim_support ∧ SENTIMENT=NEG ∧ text_long] → [TARGET=bully]
+      support=0.091  conf=0.937  lift=4.05
+    [INTENTION=DFN ∧ ROLE=victim_support ∧ text_long] → [SENTIMENT=NEG ∧ TARGET=bully]
+      support=0.091  conf=0.937  lift=4.05
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion] → [CONTEXT=ATK ∧ TARGET=bully]
+      support=0.104  conf=0.739  lift=4.04
+    [CONTEXT=ATK ∧ TARGET=bully] → [INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion]
+      support=0.104  conf=0.567  lift=4.04
+    [HATE=OAG ∧ INTENTION=DFN ∧ domain=Religion] → [SENTIMENT=NEG ∧ TARGET=bully]
+      support=0.085  conf=0.933  lift=4.03
+    [HATE=OAG ∧ INTENTION=DFN ∧ domain=Religion] → [TARGET=bully]
+      support=0.085  conf=0.933  lift=4.03
+    [HATE=OAG ∧ INTENTION=DFN ∧ SENTIMENT=NEG ∧ domain=Religion] → [TARGET=bully]
+      support=0.085  conf=0.933  lift=4.03
+    [INTENTION=DFN ∧ VERBAL_ABUSE=OTH ∧ text_long] → [CONTEXT=ATK ∧ SENTIMENT=NEG ∧ TARGET=bully]
+      support=0.085  conf=0.737  lift=4.03
+    [INTENTION=DFN ∧ VERBAL_ABUSE=OTH ∧ text_long] → [CONTEXT=ATK ∧ TARGET=bully]
+      support=0.085  conf=0.737  lift=4.03
+    [INTENTION=DFN ∧ SENTIMENT=NEG ∧ VERBAL_ABUSE=OTH ∧ text_long] → [CONTEXT=ATK ∧ TARGET=bully]
+      support=0.085  conf=0.737  lift=4.03
+    [ROLE=victim_support ∧ SENTIMENT=NEG ∧ text_long] → [INTENTION=DFN ∧ mépris / haine=1]
+      support=0.085  conf=0.824  lift=3.97
+
+  Sous-pop EXACT MATCH : 336 / 781 (43.0%)
+  Top itemsets (EXACT MATCH) :
+    support=0.640  SENTIMENT=NEG
+    support=0.491  text_court
+    support=0.485  domain=Obésité
+    support=0.458  HATE=NAG
+    support=0.405  HATE=OAG
+    support=0.396  HATE=OAG ∧ SENTIMENT=NEG
+    support=0.354  VERBAL_ABUSE=OTH
+    support=0.351  SENTIMENT=NEG ∧ VERBAL_ABUSE=OTH
+    support=0.351  mépris / haine=1
+    support=0.345  ROLE=bully_support
+    support=0.342  SENTIMENT=NEU
+    support=0.327  HATE=NAG ∧ SENTIMENT=NEU
+    support=0.312  INTENTION=ATK
+    support=0.310  SENTIMENT=NEG ∧ domain=Obésité
+    support=0.304  SENTIMENT=NEG ∧ mépris / haine=1
+
+▸ 22. Visualisations…
+
+  ═══ Generating Plots ═══
+  ✓ error_distributions.png
+  ✓ per_label_error_decomposition.png + error_by_label_domain.png
+  ✓ 15 univariate plots
+  ✓ 10 bivariate heatmaps
+  ✓ rf_feature_importance.png
+  ✓ shap_summary.png + shap_bar.png
+  ✓ conditional heatmaps
+  ✓ interaction + error co-occurrence plots
+  ✓ logit_distributions.png
+  ✓ threshold_pareto.png
+  ✓ calibration_diagrams.png
+  ✓ density_stratification.png
+  ✓ cross_stratification.png
+  ✓ All plots saved to /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/old_golds/plots
+
+▸ 23. Génération du rapport…
+
+  ✓ Report: /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/old_golds/rapport_error_analysis.md
+  ✓ Report (txt): /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/old_golds/rapport_error_analysis.txt
+
+▸ 24. Export structuré…
+
+══════════════════════════════════════════════════════════════════════
+  ✓ Analyse terminée. Résultats dans : /content/EMOTYC/results/colab_t4_error_analysis/20260420T203317Z/old_golds
+══════════════════════════════════════════════════════════════════════
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

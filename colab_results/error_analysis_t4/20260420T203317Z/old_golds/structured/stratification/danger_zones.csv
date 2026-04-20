@@ -1,0 +1,10 @@
+﻿density_bin,length_bin,mean_error,n
+2+,long,0.168,64
+2+,short,0.1667,17
+2+,medium,0.1543,27
+1,long,0.0897,117
+1,short,0.0889,90
+1,medium,0.0888,123
+0,long,0.0424,59
+0,medium,0.0177,127
+0,short,0.0058,157

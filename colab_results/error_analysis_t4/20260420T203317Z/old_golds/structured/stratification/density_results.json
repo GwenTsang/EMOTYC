@@ -1,0 +1,126 @@
+{
+  "strata": [
+    {
+      "n": 343,
+      "mean_error": 0.0165,
+      "median_error": 0.0,
+      "std_error": 0.0351,
+      "exact_match_rate": 0.8105,
+      "per_label_f1": {
+        "Colère": 0.0,
+        "Dégoût": 0.0,
+        "Joie": 0.0,
+        "Peur": 0.0,
+        "Surprise": 0.0,
+        "Tristesse": 0.0,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 0.0,
+        "Jalousie": 0.0,
+        "Autre": 0.0
+      },
+      "emotion_no_mode_rate": 0.0,
+      "density_bin": "0",
+      "density_range": "[0, 0]"
+    },
+    {
+      "n": 330,
+      "mean_error": 0.0891,
+      "median_error": 0.0833,
+      "std_error": 0.0562,
+      "exact_match_rate": 0.1758,
+      "per_label_f1": {
+        "Colère": 0.328,
+        "Dégoût": 0.0,
+        "Joie": 0.4242,
+        "Peur": 0.6667,
+        "Surprise": 0.0,
+        "Tristesse": 0.1111,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 0.8571,
+        "Jalousie": 0.0,
+        "Autre": 0.1772
+      },
+      "emotion_no_mode_rate": 0.6424,
+      "density_bin": "1",
+      "density_range": "[1, 1]"
+    },
+    {
+      "n": 95,
+      "mean_error": 0.157,
+      "median_error": 0.1667,
+      "std_error": 0.0484,
+      "exact_match_rate": 0.0,
+      "per_label_f1": {
+        "Colère": 0.4211,
+        "Dégoût": 0.0,
+        "Joie": 0.0,
+        "Peur": 0.5,
+        "Surprise": 0.5,
+        "Tristesse": 0.0,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.4,
+        "Fierté": 0.0,
+        "Jalousie": 0.0,
+        "Autre": 0.1111
+      },
+      "emotion_no_mode_rate": 0.6105,
+      "density_bin": "2",
+      "density_range": "[2, 2]"
+    },
+    {
+      "n": 13,
+      "mean_error": 0.2179,
+      "median_error": 0.25,
+      "std_error": 0.0542,
+      "exact_match_rate": 0.0,
+      "per_label_f1": {
+        "Colère": 0.5,
+        "Dégoût": 0.0,
+        "Joie": 0.0,
+        "Peur": 0.6667,
+        "Surprise": 0.0,
+        "Tristesse": 0.5,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 0.0,
+        "Jalousie": 0.0,
+        "Autre": 0.0
+      },
+      "emotion_no_mode_rate": 0.3846,
+      "density_bin": "3",
+      "density_range": "[3, 3]"
+    }
+  ],
+  "spearman_global": {
+    "rho": 0.7412,
+    "p_value": 5.750262047803984e-137
+  },
+  "spearman_per_domain": {
+    "Homophobie": {
+      "rho": 0.6718,
+      "p_value": 7.987392925969697e-15,
+      "n": 103
+    },
+    "Obésité": {
+      "rho": 0.7458,
+      "p_value": 1.9905382177704845e-67,
+      "n": 373
+    },
+    "Racisme": {
+      "rho": 0.818,
+      "p_value": 1.1269153951320988e-49,
+      "n": 201
+    },
+    "Religion": {
+      "rho": 0.6684,
+      "p_value": 8.967967693233143e-15,
+      "n": 104
+    }
+  }
+}
