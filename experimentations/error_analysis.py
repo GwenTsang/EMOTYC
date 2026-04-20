@@ -22,9 +22,6 @@ Usage:
     # Full pipeline (inference + analysis) — optimized thresholds, no context
     python experimentations/error_analysis.py
 
-    # With neighbor context (i-1, i, i+1)
-    python experimentations/error_analysis.py --use-context
-
     # Fixed 0.5 thresholds
     python experimentations/error_analysis.py --no-optimized-thresholds
 
@@ -83,7 +80,7 @@ def parse_args():
     p.add_argument("--predictions-dir", type=str,
                     default=str(config.PROJECT_ROOT / "outputs"),
                     help="Directory with pre-computed JSONL predictions")
-    p.add_argument("--batch-size", type=int, default=16)
+    p.add_argument("--batch-size", type=int, default=64)
     p.add_argument("--device", type=str, default=None)
     p.add_argument("--min-support", type=float, default=0.08,
                     help="Minimum support for FP-Growth")
