@@ -285,7 +285,6 @@ def compute_annotation_violations(df):
         6. cpx_no_complex:    Complex emotion active but Complexe=0
         7. mode_no_emotion:   Mode active but no emotion (M>0, E=0)
         8. emotion_no_mode:   Emotion active but no mode (E>0, M=0)
-        9. modes_gt_emotions: Number of active modes > number of active emotions
 
     Returns
     -------
@@ -305,7 +304,6 @@ def compute_annotation_violations(df):
     # Predicted emotion activity
     pred_emotions = np.column_stack([_pred(e) for e in config.EMOTION_12])
     any_emotion = pred_emotions.sum(axis=1) > 0
-    n_emotions = pred_emotions.sum(axis=1)
 
     # Predicted basic / complex emotion activity
     pred_basic = np.column_stack([_pred(e) for e in config.BASIC_EMOTIONS])
@@ -317,7 +315,6 @@ def compute_annotation_violations(df):
     # Predicted mode activity
     pred_modes = np.column_stack([_pred(m) for m in config.MODES_4])
     any_mode = pred_modes.sum(axis=1) > 0
-    n_modes = pred_modes.sum(axis=1)
 
     # Emo, Base, Complexe
     pred_emo = _pred("Emo")
@@ -333,7 +330,6 @@ def compute_annotation_violations(df):
     violations["cpx_no_complex"] = (any_complex & (pred_complexe == 0)).astype(int)
     violations["mode_no_emotion"] = (any_mode & ~any_emotion).astype(int)
     violations["emotion_no_mode"] = (any_emotion & ~any_mode).astype(int)
-    violations["modes_gt_emotions"] = (n_modes > n_emotions).astype(int)
     violations["any_violation"] = (violations.sum(axis=1) > 0).astype(int)
     violations["n_violations"] = violations.drop(
         columns=["any_violation"]
