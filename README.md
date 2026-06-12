@@ -1,97 +1,57 @@
 # EMOTYC — Évaluation et Analyse d'Erreurs du modèle
 
-Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle [EMOTYC](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids) sur le corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) qui contient des messages de cyberharcèlement en français, rédigés par des jeunes entre 11 et 18 ans.
+Pipeline d'évaluation, d'analyse d'erreurs et de vérification de cohérence du modèle [EMOTYC](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids) sur le corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large), un corpus de messages de cyberharcèlement en français rédigés par des jeunes entre 11 et 18 ans.
 
+---
 
 ## Table des matières
 
 - [Contexte](#contexte)
 - [Le modèle EMOTYC](#le-modèle-emotyc)
+  - [Les 19 labels](#les-19-labels-du-modèle)
+  - [Contraintes logiques du schéma d'annotation](#contraintes-logiques-du-schéma-dannotation)
+- [Installation](#installation)
+- [Démarrage rapide](#démarrage-rapide)
 - [Architecture du repository](#architecture-du-repository)
 - [Données](#données)
+  - [Corpus source](#corpus-source-data)
+  - [Annotations gold](#annotations-gold-golds)
+  - [Annotations gold mises à jour](#annotations-gold-mises-à-jour-new_golds)
 - [Scripts principaux](#scripts-principaux)
-  - [`inference.py` — Inférence unitaire et comparaison au gold](#1-inferencepy--inférence-unitaire-et-comparaison-au-gold)
-  - [`emotyc_batch_predict.py` — Inférence batch multi-fichiers](#2-emotyc_batch_predictpy--inférence-batch-multi-fichiers)
-  - [`emotyc_sanity_check.py` — Vérification de cohérence logique](#3-emotyc_sanity_checkpy--vérification-de-cohérence-logique)
-  - [`emotyc_pipeline.py` — Orchestrateur du pipeline complet](#4-emotyc_pipelinepy--orchestrateur-du-pipeline-complet)
+  - [emotyc_predict.py — Inférence unitaire](#1-emotyc_predictpy--inférence-unitaire-et-comparaison-au-gold)
+  - [emotyc_batch_predict.py — Inférence batch](#2-emotyc_batch_predictpy--inférence-batch-multi-fichiers)
+  - [emotyc_sanity_check.py — Vérification de cohérence](#3-emotyc_sanity_checkpy--vérification-de-cohérence)
+  - [emotyc_pipeline.py — Orchestrateur](#4-emotyc_pipelinepy--orchestrateur-du-pipeline-complet)
 - [Scripts d'expérimentation](#scripts-dexpérimentation)
-  - [`distribution_analysis.py` — Analyse distributionnelle comparative](#5-distribution_analysispy--analyse-distributionnelle-comparative)
-  - [`error_analysis.py` — Pipeline d'analyse d'erreurs modulaire](#6-error_analysispy--pipeline-danalyse-derreurs-modulaire)
+  - [distribution_analysis.py](#5-distribution_analysispy--analyse-distributionnelle-comparative)
+  - [error_analysis.py](#6-error_analysispy--pipeline-danalyse-derreurs-modulaire)
 - [Conditions expérimentales](#conditions-expérimentales)
 - [Template BCA](#template-bca)
-- [Seuils de décision](#seuils-de-décision)
 - [Documentation](#documentation)
 
-
-# Utilisation
-
-### Prérequis
-
-- Python ≥ 3.10
-
-Installer les dépendances :
-
-```bash
-pip install -r requirements.txt
-```
-
-
-### Lancer le pipeline complet :
-
-```bash
-python scripts/emotyc_pipeline.py \
-    --input-dir golds/ \
-    --out-dir results/sanity_pipeline \
-    --batch-size 32
-```
-
-### Analyser les erreurs :
-
-```bash
-python experimentations/error_analysis.py \
-    --out-dir experimentations/error_analysis_results
-```
-
-### Inférence simple (paramètres recommandés)
-
-```bash
-python scripts/inference.py \
-    --xlsx golds/racisme/racisme_annotations_gold_flat.xlsx \
-    --out_dir results/racisme_eval \
-    --no-optimized-thresholds \
-    --mode-threshold 0.06
-```
-
-Ce qui lançe une inférence avec des seuils à 0.06 pour les modes d'expression, seuils à 0.5 pour les émotions, avec le templace bca, et sans les phrases adjacentes.
-
-Ces scripts d'inférence ont été conçus pour GPU NVIDIA et testés sur Tesla T4.
-
-
-Vérifier la cohérence des gold labels selon certaines règles spécifiées :
-
-```bash
-python scripts/emotyc_sanity_check.py \
-    --input golds/religion/religion_gold_flat.xlsx \
-    --out-dir results/sanity_gold \
-    --prefix ""
-```
+---
 
 ## Contexte
 
-Ce repository a pour objectif d'évaluer les performances et la cohérence structurelle du modèle EMOTYC lorsqu'il est appliqué à des données hors de sa distribution d'entraînement. Le modèle a été entraîné sur le corpus [EmoTextToKids](https://huggingface.co/datasets/TextToKids/EmoTextToKids-sentences) et est ici testé sur quatre corpus de cyberharcèlement en français, couvrant quatre thématiques : homophobie, obésité, racisme et religion.
+Ce repository a pour objectif d'évaluer les performances et la cohérence structurelle du modèle EMOTYC lorsqu'il est appliqué à des données **hors de sa distribution d'entraînement** (OOD). Le modèle a été entraîné sur le corpus [EmoTextToKids](https://huggingface.co/datasets/TextToKids/EmoTextToKids-sentences) et est ici testé sur quatre sous-corpus de cyberharcèlement en français couvrant quatre thématiques : **homophobie**, **obésité**, **racisme** et **religion**.
 
 L'analyse porte sur trois axes principaux :
 
 1. **Évaluation des performances** — comparaison des prédictions EMOTYC aux annotations gold (humaines) via des métriques standard (F1, précision, rappel, kappa de Cohen, exact match).
 2. **Vérification de cohérence logique** — *sanity checks* vérifiant que les prédictions du modèle respectent les contraintes logiques internes du schéma d'annotation (ex. : si une émotion est détectée, le flag `Emo` doit être activé).
-3. **Analyse d'erreurs approfondie** — identification des profils d'erreurs, des facteurs explicatifs, et des pistes d'amélioration.
+3. **Analyse d'erreurs approfondie** — identification des profils d'erreurs, des facteurs explicatifs et des pistes d'amélioration.
+
+---
 
 ## Le modèle EMOTYC
 
-**Modèle** : [`TextToKids/CamemBERT-base-EmoTextToKids`](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids)
-**Tokenizer** : `camembert-base`
-**Architecture** : CamemBERT-base avec une tête de classification multi-label (sigmoid, `problem_type=multi_label_classification`)
-**Fine-tuning** : `add_special_tokens=False` (la tête de classification lit le premier subword token du texte, pas le token `<s>`)
+| Propriété | Valeur |
+|:----------|:-------|
+| **Modèle** | [`TextToKids/CamemBERT-base-EmoTextToKids`](https://huggingface.co/TextToKids/CamemBERT-base-EmoTextToKids) |
+| **Tokenizer** | `camembert-base` |
+| **Architecture** | CamemBERT-base + tête de classification multi-label (sigmoid, `problem_type=multi_label_classification`) |
+| **Fine-tuning** | `add_special_tokens=False` (la tête de classification lit le premier subword token du texte, pas le token `<s>`) |
+| **Inférence locale** | ONNX Runtime via [`GwendalTsang/EMOTYC-ONNX`](https://huggingface.co/GwendalTsang/EMOTYC-ONNX) |
 
 ### Les 19 labels du modèle
 
@@ -125,21 +85,96 @@ Le modèle produit un vecteur de 19 logits, organisés en 5 groupes sémantiques
 
 Les 19 labels ne sont pas indépendants. Ils sont liés par des implications logiques :
 
-1. `Emo=1` si et seulement s'il existe au moins une émotion active.
-2. `Base=1` si et seulement s'il existe au moins une émotion de base (Colère, Dégoût, Joie, Peur, Surprise, Tristesse).
-3. `Complexe=1` si et seulement s'il existe au moins une émotion complexe (Admiration, Culpabilité, Embarras, Fierté, Jalousie).
-4. **Modes ↔ Émotions** : si des émotions sont actives (E>0), au moins un mode doit l'être (M≥1) ; si aucune émotion (E=0), aucun mode (M=0). Cela détecte aussi si le nombre de mode dépasse le nombre d'émotions, mais, en réalité, ce n'est pas une erreur, car il pouvait y avoir deux segments textuels rattachés à la même émotions exprimée sur des modes différents.
+1. **`Emo` ↔ Émotions** : `Emo=1` si et seulement s'il existe au moins une émotion active.
+2. **`Base` ↔ Émotions de base** : `Base=1` si et seulement s'il existe au moins une émotion de base (Colère, Dégoût, Joie, Peur, Surprise, Tristesse).
+3. **`Complexe` ↔ Émotions complexes** : `Complexe=1` si et seulement s'il existe au moins une émotion complexe (Admiration, Culpabilité, Embarras, Fierté, Jalousie).
+4. **Modes ↔ Émotions** : si des émotions sont actives (E>0), au moins un mode doit l'être (M≥1) ; si aucune émotion (E=0), aucun mode (M=0). Le cas M > E n'est pas strictement une erreur (plusieurs modes pour une même émotion), mais il est détecté et signalé.
 
+---
+
+## Installation
+
+### Prérequis
+
+- Python ≥ 3.10
+- `curl` ou `wget` (pour le téléchargement du modèle ONNX)
+- GPU NVIDIA recommandé (testé sur Tesla T4) — le CPU fonctionne aussi
+
+### Setup
+
+```bash
+bash setup.sh
+```
+
+Ce script :
+1. Installe les dépendances Python depuis `requirements.txt`
+2. Télécharge les artefacts ONNX dans `model_onnx/` depuis [`GwendalTsang/EMOTYC-ONNX`](https://huggingface.co/GwendalTsang/EMOTYC-ONNX) :
+   - `model.onnx` — poids du modèle
+   - `tokenizer.json` — tokenizer CamemBERT
+   - `config.json` — configuration du modèle
+3. Vérifie l'intégrité des fichiers via SHA-256
+
+Le script est entièrement configurable via des variables d'environnement (voir `bash setup.sh --help`).
+
+---
+
+## Démarrage rapide
+
+### Pipeline complet (8 conditions expérimentales)
+
+```bash
+python scripts/emotyc_pipeline.py \
+    --input-dir golds/ \
+    --out-dir results/sanity_pipeline \
+    --batch-size 32
+```
+
+### Inférence unitaire (paramètres recommandés)
+
+```bash
+python scripts/emotyc_predict.py \
+    --xlsx golds/racisme/racisme_annotations_gold_flat.xlsx \
+    --out_dir results/racisme_eval \
+    --no-optimized-thresholds \
+    --mode-threshold 0.06
+```
+
+Lance une inférence avec un seuil de 0.06 pour les modes d'expression, des seuils de 0.5 pour les émotions, avec le template BCA, sans les phrases adjacentes.
+
+### Analyse d'erreurs
+
+```bash
+python experimentations/error_analysis.py \
+    --out-dir experimentations/error_analysis_results
+```
+
+### Vérification de cohérence des gold labels
+
+```bash
+python scripts/emotyc_sanity_check.py \
+    --input golds/religion/religion_gold_flat.xlsx \
+    --out-dir results/sanity_gold \
+    --prefix ""
+```
+
+---
 
 ## Architecture du repository
 
 ```
 EMOTYC/
+├── setup.sh                          # Installe les dépendances et télécharge le modèle ONNX
+├── requirements.txt                  # Dépendances Python
+├── model_onnx/                       # Créé par setup.sh (non versionné)
+│   ├── model.onnx
+│   ├── tokenizer.json
+│   └── config.json
+│
 ├── scripts/                          # Scripts principaux du pipeline
-│   ├── inference.py                  # Inférence unitaire + comparaison gold
+│   ├── emotyc_predict.py             # Inférence unitaire + comparaison gold
 │   ├── emotyc_batch_predict.py       # Inférence batch multi-fichiers (Script 1/3)
 │   ├── emotyc_sanity_check.py        # Vérification de cohérence logique (Script 2/3)
-│   ├── emotyc_pipeline.py            # Orchestrateur pipeline complet (Script 3/3)
+│   └── emotyc_pipeline.py            # Orchestrateur pipeline complet (Script 3/3)
 │
 ├── experimentations/                 # Scripts d'expérimentation et d'analyse
 │   ├── distribution_analysis.py      # Analyse distributionnelle comparative
@@ -156,15 +191,10 @@ EMOTYC/
 │   │   ├── explainability.py         # Random Forest + SHAP, règles d'association
 │   │   ├── visualization.py          # Toutes les fonctions de visualisation
 │   │   └── report.py                 # Génération de rapports textuels
-│   ├── error_analysis_results/       # Résultats de l'analyse d'erreurs
-│   └── AnalysePeformanceEmotycLLMJudge/  # Évaluation complémentaire par LLM-judge
+│   └── error_analysis_results/       # Résultats de l'analyse d'erreurs (non versionné)
 │
 ├── data/                             # Données sources (corpus bruts)
-│   ├── CyberBullyingExperiment.parquet   # Corpus complet cyberharcèlement
-│   ├── homophobie.xlsx               # Sous-corpus homophobie
-│   ├── obésité.xlsx                  # Sous-corpus obésité
-│   ├── racisme.xlsx                  # Sous-corpus racisme
-│   └── religion.xlsx                 # Sous-corpus religion
+│   └── CyberAdoAgg_gold_global_total_latest.xlsx
 │
 ├── golds/                            # Annotations gold (vérité terrain)
 │   ├── homophobie/
@@ -176,6 +206,12 @@ EMOTYC/
 │   └── religion/
 │       └── religion_gold_flat.xlsx
 │
+├── new_golds/                        # Annotations gold mises à jour
+│   ├── homophobie_annotations_gold_flat_updated.xlsx
+│   ├── obésité_annotations_gold_flat_updated.xlsx
+│   ├── racisme_annotations_gold_flat_updated.xlsx
+│   └── religion_annotations_gold_flat_updated.xlsx
+│
 ├── results/                          # Résultats des évaluations
 │   └── sanity_gold/                  # Rapports sanity check sur les gold labels
 │       ├── sanity_homophobie_annotations_gold_flat.json
@@ -185,18 +221,19 @@ EMOTYC/
 │
 ├── Documentation/                    # Documentation de référence
 │   ├── Features.md                   # Description des features du corpus CyberBullying
-│   ├── sanity_checks.md              # Analyse détaillée des résultats de sanity check
-│   └── emotexttokids_gold_flat.xlsx  # Gold labels du corpus d'entraînement EmoTextToKids
+│   ├── sanity_checks.md              # Analyse des résultats de sanity check
+│   └── emotyc_paper.tex              # Article scientifique associé au projet
 │
-├── requirements.txt                  # Dépendances Python
 └── README.md
 ```
+
+---
 
 ## Données
 
 ### Corpus source (`data/`)
 
-Quelques détails sur le corpus [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large) :
+Le fichier `CyberAdoAgg_gold_global_total_latest.xlsx` contient le corpus consolidé issu de [CyberAgression-Large](https://github.com/aollagnier/CyberAgression-Large).
 
 Chaque ligne correspond à un message dans une conversation et contient :
 - **`TEXT`** — le texte du message
@@ -219,10 +256,15 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 | Racisme | `racisme_annotations_gold_flat.xlsx` |
 | Religion | `religion_gold_flat.xlsx` |
 
+### Annotations gold mises à jour (`new_golds/`)
+
+Le dossier `new_golds/` contient des versions révisées des annotations gold (`*_updated.xlsx`), intégrant des corrections issues des vérifications de cohérence et des retours d'annotation.
+
+---
 
 ## Scripts principaux
 
-### 1. `inference.py` — Inférence unitaire et comparaison au gold
+### 1. `emotyc_predict.py` — Inférence unitaire et comparaison au gold
 
 **Rôle** : Charge le modèle EMOTYC, applique les prédictions sur chaque ligne d'un fichier gold label, compare les résultats aux annotations humaines, et exporte des métriques détaillées.
 
@@ -236,13 +278,12 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 - Calcul de métriques par label : accuracy, kappa de Cohen, F1, précision, rappel
 - Métriques globales : macro-F1, micro-F1, exact match
 - Identification des divergences individuelles (faux positifs / faux négatifs) avec probabilités
-- Seuil configurable pour les modes d'expression (`--mode-threshold`)
+- Seuils configurables indépendamment pour chaque catégorie de label
 
 **Sorties** :
 - `emotyc_predictions.jsonl` — résultats détaillés ligne par ligne
 - `emotyc_predictions_output.xlsx` — prédictions binaires exportées
 - `emotyc_predictions_summary.json` — résumé des métriques
-
 
 **Arguments** :
 
@@ -255,6 +296,10 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 | `--batch-size` | Taille du batch d'inférence | `16` |
 | `--device` | Device PyTorch (`cuda`, `cpu`) | auto-détection |
 | `--mode-threshold` | Seuil pour les modes d'expression | `0.5` |
+| `--no-optimized-thresholds` | Désactiver les seuils optimisés par émotion | `False` |
+| `--emo-threshold` | Seuil pour le label `Emo` | `0.5` |
+| `--base-complexe-threshold` | Seuil pour `Base` et `Complexe` | `0.5` |
+| `--autre-threshold` | Seuil pour le label `Autre` | `0.5` |
 
 
 ### 2. `emotyc_batch_predict.py` — Inférence batch multi-fichiers
@@ -268,9 +313,20 @@ Les fichiers gold sont des XLSX « aplatis » (*gold flat*) contenant les annota
 - Stockage des probabilités, prédictions binaires et seuils pour les 19 labels
 - Export en CSV unique par condition
 
-**Usage** :
+**Arguments** :
 
-Condition par défaut (bca template, seuils optimisés, sans contexte) :
+| Argument | Description | Défaut |
+|:---------|:------------|:-------|
+| `--input-dir` | Répertoire contenant les fichiers XLSX | *requis* |
+| `--out-dir` | Dossier de sortie | *requis* |
+| `--use-context` | Utiliser les phrases voisines | `False` |
+| `--no-template` | Phrase brute sans template BCA | `False` |
+| `--no-optimized-thresholds` | Seuils fixes à 0.5 partout | `False` |
+| `--batch-size` | Taille du batch d'inférence | `32` |
+| `--device` | Device PyTorch | auto-détection |
+| `--mode-threshold` | Seuil pour les modes d'expression | `0.5` |
+
+**Usage** :
 
 ```bash
 python scripts/emotyc_batch_predict.py \
@@ -279,7 +335,7 @@ python scripts/emotyc_batch_predict.py \
 ```
 
 
-### 3. `emotyc_sanity_check.py` — Vérification de cohérence avec la théorie du schéma d'annotation
+### 3. `emotyc_sanity_check.py` — Vérification de cohérence
 
 **Rôle** : Script 2/3 du pipeline modulaire. Vérifie que les prédictions (ou les gold labels) respectent les contraintes logiques internes du schéma d'annotation EMOTYC. Fonctionne de manière agnostique via un préfixe configurable (`pred_` pour les prédictions, `""` pour les gold labels).
 
@@ -292,7 +348,7 @@ python scripts/emotyc_batch_predict.py \
 | **Modes ↔ Émotions** | `E=0 ⇒ M=0`, `E>0 ⇒ M≥1`, `M ≤ E` | Mode sans émotion, émotion sans mode, M > E |
 
 **Sorties** :
-- Tableau synthétique avec le nombre de violations, et des exemples.
+- Tableau synthétique avec le nombre de violations et des exemples
 - Rapport JSON exporté avec détails et comptages
 
 **Usage** :
@@ -344,6 +400,7 @@ python scripts/emotyc_pipeline.py \
     --sanity-only
 ```
 
+---
 
 ## Scripts d'expérimentation
 
@@ -363,7 +420,7 @@ python scripts/emotyc_pipeline.py \
 
 ### 6. `error_analysis.py` — Pipeline d'analyse d'erreurs modulaire
 
-**Rôle** : Orchestrateur d'un pipeline d'analyse d'erreurs en 9 phases et 23 étapes, structuré en sous-modules spécialisés dans `experimentations/analysis/`.
+**Rôle** : Orchestrateur d'un pipeline d'analyse d'erreurs en **9 phases** et **23 étapes**, structuré en sous-modules spécialisés dans `experimentations/analysis/`.
 
 **Phases du pipeline** :
 
@@ -384,7 +441,7 @@ python scripts/emotyc_pipeline.py \
 | Module | Responsabilité |
 |:-------|:---------------|
 | `config.py` | Constantes, chemins, mappings des 19 labels, seuils optimisés, définitions des features |
-| `data_loader.py` | Chargement des 4 XLSX OOD, nettoyage des colonnes qualitatives/binaires, features textuelles dérivées (longueur, % majuscules, ponctuation), construction de la matrice de features pour RF/SHAP |
+| `data_loader.py` | Chargement des 4 XLSX OOD, nettoyage des colonnes, features textuelles dérivées (longueur, % majuscules, ponctuation), construction de la matrice de features pour RF/SHAP |
 | `inference.py` | Inférence EMOTYC avec cache des prédictions pré-calculées (JSONL) |
 | `metrics.py` | Hamming loss, Jaccard error, Brier score decomposition, violations du schéma d'annotation |
 | `conditional.py` | Analyse conditionnelle des erreurs modes ↔ émotions, matrice d'interaction, profils de combinaisons |
@@ -411,10 +468,11 @@ python experimentations/error_analysis.py \
     --from-csv experimentations/error_analysis_results/analysis_data.csv
 ```
 
+---
 
 ## Conditions expérimentales
 
-Le pipeline explore systématiquement 8 conditions, correspondant au produit cartésien de 3 paramètres binaires :
+Le pipeline explore systématiquement **8 conditions**, correspondant au produit cartésien de 3 paramètres binaires :
 
 | Paramètre | Valeurs | Description |
 |:-----------|:--------|:------------|
@@ -426,6 +484,7 @@ Le pipeline explore systématiquement 8 conditions, correspondant au produit car
 
 La **condition canonique** est `ctx0_thr1_tpl1` (marquée ★), correspondant à la configuration la plus proche de l'usage officiel du modèle.
 
+---
 
 ## Template BCA
 
@@ -447,12 +506,11 @@ before:{phrase i-1}</s>current:{phrase i}</s>after:{phrase i+1}</s>
 
 Nos expérimentations montrent que le template BCA améliore la cohérence de +9pp en in-domain et de **+34pp en OOD**. C'est un stabilisateur structurel critique pour les données hors-domaine. En revanche, le contexte dégrade la cohérence en OOD (−9pp) alors qu'il l'améliore légèrement en in-domain (+0.3pp).
 
+### Seuils des modes et méta-labels
 
+Les modes d'expression (`Comportementale`, `Désignée`, `Montrée`, `Suggérée`), `Emo`, `Base`, `Complexe` et `Autre` utilisent un seuil fixe de **0.5** par défaut. Le seuil des modes est configurable via `--mode-threshold`. Les seuils de `Emo`, `Base`/`Complexe` et `Autre` sont configurables indépendamment via `--emo-threshold`, `--base-complexe-threshold` et `--autre-threshold`.
 
-### Seuil des modes et méta-labels
-
-Les modes d'expression (`Comportementale`, `Désignée`, `Montrée`, `Suggérée`), `Emo`, `Base`, `Complexe` et `Autre` utilisent un seuil fixe de **0.5** par défaut. Le seuil des modes est configurable via `--mode-threshold`.
-
+---
 
 ## Documentation
 
@@ -462,4 +520,4 @@ Le dossier `Documentation/` contient :
 |:--------|:------------|
 | `Features.md` | Description détaillée des 7 niveaux d'annotation du corpus CyberBullying (rôle, agressivité, cible, abus verbal, intention, contexte, sentiment) |
 | `sanity_checks.md` | Analyse comparative détaillée des résultats de sanity check : in-domain (27 911 samples) vs OOD (781 samples), effet du template, du contexte, des seuils, analyse par type de violation, recommandations |
-| `emotexttokids_gold_flat.xlsx` | Gold labels du corpus d'entraînement EmoTextToKids (27 911 phrases) pour comparaison distributionnelle |
+| `emotyc_paper.tex` | Article scientifique associé au projet EMOTYC |

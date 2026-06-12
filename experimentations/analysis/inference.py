@@ -8,6 +8,7 @@ predictions from JSONL files.
 """
 
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -15,22 +16,44 @@ import pandas as pd
 
 from . import config
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_MODEL_DIR = PROJECT_ROOT / "model_onnx"
+MODEL_DOWNLOAD_HINT = "Run `bash setup.sh` from the EMOTYC repository root."
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  INTERNAL HELPERS
 # ═══════════════════════════════════════════════════════════════════════════
 
+def _resolve_model_paths():
+    """Resolve local ONNX artifacts, with environment overrides."""
+    model_dir = Path(os.environ.get("EMOTYC_MODEL_DIR", DEFAULT_MODEL_DIR)).expanduser()
+    onnx_path = Path(os.environ.get("EMOTYC_ONNX_PATH", model_dir / "model.onnx")).expanduser()
+    tokenizer_path = Path(
+        os.environ.get("EMOTYC_TOKENIZER_PATH", model_dir / "tokenizer.json")
+    ).expanduser()
+    return onnx_path, tokenizer_path
+
+
+def _require_model_artifacts(onnx_path, tokenizer_path):
+    missing = [str(path) for path in (onnx_path, tokenizer_path) if not path.exists()]
+    if missing:
+        raise FileNotFoundError(
+            "Missing EMOTYC ONNX artifact(s): "
+            + ", ".join(missing)
+            + f". {MODEL_DOWNLOAD_HINT}"
+        )
+
+
 def _load_emotyc_model(device_name=None):
     """Charge le modèle EMOTYC ONNX et le tokenizer."""
-    import os
     import onnxruntime as ort
     from tokenizers import Tokenizer
 
-    model_dir = "/workspaces/workspace/Eval-EMOTYC/model_onnx"
-    onnx_path = os.path.join(model_dir, "model.onnx")
-    tokenizer_path = os.path.join(model_dir, "tokenizer.json")
+    onnx_path, tokenizer_path = _resolve_model_paths()
+    _require_model_artifacts(onnx_path, tokenizer_path)
 
-    tokenizer = Tokenizer.from_file(tokenizer_path)
+    tokenizer = Tokenizer.from_file(str(tokenizer_path))
     tokenizer.enable_truncation(max_length=512)
 
     options = ort.SessionOptions()
@@ -51,10 +74,10 @@ def _load_emotyc_model(device_name=None):
     if use_cuda and "CUDAExecutionProvider" in available_providers:
         providers.insert(0, "CUDAExecutionProvider")
 
-    model = ort.InferenceSession(onnx_path, sess_options=options, providers=providers)
+    model = ort.InferenceSession(str(onnx_path), sess_options=options, providers=providers)
 
     device_str = "cuda" if "CUDAExecutionProvider" in providers else "cpu"
-    print(f"  ✓ Modèle EMOTYC ONNX chargé sur {device_str}")
+    print(f"  ✓ Modèle EMOTYC ONNX chargé sur {device_str} ({onnx_path})")
     return tokenizer, model
 
 

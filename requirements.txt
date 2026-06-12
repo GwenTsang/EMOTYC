@@ -16,5 +16,7 @@ shap
 mlxtend
 
 # EMOTYC local inference
+onnxruntime
+tokenizers
 torch
 transformers
