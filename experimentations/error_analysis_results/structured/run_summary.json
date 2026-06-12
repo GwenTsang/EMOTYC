@@ -1,0 +1,20 @@
+{
+  "n_rows": 781,
+  "eval_labels": [
+    "Colère",
+    "Dégoût",
+    "Joie",
+    "Peur",
+    "Surprise",
+    "Tristesse",
+    "Admiration",
+    "Culpabilité",
+    "Embarras",
+    "Fierté",
+    "Jalousie",
+    "Autre"
+  ],
+  "domains": {
+    "CyberAggAdo": 781
+  }
+}

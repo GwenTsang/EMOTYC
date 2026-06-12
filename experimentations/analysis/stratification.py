@@ -262,23 +262,9 @@ def length_stratified_analysis(df, metric="hamming_12"):
     else:
         spearman = {"rho": np.nan, "p_value": np.nan}
 
-    # ── Jonckheere-Terpstra trend test (Mann-Whitney based approx.) ──
-    # Tests H₁: mean(short) ≤ mean(medium) ≤ mean(long)
+    # ── Length-group trend summary ──────────────────────────────────────
     trend_test = {}
     if len(group_arrays) >= 3:
-        # Pairwise Mann-Whitney U as a proxy for JT
-        U_stat = 0
-        n_pairs = 0
-        for i in range(len(group_arrays)):
-            for j in range(i + 1, len(group_arrays)):
-                if len(group_arrays[i]) > 0 and len(group_arrays[j]) > 0:
-                    u, _ = stats.mannwhitneyu(
-                        group_arrays[i], group_arrays[j],
-                        alternative="less"
-                    )
-                    U_stat += u
-                    n_pairs += 1
-        # Overall Kruskal-Wallis
         kw_stat, kw_p = stats.kruskal(*[g for g in group_arrays if len(g) > 0])
         trend_test = {
             "kruskal_stat": round(kw_stat, 4),

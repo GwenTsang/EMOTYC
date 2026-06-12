@@ -165,8 +165,7 @@ def threshold_sweep_modes(df, thresholds=None):
             Full sweep results (mode, threshold, f1, precision, recall,
             violation_rate)
         "optimal_thresholds" : dict
-            {mode: optimal_threshold} — maximizes F1 among thresholds
-            where violation_rate < current_violation_rate
+            {mode: optimal_threshold} — maximizes F1
         "pareto_front" : dict
             {mode: [(threshold, f1, violation_rate), ...]}
     """
@@ -180,12 +179,8 @@ def threshold_sweep_modes(df, thresholds=None):
         print("  ⚠ Colonnes mode/proba manquantes. Threshold sweep sauté.")
         return {}
 
-    # Check which emotions are active per sample (gold)
+    # Emotions used to compute the annotation-scheme violation rate.
     emotions = [e for e in config.EMOTION_12 if e in df.columns]
-    if emotions:
-        any_emotion_gold = df[emotions].sum(axis=1) > 0
-    else:
-        any_emotion_gold = pd.Series(False, index=df.index)
 
     sweep_rows = []
     optimal_thresholds = {}
@@ -194,11 +189,6 @@ def threshold_sweep_modes(df, thresholds=None):
     for mode in modes:
         gold = df[mode].values.astype(int)
         probas = df[f"proba_{mode}"].values.astype(float)
-
-        # Current violation rate at threshold 0.5
-        pred_05 = (probas >= 0.5).astype(int)
-        any_mode_05 = pred_05  # single mode contributes to any_mode
-        current_viol = _compute_violation_rate(df, mode, 0.5, emotions.copy())
 
         best_f1 = -1
         best_thr = 0.5

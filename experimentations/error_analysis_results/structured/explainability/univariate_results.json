@@ -1,0 +1,572 @@
+[
+  {
+    "feature": "HATE",
+    "test": "Kruskal-Wallis",
+    "statistic": 69.1087,
+    "p_value": 9.84569656020399e-16,
+    "eta_squared": 0.0863,
+    "n_levels": 3,
+    "levels": [
+      {
+        "level": "OAG",
+        "n": 427,
+        "mean_error": 0.0781,
+        "median_error": 0.0833,
+        "std_error": 0.0698
+      },
+      {
+        "level": "CAG",
+        "n": 93,
+        "mean_error": 0.043,
+        "median_error": 0.0,
+        "std_error": 0.0571
+      },
+      {
+        "level": "NAG",
+        "n": 261,
+        "mean_error": 0.0377,
+        "median_error": 0.0,
+        "std_error": 0.0577
+      }
+    ]
+  },
+  {
+    "feature": "insulte",
+    "test": "Mann-Whitney U",
+    "statistic": 74350.5,
+    "p_value": 1.3915202856281686e-10,
+    "eta_squared": 95.4422,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 200,
+        "mean_error": 0.0871,
+        "median_error": 0.0833,
+        "std_error": 0.072
+      },
+      {
+        "level": "0",
+        "n": 581,
+        "mean_error": 0.0512,
+        "median_error": 0.0,
+        "std_error": 0.0632
+      }
+    ]
+  },
+  {
+    "feature": "SENTIMENT",
+    "test": "Kruskal-Wallis",
+    "statistic": 41.8401,
+    "p_value": 8.213861146461933e-10,
+    "eta_squared": 0.0512,
+    "n_levels": 3,
+    "levels": [
+      {
+        "level": "POS",
+        "n": 9,
+        "mean_error": 0.0741,
+        "median_error": 0.0,
+        "std_error": 0.0972
+      },
+      {
+        "level": "NEG",
+        "n": 584,
+        "mean_error": 0.0688,
+        "median_error": 0.0833,
+        "std_error": 0.0685
+      },
+      {
+        "level": "NEU",
+        "n": 188,
+        "mean_error": 0.0337,
+        "median_error": 0.0,
+        "std_error": 0.0543
+      }
+    ]
+  },
+  {
+    "feature": "mépris / haine",
+    "test": "Mann-Whitney U",
+    "statistic": 57766.5,
+    "p_value": 1.5428818232254802e-09,
+    "eta_squared": 74.1534,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 344,
+        "mean_error": 0.0778,
+        "median_error": 0.0833,
+        "std_error": 0.0733
+      },
+      {
+        "level": "0",
+        "n": 437,
+        "mean_error": 0.0467,
+        "median_error": 0.0,
+        "std_error": 0.0589
+      }
+    ]
+  },
+  {
+    "feature": "INTENTION",
+    "test": "Kruskal-Wallis",
+    "statistic": 45.3876,
+    "p_value": 1.149973769851313e-07,
+    "eta_squared": 0.0497,
+    "n_levels": 8,
+    "levels": [
+      {
+        "level": "DFN",
+        "n": 228,
+        "mean_error": 0.0716,
+        "median_error": 0.0833,
+        "std_error": 0.0676
+      },
+      {
+        "level": "ATK",
+        "n": 272,
+        "mean_error": 0.0692,
+        "median_error": 0.0833,
+        "std_error": 0.0709
+      },
+      {
+        "level": "GSL",
+        "n": 16,
+        "mean_error": 0.0677,
+        "median_error": 0.0833,
+        "std_error": 0.0695
+      },
+      {
+        "level": "AIN",
+        "n": 54,
+        "mean_error": 0.0633,
+        "median_error": 0.0833,
+        "std_error": 0.0666
+      },
+      {
+        "level": "CNS",
+        "n": 45,
+        "mean_error": 0.0426,
+        "median_error": 0.0,
+        "std_error": 0.0551
+      },
+      {
+        "level": "CR",
+        "n": 31,
+        "mean_error": 0.0403,
+        "median_error": 0.0,
+        "std_error": 0.0475
+      },
+      {
+        "level": "OTH",
+        "n": 112,
+        "mean_error": 0.0327,
+        "median_error": 0.0,
+        "std_error": 0.0563
+      },
+      {
+        "level": "EMP",
+        "n": 23,
+        "mean_error": 0.029,
+        "median_error": 0.0,
+        "std_error": 0.0646
+      }
+    ]
+  },
+  {
+    "feature": "abréviation",
+    "test": "Mann-Whitney U",
+    "statistic": 21082.5,
+    "p_value": 1.0380432216554789e-05,
+    "eta_squared": 27.0623,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 83,
+        "mean_error": 0.0904,
+        "median_error": 0.0833,
+        "std_error": 0.0691
+      },
+      {
+        "level": "0",
+        "n": 698,
+        "mean_error": 0.0568,
+        "median_error": 0.0,
+        "std_error": 0.0663
+      }
+    ]
+  },
+  {
+    "feature": "argot",
+    "test": "Mann-Whitney U",
+    "statistic": 38908.5,
+    "p_value": 2.2119277514268756e-05,
+    "eta_squared": 49.9454,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 156,
+        "mean_error": 0.0801,
+        "median_error": 0.0833,
+        "std_error": 0.0695
+      },
+      {
+        "level": "0",
+        "n": 625,
+        "mean_error": 0.0555,
+        "median_error": 0.0,
+        "std_error": 0.066
+      }
+    ]
+  },
+  {
+    "feature": "elongation",
+    "test": "Mann-Whitney U",
+    "statistic": 3391.0,
+    "p_value": 0.00024786022585231854,
+    "eta_squared": 4.3517,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 17,
+        "mean_error": 0.1275,
+        "median_error": 0.1667,
+        "std_error": 0.0786
+      },
+      {
+        "level": "0",
+        "n": 764,
+        "mean_error": 0.0589,
+        "median_error": 0.0833,
+        "std_error": 0.0664
+      }
+    ]
+  },
+  {
+    "feature": "VERBAL_ABUSE",
+    "test": "Kruskal-Wallis",
+    "statistic": 11.8962,
+    "p_value": 0.007747182220872349,
+    "eta_squared": 0.0173,
+    "n_levels": 4,
+    "levels": [
+      {
+        "level": "DNG",
+        "n": 94,
+        "mean_error": 0.0922,
+        "median_error": 0.0833,
+        "std_error": 0.0758
+      },
+      {
+        "level": "NCG",
+        "n": 63,
+        "mean_error": 0.0807,
+        "median_error": 0.0833,
+        "std_error": 0.0733
+      },
+      {
+        "level": "OTH",
+        "n": 326,
+        "mean_error": 0.0654,
+        "median_error": 0.0833,
+        "std_error": 0.0649
+      },
+      {
+        "level": "THR",
+        "n": 36,
+        "mean_error": 0.0579,
+        "median_error": 0.0417,
+        "std_error": 0.0685
+      }
+    ]
+  },
+  {
+    "feature": "interjection",
+    "test": "Mann-Whitney U",
+    "statistic": 32830.0,
+    "p_value": 0.019035570420011964,
+    "eta_squared": 42.1425,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 82,
+        "mean_error": 0.0762,
+        "median_error": 0.0833,
+        "std_error": 0.0695
+      },
+      {
+        "level": "0",
+        "n": 699,
+        "mean_error": 0.0585,
+        "median_error": 0.0833,
+        "std_error": 0.0669
+      }
+    ]
+  },
+  {
+    "feature": "ROLE",
+    "test": "Kruskal-Wallis",
+    "statistic": 7.7372,
+    "p_value": 0.10169140653607077,
+    "eta_squared": 0.0048,
+    "n_levels": 5,
+    "levels": [
+      {
+        "level": "bully",
+        "n": 111,
+        "mean_error": 0.0736,
+        "median_error": 0.0833,
+        "std_error": 0.0717
+      },
+      {
+        "level": "bully_support",
+        "n": 267,
+        "mean_error": 0.0612,
+        "median_error": 0.0833,
+        "std_error": 0.0686
+      },
+      {
+        "level": "victim",
+        "n": 88,
+        "mean_error": 0.0606,
+        "median_error": 0.0833,
+        "std_error": 0.0653
+      },
+      {
+        "level": "victim_support",
+        "n": 159,
+        "mean_error": 0.0603,
+        "median_error": 0.0833,
+        "std_error": 0.0676
+      },
+      {
+        "level": "conciliator",
+        "n": 156,
+        "mean_error": 0.0497,
+        "median_error": 0.0,
+        "std_error": 0.0619
+      }
+    ]
+  },
+  {
+    "feature": "TARGET",
+    "test": "Kruskal-Wallis",
+    "statistic": 7.0882,
+    "p_value": 0.13130235378920788,
+    "eta_squared": 0.006,
+    "n_levels": 5,
+    "levels": [
+      {
+        "level": "bully",
+        "n": 122,
+        "mean_error": 0.0813,
+        "median_error": 0.0833,
+        "std_error": 0.0698
+      },
+      {
+        "level": "conciliator",
+        "n": 42,
+        "mean_error": 0.0754,
+        "median_error": 0.0833,
+        "std_error": 0.0632
+      },
+      {
+        "level": "victim",
+        "n": 220,
+        "mean_error": 0.072,
+        "median_error": 0.0833,
+        "std_error": 0.0738
+      },
+      {
+        "level": "bully_support",
+        "n": 74,
+        "mean_error": 0.0642,
+        "median_error": 0.0833,
+        "std_error": 0.061
+      },
+      {
+        "level": "victim_support",
+        "n": 63,
+        "mean_error": 0.0542,
+        "median_error": 0.0833,
+        "std_error": 0.0583
+      }
+    ]
+  },
+  {
+    "feature": "nature_linguistique",
+    "test": "Kruskal-Wallis",
+    "statistic": 13.6797,
+    "p_value": 0.13418459057794477,
+    "eta_squared": 0.0165,
+    "n_levels": 10,
+    "levels": [
+      {
+        "level": "Syntagme adjectival",
+        "n": 3,
+        "mean_error": 0.1667,
+        "median_error": 0.1667,
+        "std_error": 0.0833
+      },
+      {
+        "level": "Syntagme nominal",
+        "n": 43,
+        "mean_error": 0.126,
+        "median_error": 0.1667,
+        "std_error": 0.0494
+      },
+      {
+        "level": "Enonce elliptique",
+        "n": 11,
+        "mean_error": 0.1136,
+        "median_error": 0.0833,
+        "std_error": 0.042
+      },
+      {
+        "level": "Autre",
+        "n": 32,
+        "mean_error": 0.1094,
+        "median_error": 0.0833,
+        "std_error": 0.0615
+      },
+      {
+        "level": "Interjection",
+        "n": 59,
+        "mean_error": 0.1088,
+        "median_error": 0.0833,
+        "std_error": 0.0496
+      },
+      {
+        "level": "Proposition",
+        "n": 55,
+        "mean_error": 0.1076,
+        "median_error": 0.0833,
+        "std_error": 0.0635
+      },
+      {
+        "level": "Accumulation",
+        "n": 4,
+        "mean_error": 0.1042,
+        "median_error": 0.0833,
+        "std_error": 0.1049
+      },
+      {
+        "level": "Enonce exclamatif",
+        "n": 78,
+        "mean_error": 0.0919,
+        "median_error": 0.0833,
+        "std_error": 0.0679
+      },
+      {
+        "level": "Dislocation gauche",
+        "n": 6,
+        "mean_error": 0.0833,
+        "median_error": 0.0833,
+        "std_error": 0.0745
+      },
+      {
+        "level": "Enonce averbal",
+        "n": 3,
+        "mean_error": 0.0833,
+        "median_error": 0.0833,
+        "std_error": 0.0
+      }
+    ]
+  },
+  {
+    "feature": "CONTEXT",
+    "test": "Kruskal-Wallis",
+    "statistic": 8.981,
+    "p_value": 0.2540237566391668,
+    "eta_squared": 0.0031,
+    "n_levels": 8,
+    "levels": [
+      {
+        "level": "CR",
+        "n": 18,
+        "mean_error": 0.0833,
+        "median_error": 0.0833,
+        "std_error": 0.0639
+      },
+      {
+        "level": "AIN",
+        "n": 22,
+        "mean_error": 0.0758,
+        "median_error": 0.0833,
+        "std_error": 0.0723
+      },
+      {
+        "level": "ATK",
+        "n": 270,
+        "mean_error": 0.066,
+        "median_error": 0.0833,
+        "std_error": 0.0655
+      },
+      {
+        "level": "CNS",
+        "n": 47,
+        "mean_error": 0.0621,
+        "median_error": 0.0833,
+        "std_error": 0.0747
+      },
+      {
+        "level": "DFN",
+        "n": 200,
+        "mean_error": 0.0596,
+        "median_error": 0.0833,
+        "std_error": 0.0686
+      },
+      {
+        "level": "EMP",
+        "n": 10,
+        "mean_error": 0.05,
+        "median_error": 0.0417,
+        "std_error": 0.0583
+      },
+      {
+        "level": "OTH",
+        "n": 79,
+        "mean_error": 0.0496,
+        "median_error": 0.0,
+        "std_error": 0.0604
+      },
+      {
+        "level": "GSL",
+        "n": 10,
+        "mean_error": 0.0417,
+        "median_error": 0.0,
+        "std_error": 0.0589
+      }
+    ]
+  },
+  {
+    "feature": "ironie",
+    "test": "Mann-Whitney U",
+    "statistic": 20299.5,
+    "p_value": 0.8248478329076632,
+    "eta_squared": 26.0571,
+    "n_levels": 2,
+    "levels": [
+      {
+        "level": "1",
+        "n": 57,
+        "mean_error": 0.0614,
+        "median_error": 0.0833,
+        "std_error": 0.0659
+      },
+      {
+        "level": "0",
+        "n": 724,
+        "mean_error": 0.0603,
+        "median_error": 0.0833,
+        "std_error": 0.0675
+      }
+    ]
+  }
+]

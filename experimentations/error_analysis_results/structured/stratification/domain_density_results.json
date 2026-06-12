@@ -1,0 +1,9 @@
+{
+  "CyberAggAdo": {
+    "n": 781,
+    "mean_density": 0.64,
+    "mean_error": 0.0604,
+    "spearman_rho": 0.72,
+    "spearman_p": 9.897582487406396e-126
+  }
+}

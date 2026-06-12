@@ -45,6 +45,19 @@ def _section(title, level=2):
     return f"\n{prefix} {title}\n"
 
 
+def _format_itemset(items, drop_domain=True):
+    """Format a mlxtend frozenset for compact Markdown tables."""
+    try:
+        values = list(items)
+    except TypeError:
+        values = [items]
+    labels = [
+        str(v) for v in values
+        if not (drop_domain and str(v).startswith("domain="))
+    ]
+    return " ∧ ".join(sorted(labels))
+
+
 # ═══════════════════════════════════════════════════════════════════════════
 #  REPORT GENERATION
 # ═══════════════════════════════════════════════════════════════════════════
@@ -622,6 +635,66 @@ def generate_report(out_dir, config_str="", **kwargs):
         lines.append("")
         lines.append("![SHAP Bar](plots/shap_bar.png)")
         lines.append("")
+
+        fn = kwargs.get("feature_names", [])
+        try:
+            shap_arr = np.asarray(shap_values)
+            if shap_arr.ndim >= 2:
+                axes = tuple(range(shap_arr.ndim - 1))
+                mean_abs = np.abs(shap_arr).mean(axis=axes)
+                sorted_idx = np.argsort(mean_abs)[::-1]
+                lines.append("| Rank | Feature | mean \\|SHAP\\| |")
+                lines.append("|-----:|---------|-------------:|")
+                for rank, idx in enumerate(sorted_idx[:15]):
+                    fname = fn[idx] if idx < len(fn) else f"feature_{idx}"
+                    lines.append(f"| {rank+1} | {fname} | {mean_abs[idx]:.4f} |")
+                lines.append("")
+        except Exception as exc:
+            lines.append(f"_SHAP values were computed but could not be tabulated: {exc}_")
+            lines.append("")
+
+    rules = kwargs.get("rules")
+    if rules is not None and hasattr(rules, "empty") and not rules.empty:
+        lines.append(_section("Association Rules (High-Error Subset)", 3))
+        lines.append("FP-Growth is run only on samples above the high-error "
+                      "threshold. The rules below describe co-occurring "
+                      "profiles inside failures; they are not causal effects "
+                      "or lift against the full corpus.")
+        lines.append("")
+
+        if {"antecedents", "consequents", "support", "confidence", "lift"}.issubset(rules.columns):
+            display_rows = []
+            seen = set()
+            for _, row in rules.sort_values("lift", ascending=False).iterrows():
+                ant = _format_itemset(row["antecedents"])
+                cons = _format_itemset(row["consequents"])
+                if not ant or not cons:
+                    continue
+                key = (ant, cons)
+                if key in seen:
+                    continue
+                seen.add(key)
+                display_rows.append((ant, cons, row))
+                if len(display_rows) >= 12:
+                    break
+
+            if display_rows:
+                lines.append("| Antecedent | Consequent | Support | Confidence | Lift |")
+                lines.append("|------------|------------|--------:|-----------:|-----:|")
+                for ant, cons, row in display_rows:
+                    lines.append(
+                        f"| {ant} | {cons} | {row['support']:.3f} | "
+                        f"{row['confidence']:.3f} | {row['lift']:.2f} |"
+                    )
+                lines.append("")
+        elif {"itemsets", "support"}.issubset(rules.columns):
+            lines.append("| Itemset | Support |")
+            lines.append("|---------|--------:|")
+            for _, row in rules.sort_values("support", ascending=False).head(12).iterrows():
+                itemset = _format_itemset(row["itemsets"])
+                if itemset:
+                    lines.append(f"| {itemset} | {row['support']:.3f} |")
+            lines.append("")
 
     # Decision tree
     dt_model = kwargs.get("dt_model")

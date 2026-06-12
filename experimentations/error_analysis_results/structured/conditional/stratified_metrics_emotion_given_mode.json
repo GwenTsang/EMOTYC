@@ -1,0 +1,502 @@
+{
+  "Comportementale": {
+    "n": 36,
+    "per_emotion": {
+      "Colère": {
+        "f1": 0.5777777777777778,
+        "precision": 0.9285714285714286,
+        "recall": 0.41935483870967744,
+        "tp": 13,
+        "fp": 1,
+        "fn": 18,
+        "delta_f1": 0.21158059467918627,
+        "global_f1": 0.36619718309859156
+      },
+      "Dégoût": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 7,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Joie": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.6086956521739131,
+        "global_f1": 0.3913043478260869
+      },
+      "Peur": {
+        "f1": 0.6666666666666666,
+        "precision": 0.5,
+        "recall": 1.0,
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "delta_f1": 0.22222222222222215,
+        "global_f1": 0.4444444444444445
+      },
+      "Surprise": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": -0.4444444444444445,
+        "global_f1": 0.4444444444444445
+      },
+      "Tristesse": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "delta_f1": -0.12903225806451615,
+        "global_f1": 0.12903225806451615
+      },
+      "Admiration": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Culpabilité": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Embarras": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Fierté": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": -0.8571428571428571,
+        "global_f1": 0.8571428571428571
+      },
+      "Jalousie": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Autre": {
+        "f1": 0.2857142857142857,
+        "precision": 0.2857142857142857,
+        "recall": 0.2857142857142857,
+        "tp": 2,
+        "fp": 5,
+        "fn": 5,
+        "delta_f1": 0.1824884792626728,
+        "global_f1": 0.1032258064516129
+      }
+    }
+  },
+  "Désignée": {
+    "n": 55,
+    "per_emotion": {
+      "Colère": {
+        "f1": 0.18181818181818182,
+        "precision": 0.13333333333333333,
+        "recall": 0.2857142857142857,
+        "tp": 2,
+        "fp": 13,
+        "fn": 5,
+        "delta_f1": -0.18437900128040974,
+        "global_f1": 0.36619718309859156
+      },
+      "Dégoût": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 11,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Joie": {
+        "f1": 0.6086956521739131,
+        "precision": 1.0,
+        "recall": 0.4375,
+        "tp": 7,
+        "fp": 0,
+        "fn": 9,
+        "delta_f1": 0.21739130434782616,
+        "global_f1": 0.3913043478260869
+      },
+      "Peur": {
+        "f1": 0.5,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "tp": 1,
+        "fp": 2,
+        "fn": 0,
+        "delta_f1": 0.055555555555555525,
+        "global_f1": 0.4444444444444445
+      },
+      "Surprise": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.5555555555555556,
+        "global_f1": 0.4444444444444445
+      },
+      "Tristesse": {
+        "f1": 0.25,
+        "precision": 0.5,
+        "recall": 0.16666666666666666,
+        "tp": 1,
+        "fp": 1,
+        "fn": 5,
+        "delta_f1": 0.12096774193548385,
+        "global_f1": 0.12903225806451615
+      },
+      "Admiration": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Culpabilité": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Embarras": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Fierté": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.1428571428571429,
+        "global_f1": 0.8571428571428571
+      },
+      "Jalousie": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 6,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Autre": {
+        "f1": 0.3529411764705882,
+        "precision": 0.3,
+        "recall": 0.42857142857142855,
+        "tp": 3,
+        "fp": 7,
+        "fn": 4,
+        "delta_f1": 0.2497153700189753,
+        "global_f1": 0.1032258064516129
+      }
+    }
+  },
+  "Montrée": {
+    "n": 300,
+    "per_emotion": {
+      "Colère": {
+        "f1": 0.3865030674846626,
+        "precision": 0.8181818181818182,
+        "recall": 0.25301204819277107,
+        "tp": 63,
+        "fp": 14,
+        "fn": 186,
+        "delta_f1": 0.02030588438607106,
+        "global_f1": 0.36619718309859156
+      },
+      "Dégoût": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 69,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Joie": {
+        "f1": 0.10526315789473682,
+        "precision": 0.2,
+        "recall": 0.07142857142857142,
+        "tp": 1,
+        "fp": 4,
+        "fn": 13,
+        "delta_f1": -0.2860411899313501,
+        "global_f1": 0.3913043478260869
+      },
+      "Peur": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "tp": 1,
+        "fp": 1,
+        "fn": 1,
+        "delta_f1": 0.055555555555555525,
+        "global_f1": 0.4444444444444445
+      },
+      "Surprise": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 1,
+        "fn": 2,
+        "delta_f1": -0.4444444444444445,
+        "global_f1": 0.4444444444444445
+      },
+      "Tristesse": {
+        "f1": 0.16666666666666666,
+        "precision": 0.14285714285714285,
+        "recall": 0.2,
+        "tp": 1,
+        "fp": 6,
+        "fn": 4,
+        "delta_f1": 0.037634408602150504,
+        "global_f1": 0.12903225806451615
+      },
+      "Admiration": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Culpabilité": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Embarras": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Fierté": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "delta_f1": -0.8571428571428571,
+        "global_f1": 0.8571428571428571
+      },
+      "Jalousie": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Autre": {
+        "f1": 0.06818181818181818,
+        "precision": 0.07317073170731707,
+        "recall": 0.06382978723404255,
+        "tp": 3,
+        "fp": 38,
+        "fn": 44,
+        "delta_f1": -0.035043988269794726,
+        "global_f1": 0.1032258064516129
+      }
+    }
+  },
+  "Suggérée": {
+    "n": 54,
+    "per_emotion": {
+      "Colère": {
+        "f1": 0.4912280701754386,
+        "precision": 0.8235294117647058,
+        "recall": 0.35,
+        "tp": 14,
+        "fp": 3,
+        "fn": 26,
+        "delta_f1": 0.12503088707684706,
+        "global_f1": 0.36619718309859156
+      },
+      "Dégoût": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 10,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Joie": {
+        "f1": 0.5,
+        "precision": 0.6666666666666666,
+        "recall": 0.4,
+        "tp": 2,
+        "fp": 1,
+        "fn": 3,
+        "delta_f1": 0.10869565217391308,
+        "global_f1": 0.3913043478260869
+      },
+      "Peur": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "delta_f1": -0.4444444444444445,
+        "global_f1": 0.4444444444444445
+      },
+      "Surprise": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "delta_f1": -0.4444444444444445,
+        "global_f1": 0.4444444444444445
+      },
+      "Tristesse": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 2,
+        "fn": 8,
+        "delta_f1": -0.12903225806451615,
+        "global_f1": 0.12903225806451615
+      },
+      "Admiration": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Culpabilité": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Embarras": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Fierté": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.1428571428571429,
+        "global_f1": 0.8571428571428571
+      },
+      "Jalousie": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "delta_f1": 0.0,
+        "global_f1": 0.0
+      },
+      "Autre": {
+        "f1": 0.10000000000000002,
+        "precision": 0.1,
+        "recall": 0.1,
+        "tp": 1,
+        "fp": 9,
+        "fn": 9,
+        "delta_f1": -0.0032258064516128837,
+        "global_f1": 0.1032258064516129
+      }
+    }
+  }
+}

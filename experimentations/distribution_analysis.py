@@ -49,10 +49,6 @@ def load_xlsx(rel_path, split_filter=None):
 # ════════════════════════════════════════════════════════════════
 #  LOAD DATASETS
 # ════════════════════════════════════════════════════════════════
-print("=" * 80)
-print(" LOADING DATASETS")
-print("=" * 80)
-
 Y_hf       = load_xlsx(r"data\emotexttokids_gold_flat.xlsx")
 Y_hf_train = load_xlsx(r"data\emotexttokids_gold_flat.xlsx", split_filter="train")
 Y_homo     = load_xlsx(r"outputs\homophobie\homophobie_annotations_gold_flat.xlsx")
@@ -156,7 +152,7 @@ print(" 3. CO-OCCURRENCE ANALYSIS")
 print("=" * 80)
 
 
-def compute_cooccurrence(Y, col_indices, col_names, normalize=True):
+def compute_cooccurrence(Y, col_indices, normalize=True):
     """Compute co-occurrence matrix for given column indices."""
     sub = Y[:, col_indices]
     n = len(col_indices)
@@ -183,7 +179,7 @@ def print_cooc_matrix(cooc, names, title):
 # Emotion × Emotion co-occurrences
 emo_indices = list(range(1, 13))  # indices 1-12 in LABELS_19
 for name, Y in datasets.items():
-    cooc = compute_cooccurrence(Y, emo_indices, EMOTIONS_12)
+    cooc = compute_cooccurrence(Y, emo_indices)
     print_cooc_matrix(cooc, EMOTIONS_12, f"Emotion×Emotion co-occurrence (normalized) — {name}")
 
 # Emotion × Mode co-occurrences

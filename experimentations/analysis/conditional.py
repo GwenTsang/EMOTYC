@@ -12,7 +12,6 @@ Implements:
 
 import numpy as np
 import pandas as pd
-from scipy import stats
 
 from . import config
 
@@ -30,20 +29,6 @@ def _per_label_f1(gold, pred):
     rec = tp / (tp + fn) if (tp + fn) > 0 else 0.0
     f1 = 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0.0
     return {"f1": f1, "precision": prec, "recall": rec, "tp": tp, "fp": fp, "fn": fn}
-
-
-def _bootstrap_ci(values, n_boot=1000, ci=0.95, seed=42):
-    """Bootstrap confidence interval for the mean."""
-    rng = np.random.RandomState(seed)
-    boot_means = []
-    for _ in range(n_boot):
-        sample = rng.choice(values, size=len(values), replace=True)
-        boot_means.append(np.mean(sample))
-    boot_means = sorted(boot_means)
-    alpha = (1 - ci) / 2
-    lo = boot_means[int(alpha * n_boot)]
-    hi = boot_means[int((1 - alpha) * n_boot)]
-    return lo, hi
 
 
 # ═══════════════════════════════════════════════════════════════════════════

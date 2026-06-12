@@ -14,14 +14,8 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
-DEFAULT_GOLDS_DIR = PROJECT_ROOT / "golds"
-DEFAULT_NEW_GOLDS_DIR = PROJECT_ROOT / "new_golds"
-
 XLSX_PATHS = {
-    "Homophobie": DEFAULT_GOLDS_DIR / "homophobie" / "homophobie_annotations_gold_flat.xlsx",
-    "Obésité":    DEFAULT_GOLDS_DIR / "obésité" / "obésité_annotations_gold_flat.xlsx",
-    "Racisme":    DEFAULT_GOLDS_DIR / "racisme" / "racisme_annotations_gold_flat.xlsx",
-    "Religion":   DEFAULT_GOLDS_DIR / "religion" / "religion_gold_flat.xlsx",
+    "CyberAggAdo": PROJECT_ROOT / "data" / "CyberAdoAgg_gold_global_total_latest.xlsx",
 }
 
 XLSX_FILENAMES_BY_DOMAIN = {
@@ -50,6 +44,7 @@ DOMAIN_ALIASES = {
     "obésité": "Obésité",
     "racisme": "Racisme",
     "religion": "Religion",
+    "cyberaggado": "CyberAggAdo",
 }
 
 
@@ -97,9 +92,6 @@ def resolve_xlsx_paths(xlsx_dir=None, overrides=None):
         )
 
     return paths
-
-TRAINING_DATA_PATH = PROJECT_ROOT / "Documentation" / "emotexttokids_gold_flat.xlsx"
-
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "experimentations" / "error_analysis_results"
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -132,6 +124,18 @@ FULL_GOLD_TO_EMOTYC = {
     # Emotion types
     "Base":             ("Base",             5),
     "Complexe":         ("Complexe",         6),
+}
+
+# Some consolidated XLSX exports use the model's ASCII label names for gold
+# columns. Normalize them to the canonical annotation names above.
+GOLD_COLUMN_ALIASES = {
+    "Colere": "Colère",
+    "Degout": "Dégoût",
+    "Culpabilite": "Culpabilité",
+    "Fierte": "Fierté",
+    "Designee": "Désignée",
+    "Montree": "Montrée",
+    "Suggeree": "Suggérée",
 }
 
 # ── Structured label groups ───────────────────────────────────────────────
@@ -172,17 +176,17 @@ COMPLEX_EMOTIONS = ["Admiration", "Culpabilité", "Embarras", "Fierté", "Jalous
 # Optimized thresholds for the 11 emotions (from emotyc_predict.py calibration)
 # Template: bca_v3, add_special_tokens=False
 OPTIMIZED_THRESHOLDS = {
-    "Admiration":  0.9531926895718311,
-    "Colère":      0.28217218720548165,
-    "Culpabilité": 0.12671495241969652,
-    "Dégoût":      0.19269005632824862,
-    "Embarras":    0.9548280448988165,
-    "Fierté":      0.8002327448859459,
-    "Jalousie":    0.017136900811277365,
-    "Joie":        0.9155047132251537,
-    "Peur":        0.9881862235180032,
-    "Surprise":    0.9722425408373772,
-    "Tristesse":   0.6984491339960737,
+    "Admiration":  0.95,
+    "Colère":      0.28,
+    "Culpabilité": 0.12,
+    "Dégoût":      0.19,
+    "Embarras":    0.95,
+    "Fierté":      0.80,
+    "Jalousie":    0.01,
+    "Joie":        0.91,
+    "Peur":        0.98,
+    "Surprise":    0.97,
+    "Tristesse":   0.69,
 }
 
 # Default threshold for labels without optimized thresholds
@@ -199,12 +203,13 @@ BINARY_FEATURES = [
 
 QUALITATIVE_FEATURES = [
     "ROLE", "HATE", "TARGET", "VERBAL_ABUSE",
-    "INTENTION", "CONTEXT", "SENTIMENT",
+    "INTENTION", "CONTEXT", "SENTIMENT", "nature_linguistique",
 ]
 
 TEXT_FEATURES = [
     "text_length", "word_count", "pct_uppercase",
     "has_exclamation", "has_question",
+    "mean_span_avg_tok_len", "n_frag_words_in_spans",
 ]
 
 # Valid values for each qualitative feature (for cleaning)
@@ -217,10 +222,3 @@ VALID_VALUES = {
     "INTENTION":    {"ATK", "DFN", "CNS", "AIN", "GSL", "EMP", "CR", "OTH"},
     "CONTEXT":      {"ATK", "DFN", "CNS", "AIN", "GSL", "EMP", "CR", "OTH"},
 }
-
-# ═══════════════════════════════════════════════════════════════════════════
-#  MODEL CONFIGURATION
-# ═══════════════════════════════════════════════════════════════════════════
-
-EMOTYC_MODEL_NAME = "TextToKids/CamemBERT-base-EmoTextToKids"
-EMOTYC_TOKENIZER_NAME = "camembert-base"

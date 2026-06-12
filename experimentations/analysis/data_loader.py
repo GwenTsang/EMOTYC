@@ -72,6 +72,21 @@ def _clean_target_column(series, valid_roles):
     return cleaned.astype("category")
 
 
+def _normalize_gold_column_aliases(df):
+    """Map known ASCII gold column names to canonical accented labels."""
+    rename_map = {}
+    for alias, canonical in config.GOLD_COLUMN_ALIASES.items():
+        if alias not in df.columns:
+            continue
+        if canonical in df.columns:
+            df[canonical] = df[canonical].combine_first(df[alias])
+        else:
+            rename_map[alias] = canonical
+    if rename_map:
+        df = df.rename(columns=rename_map)
+    return df
+
+
 # ═══════════════════════════════════════════════════════════════════════════
 #  PUBLIC API
 # ═══════════════════════════════════════════════════════════════════════════
@@ -102,8 +117,15 @@ def load_and_clean_data(xlsx_paths=None):
         print(f"  ✓ {domain}: {len(df)} lignes, {len(df.columns)} colonnes")
 
     df_all = pd.concat(frames, ignore_index=True)
+    df_all = _normalize_gold_column_aliases(df_all)
     n_total = len(df_all)
     print(f"\n  Total : {n_total} lignes")
+
+    # ── Extraction of nature_linguistique ─────────────────────────────
+    nl_cols = [f"nature_linguistique_span_{i}" for i in range(1, 5)]
+    nl_cols_present = [c for c in nl_cols if c in df_all.columns]
+    if nl_cols_present:
+        df_all["nature_linguistique"] = df_all[nl_cols_present].bfill(axis=1).iloc[:, 0]
 
     # ── Nettoyage des features qualitatives ───────────────────────────
     for col in config.QUALITATIVE_FEATURES:
@@ -157,8 +179,11 @@ def add_text_features(df):
     Ajoute des features textuelles dérivées.
 
     Features added: text_length, word_count, pct_uppercase,
-                    has_exclamation, has_question
+                    has_exclamation, has_question,
+                    mean_span_avg_tok_len, n_frag_words_in_spans
     """
+    import re
+
     df["text_length"] = df["TEXT"].str.len()
     df["word_count"] = df["TEXT"].str.split().str.len()
     df["pct_uppercase"] = df["TEXT"].apply(
@@ -166,6 +191,50 @@ def add_text_features(df):
     )
     df["has_exclamation"] = df["TEXT"].str.contains("!").astype(int)
     df["has_question"] = df["TEXT"].str.contains(r"\?").astype(int)
+
+    # ── Tokenization quality of spans ──────────────────────────────
+    try:
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained("camembert-base", use_fast=True)
+
+        def compute_span_fragmentation(row):
+            span_texts = [
+                str(row.get(f"span{n}_text", ""))
+                for n in range(1, 5)
+                if pd.notna(row.get(f"span{n}_text"))
+            ]
+            if not span_texts:
+                return pd.Series([np.nan, 0])
+
+            combined_spans = " ".join(span_texts).lower()
+            words = set(re.findall(r"\w+", combined_spans))
+
+            n_frag = 0
+            total_avg = []
+
+            for word in words:
+                n_chars = len(word)
+                if n_chars < 3 or word.isdigit():
+                    continue
+                tok_ids = tokenizer.encode(word, add_special_tokens=False)
+                if not tok_ids:
+                    continue
+                avg_tok_len = n_chars / len(tok_ids)
+                total_avg.append(avg_tok_len)
+                if avg_tok_len <= 1.5:
+                    n_frag += 1
+
+            mean_avg_tok_len = sum(total_avg) / len(total_avg) if total_avg else np.nan
+            return pd.Series([mean_avg_tok_len, n_frag])
+
+        res = df.apply(compute_span_fragmentation, axis=1)
+        df["mean_span_avg_tok_len"] = res[0]
+        df["n_frag_words_in_spans"] = res[1].fillna(0).astype(int)
+    except Exception as e:
+        print(f"  ⚠ Erreur calcul tokénisation: {e}")
+        df["mean_span_avg_tok_len"] = np.nan
+        df["n_frag_words_in_spans"] = 0
+
     return df
 
 

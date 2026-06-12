@@ -21,30 +21,47 @@ from . import config
 # ═══════════════════════════════════════════════════════════════════════════
 
 def _load_emotyc_model(device_name=None):
-    """Charge le modèle EMOTYC et le tokenizer."""
-    import torch
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    """Charge le modèle EMOTYC ONNX et le tokenizer."""
+    import os
+    import onnxruntime as ort
+    from tokenizers import Tokenizer
 
-    device = (
-        torch.device(device_name) if device_name
-        else torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model_dir = "/workspaces/workspace/Eval-EMOTYC/model_onnx"
+    onnx_path = os.path.join(model_dir, "model.onnx")
+    tokenizer_path = os.path.join(model_dir, "tokenizer.json")
+
+    tokenizer = Tokenizer.from_file(tokenizer_path)
+    tokenizer.enable_truncation(max_length=512)
+
+    options = ort.SessionOptions()
+    options.intra_op_num_threads = 2
+    options.inter_op_num_threads = 1
+    options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+    options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+
+    available_providers = ort.get_available_providers()
+    requested_device = str(device_name).lower() if device_name is not None else None
+    use_cuda = (
+        requested_device.startswith("cuda")
+        if requested_device is not None
+        else "CUDAExecutionProvider" in available_providers
     )
 
-    tokenizer = AutoTokenizer.from_pretrained(config.EMOTYC_TOKENIZER_NAME)
-    model = (
-        AutoModelForSequenceClassification
-        .from_pretrained(config.EMOTYC_MODEL_NAME)
-        .to(device)
-        .eval()
-    )
-    print(f"  ✓ Modèle EMOTYC chargé sur {device}")
-    return tokenizer, model, device
+    providers = ["CPUExecutionProvider"]
+    if use_cuda and "CUDAExecutionProvider" in available_providers:
+        providers.insert(0, "CUDAExecutionProvider")
+
+    model = ort.InferenceSession(onnx_path, sess_options=options, providers=providers)
+
+    device_str = "cuda" if "CUDAExecutionProvider" in providers else "cpu"
+    print(f"  ✓ Modèle EMOTYC ONNX chargé sur {device_str}")
+    return tokenizer, model
 
 
 def _format_input(tokenizer, sentence, prev_sentence=None, next_sentence=None,
                   use_context=False):
     """Formate l'input selon le template bca_v3."""
-    eos = tokenizer.eos_token
+    eos = "</s>"
     if use_context:
         prev = prev_sentence or eos
         nxt = next_sentence or eos
@@ -52,20 +69,51 @@ def _format_input(tokenizer, sentence, prev_sentence=None, next_sentence=None,
     return f"before:{eos}current:{sentence}{eos}after:{eos}"
 
 
-def _predict_batch(tokenizer, model, device, texts, batch_size=16):
+def _predict_batch(tokenizer, model, texts, batch_size=16):
     """Inférence par batch → matrice (N, 19) de probas sigmoid."""
-    import torch
+    import numpy as np
+
     all_probs = []
+
+    pad_id = tokenizer.token_to_id("<pad>")
+    if pad_id is None:
+        pad_id = 1
+
+    input_names = {inp.name for inp in model.get_inputs()}
+
     for i in range(0, len(texts), batch_size):
         batch = texts[i:i + batch_size]
-        encodings = tokenizer(
-            batch, return_tensors="pt", truncation=True,
-            padding=True, max_length=512, add_special_tokens=False,
-        ).to(device)
-        with torch.no_grad():
-            logits = model(**encodings).logits
-        probs = torch.sigmoid(logits).cpu().numpy()
+
+        encodings = tokenizer.encode_batch(batch, add_special_tokens=False)
+        max_len = max((len(enc.ids) for enc in encodings), default=1)
+        max_len = max(max_len, 1)
+
+        input_ids = np.full((len(encodings), max_len), pad_id, dtype=np.int64)
+        attention_mask = np.zeros((len(encodings), max_len), dtype=np.int64)
+
+        for row_index, encoding in enumerate(encodings):
+            ids = encoding.ids or [pad_id]
+            input_ids[row_index, : len(ids)] = ids
+            attention_mask[row_index, : len(ids)] = 1
+
+        inputs = {"input_ids": input_ids}
+        if "attention_mask" in input_names:
+            inputs["attention_mask"] = attention_mask
+        if "token_type_ids" in input_names:
+            inputs["token_type_ids"] = np.zeros_like(input_ids, dtype=np.int64)
+
+        logits = np.asarray(model.run(None, inputs)[0], dtype=np.float32)
+        if logits.ndim == 1:
+            logits = logits.reshape(1, -1)
+
+        probs = np.empty_like(logits, dtype=np.float32)
+        positive = logits >= 0
+        probs[positive] = 1.0 / (1.0 + np.exp(-logits[positive]))
+        exp_x = np.exp(logits[~positive])
+        probs[~positive] = exp_x / (1.0 + exp_x)
+
         all_probs.append(probs)
+
     return np.vstack(all_probs)
 
 
@@ -98,7 +146,7 @@ def run_emotyc_inference(df, use_context=False, use_optimized_thresholds=True,
     pd.DataFrame
         Input df augmented with pred_* and proba_* columns.
     """
-    tokenizer, model, dev = _load_emotyc_model(device)
+    tokenizer, model = _load_emotyc_model(device)
 
     # Préparer les textes formatés, domaine par domaine (pour le contexte)
     formatted_texts = [""] * len(df)
@@ -115,7 +163,7 @@ def run_emotyc_inference(df, use_context=False, use_optimized_thresholds=True,
 
     # Inférence
     print(f"\n  Inférence sur {len(df)} textes (batch_size={batch_size})…")
-    all_probs_19 = _predict_batch(tokenizer, model, dev, formatted_texts, batch_size)
+    all_probs_19 = _predict_batch(tokenizer, model, formatted_texts, batch_size)
     print(f"  ✓ Inférence terminée — shape: {all_probs_19.shape}")
 
     # Stocker probabilités et prédictions
@@ -131,7 +179,7 @@ def run_emotyc_inference(df, use_context=False, use_optimized_thresholds=True,
             threshold = config.OPTIMIZED_THRESHOLDS[gold_col]
         else:
             threshold = config.DEFAULT_THRESHOLD
-            
+
         df[pred_col] = (all_probs_19[:, model_idx] >= threshold).astype(int)
 
     return df

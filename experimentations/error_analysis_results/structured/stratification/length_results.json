@@ -1,0 +1,85 @@
+{
+  "strata": [
+    {
+      "n": 264,
+      "mean_error": 0.0379,
+      "median_error": 0.0,
+      "std_error": 0.0547,
+      "exact_match_rate": 0.6288,
+      "per_label_f1": {
+        "Colère": 0.0556,
+        "Dégoût": 0.0,
+        "Joie": 0.3333,
+        "Peur": 0.0,
+        "Surprise": 0.0,
+        "Tristesse": 0.0,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 1.0,
+        "Jalousie": 0.0,
+        "Autre": 0.0
+      },
+      "emotion_no_mode_rate": 0.2879,
+      "length_bin": "short",
+      "word_count_range": "[0, 4]"
+    },
+    {
+      "n": 277,
+      "mean_error": 0.0554,
+      "median_error": 0.0833,
+      "std_error": 0.0626,
+      "exact_match_rate": 0.4982,
+      "per_label_f1": {
+        "Colère": 0.375,
+        "Dégoût": 0.0,
+        "Joie": 0.5455,
+        "Peur": 0.0,
+        "Surprise": 0.0,
+        "Tristesse": 0.25,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 0.0,
+        "Jalousie": 0.0,
+        "Autre": 0.0656
+      },
+      "emotion_no_mode_rate": 0.2924,
+      "length_bin": "medium",
+      "word_count_range": "[5, 8]"
+    },
+    {
+      "n": 240,
+      "mean_error": 0.091,
+      "median_error": 0.0833,
+      "std_error": 0.0739,
+      "exact_match_rate": 0.2958,
+      "per_label_f1": {
+        "Colère": 0.4667,
+        "Dégoût": 0.0,
+        "Joie": 0.3529,
+        "Peur": 0.5,
+        "Surprise": 0.5714,
+        "Tristesse": 0.1053,
+        "Admiration": 0.0,
+        "Culpabilité": 0.0,
+        "Embarras": 0.0,
+        "Fierté": 0.8,
+        "Jalousie": 0.0,
+        "Autre": 0.1538
+      },
+      "emotion_no_mode_rate": 0.3458,
+      "length_bin": "long",
+      "word_count_range": "[9, 32]"
+    }
+  ],
+  "spearman": {
+    "rho": 0.3142,
+    "p_value": 2.3721392651022356e-19
+  },
+  "trend_test": {
+    "kruskal_stat": 75.8165,
+    "kruskal_p": 3.4408223890075406e-17,
+    "direction": "increasing"
+  }
+}

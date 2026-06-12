@@ -21,9 +21,6 @@ Usage :
 """
 
 import argparse
-import glob
-import math
-import os
 import sys
 from pathlib import Path
 
@@ -37,19 +34,11 @@ if str(SCRIPT_DIR) not in sys.path:
 
 from emotyc_predict import (
     EMOTYC_LABEL2ID,
-    EMOTION_ORDER,
-    GOLD_TO_EMOTYC,
-    MODE_ORDER,
-    MODE_INDICES,
-    EMO_INDEX,
-    TYPE_INDICES,
     OPTIMIZED_THRESHOLDS,
     load_model,
     format_input,
     predict_batch,
 )
-
-PROJECT_ROOT = SCRIPT_DIR.parent
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  LABEL DEFINITIONS
@@ -57,9 +46,6 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 
 # Reverse mapping : EMOTYC label → model output index
 EMOTYC_ID2LABEL = {v: k for k, v in EMOTYC_LABEL2ID.items()}
-
-# All 19 labels in model output order (index 0..18)
-ALL_LABELS_ORDERED = [EMOTYC_ID2LABEL[i] for i in range(19)]
 
 # Gold-name mapping for the columns we need to read from XLSX
 # Maps gold column name (with accents) → EMOTYC model label (ASCII)
@@ -201,8 +187,6 @@ def run_inference(df: pd.DataFrame, tokenizer, model, device,
     convention, cohérent avec error_analysis.py.
     """
     N = len(df)
-    texts = df["TEXT"].tolist()
-    domains = df["domain"].tolist()
 
     # ── Formater les textes, domaine par domaine ──────────────────────
     formatted_texts = [""] * N
